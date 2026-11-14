@@ -22,16 +22,16 @@
 ### `Contact.rtf` (non-tabular, 1,162 bytes)
 
 ```text
-{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\froman\fcharset0 inherit;}{\f1\fswiss\fprq2\fcharset0 Calibri;}{\f2\fnil\fcharset0 Calibri;}}
-{\colortbl ;\red60\green64\blue67;\red0\green0\blue255;\red32\green33\blue36;\red255\green255\blue255;}
-{\*\generator Riched20 10.0.22621}\viewkind4\uc1 
-\pard\cbpat4\widctlpar\sl330\slmult0\cf1\f0\fs21\lang2057 If you have any questions or comments about the dataset, please do not hesitate to reach out to me:\par
-\par
-LinkedIn:\~ {\cf0\f1\fs22\lang1033{\field{\*\fldinst{HYPERLINK https://www.linkedin.com/in/ahmed-mayalou-043885267/ }}{\fldrslt{https://www.linkedin.com/in/ahmed-mayalou-043885267/\ul0\cf0}}}}\cf0\f1\fs22\lang1033\par
-{\f0\fs21\lang2057{\field{\*\fldinst{HYPERLINK https://www.kaggle.com/ahmedmyalo/ }}{\fldrslt{https://www.kaggle.com/ahmedmyalo/\ul0\cf0}}}}\cf3\ul\f0\fs21\lang2057  \par
-\cf1\ulnone You can also reach me via email at:\~{\cf0\f1\fs22\lang1033{\field{\*\fldinst{HYPERLINK "mailto:ahmedmyalo00@gmail.com" }}{\fldrslt{\ul\cf2\cf3\ul\f0\fs21\lang2057 ahmedmyalo00@gmail.com}}}}\cf3\ul\f0\fs21\par
-
-\pard\sa200\sl276\slmult1\cf0\ulnone\f2\fs22\lang9\par
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\froman\fcharset0 inherit;}{\f1\fswiss\fprq2\fcharset0 Calibri;}{\f2\fnil\fcharset0 Calibri;}}
+{\colortbl ;\red60\green64\blue67;\red0\green0\blue255;\red32\green33\blue36;\red255\green255\blue255;}
+{\*\generator Riched20 10.0.22621}\viewkind4\uc1 
+\pard\cbpat4\widctlpar\sl330\slmult0\cf1\f0\fs21\lang2057 If you have any questions or comments about the dataset, please do not hesitate to reach out to me:\par
+\par
+LinkedIn:\~ {\cf0\f1\fs22\lang1033{\field{\*\fldinst{HYPERLINK https://www.linkedin.com/in/ahmed-mayalou-043885267/ }}{\fldrslt{https://www.linkedin.com/in/ahmed-mayalou-043885267/\ul0\cf0}}}}\cf0\f1\fs22\lang1033\par
+{\f0\fs21\lang2057{\field{\*\fldinst{HYPERLINK https://www.kaggle.com/ahmedmyalo/ }}{\fldrslt{https://www.kaggle.com/ahmedmyalo/\ul0\cf0}}}}\cf3\ul\f0\fs21\lang2057  \par
+\cf1\ulnone You can also reach me via email at:\~{\cf0\f1\fs22\lang1033{\field{\*\fldinst{HYPERLINK "mailto:ahmedmyalo00@gmail.com" }}{\fldrslt{\ul\cf2\cf3\ul\f0\fs21\lang2057 ahmedmyalo00@gmail.com}}}}\cf3\ul\f0\fs21\par
+
+\pard\sa200\sl276\slmult1\cf0\ulnone\f2\fs22\lang9\par
 }
 ```
 

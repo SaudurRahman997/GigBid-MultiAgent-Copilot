@@ -141,7 +141,7 @@ def profile_dataset(ds_dir: Path) -> Path:
 
     OUT.mkdir(parents=True, exist_ok=True)
     out = OUT / f"{ds_dir.name}.md"
-    out.write_text("\n".join(parts), encoding="utf-8")
+    out.write_text("\n".join(parts), encoding="utf-8", newline="\n")
     return out
 
 
@@ -183,7 +183,7 @@ def overlap_report() -> Path:
                 f"| {a} | {b} | {len(ids[a]):,} | {len(ids[b]):,} | {shared:,} | {pct:.1f} |"
             )
     out = OUT / "_overlap.md"
-    out.write_text("\n".join(rows) + "\n", encoding="utf-8")
+    out.write_text("\n".join(rows) + "\n", encoding="utf-8", newline="\n")
     return out
 
 
