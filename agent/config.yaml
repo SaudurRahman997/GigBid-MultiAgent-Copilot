@@ -1,0 +1,38 @@
+# GigBid runtime configuration. Models, thresholds, budgets and switches live here, never in Python.
+# Budget and threshold numbers are PLACEHOLDERS until replaced by declared targets (Phase 9/11).
+marketplace: gigsim            # gigsim | upwork_live
+profile: open                  # open | paid
+profiles:
+  open:
+    small:  { provider: ollama, model: "qwen3:8b" }            # local
+    strong: { provider: groq,   model: openai/gpt-oss-120b }   # deployed
+    fallback_small: { provider: groq, model: openai/gpt-oss-20b }
+  paid:
+    small:  { provider: openai,    model: CHOOSE_BY_EVAL }
+    strong: { provider: anthropic, model: CHOOSE_BY_EVAL }
+nodes:                         # which model role each node uses
+  scout: small
+  job_analyst: small
+  risk_assessor: small
+  fit_matcher: small
+  pricing: small
+  writer: strong
+  verifier: small
+  critic: strong
+  compliance: small
+  liaison: strong
+embeddings: { model: BAAI/bge-m3, device: cpu }
+reranker:   { model: BAAI/bge-reranker-v2-m3, device: cpu }
+rag:
+  variant: v2_hybrid           # set by evaluation, not by default
+  k: 5
+loops:   { critic_max_rounds: 2 }
+budgets:
+  max_steps_per_thread: 40
+  max_tokens_per_thread: 60000
+  p95_latency_s: { job: 20, proposal: 60 }
+  usd: { job: 0.002, proposal: 0.01 }
+autonomy:   { auto_skip_below_fit: 0.25, auto_send: false }
+scheduling: { gigsim_interval_min: 10, live_interval_min: 60 }
+ci_thresholds: { max_unsupported_claims_per_proposal: 0.3, min_bid_skip_f1: 0.75 }
+policy_version: v1
