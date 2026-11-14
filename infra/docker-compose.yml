@@ -1,0 +1,58 @@
+# GigBid stack. Phase 0: data + tracing services. Later phases add gigsim, mcp servers,
+# api, worker, web, ollama and caddy to this same file.
+name: gigbid
+
+services:
+  postgres:
+    image: pgvector/pgvector:0.8.7-pg16-trixie
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-gigbid}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-gigbid}
+      POSTGRES_DB: ${POSTGRES_DB:-gigbid}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-gigbid} -d ${POSTGRES_DB:-gigbid}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  redis:
+    image: redis:8.6.8-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  phoenix:
+    image: arizephoenix/phoenix:version-20.27.0
+    environment:
+      PHOENIX_WORKING_DIR: /mnt/data
+    ports:
+      - "${PHOENIX_UI_PORT:-6006}:6006"   # UI + OTLP/HTTP (/v1/traces)
+      - "${PHOENIX_GRPC_PORT:-4317}:4317" # OTLP/gRPC
+    volumes:
+      - phoenixdata:/mnt/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:6006/healthz', timeout=3).status == 200 else 1)"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  redisdata:
+  phoenixdata:
