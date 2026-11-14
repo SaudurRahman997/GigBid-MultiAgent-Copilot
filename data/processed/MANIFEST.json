@@ -1,0 +1,8 @@
+{
+  "client_priors.json": "5195072f0b44c55f11c587b94d86aa8ab5d7599373a0b183a360fb017f30a78b",
+  "freelancer_priors.json": "926bd1cee896d1eeefc7275bc85f6a0d1996ac136d2e47f18f500c59fa924d9c",
+  "jobs_corpus.parquet": "8bffac5346085ad8970c9f458e3e78680bff57452d589c577c47595407a2f367",
+  "preprocess_report.json": "af505b7ad625408362548b3f62075605f5863c10237d117bc1cf9ada05a45585",
+  "pricing_stats.parquet": "ca2952acef8898e32599efeabbf4174e3164853b0ea82c3b307b0986bf37176f",
+  "skill_taxonomy.json": "3cd5355f911edc14e773fcd25c79039559a9ef9c7b4f33b2e113330e38608ecb"
+}

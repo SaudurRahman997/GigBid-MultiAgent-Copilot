@@ -1,0 +1,55 @@
+{
+  "corpus": {
+    "by_category": {
+      "admin_support": 3678,
+      "ai_ml": 3441,
+      "data_analysis": 5246,
+      "design_creative": 16178,
+      "marketing_sales": 32515,
+      "mobile_dev": 4962,
+      "other": 5221,
+      "web_dev": 34356,
+      "writing_translation": 4852
+    },
+    "by_pay_type": {
+      "fixed": 42677,
+      "hourly": 59708,
+      "unknown": 8064
+    },
+    "by_source": {
+      "ahmedmyalo_60k": 59566,
+      "asaniczka_50k": 50883
+    },
+    "rows": 110449,
+    "share_with_any_skill": 0.9787,
+    "share_with_price": 0.7779
+  },
+  "corpus_dedupe": {
+    "dropped_near_duplicate_text": 3931,
+    "dropped_no_id": 0,
+    "dropped_repeat_id": 2625,
+    "rows_in": 117005,
+    "rows_out": 110449
+  },
+  "loaded": {
+    "ahmedmyalo_60k": 63950,
+    "asaniczka_200k": 826328,
+    "asaniczka_50k": 53058,
+    "contracts": 1292791,
+    "freelancers": 12000
+  },
+  "pricing_rows_from_200k_not_in_corpus": 571269,
+  "pricing_stats_rows": 2115,
+  "taxonomy": {
+    "learned_category_skills": 906,
+    "raw_unique_tags": 5572,
+    "seed_category_skills": 181,
+    "text_generic_removed": 56,
+    "vocab_size": 1566
+  },
+  "title_classifier": {
+    "holdout_accuracy": 0.859,
+    "min_confidence": 0.6,
+    "reassigned_from_other": 222374
+  }
+}
