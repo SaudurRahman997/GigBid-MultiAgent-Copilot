@@ -1,0 +1,112 @@
+# Hand-written seed for the GigBid category taxonomy (input to preprocess.py).
+# Skills are matched after normalisation (lowercase, aliases applied).
+# Order of `categories` is the tie-break order when a job scores equally on several.
+version: 1
+
+categories:
+  ai_ml:
+    label: AI / Machine Learning
+    skills: [machine learning, deep learning, artificial intelligence, natural language processing,
+             computer vision, tensorflow, pytorch, keras, scikit-learn, neural network, data science,
+             chatgpt, openai api, large language model, generative ai, langchain, chatbot development,
+             ai development, ai chatbot, hugging face, prompt engineering, ai model development,
+             model tuning, opencv, image processing, nlp tokenization, ai agent development]
+  data_analysis:
+    label: Data Analysis
+    skills: [data analysis, data analytics, data visualization, microsoft excel, microsoft power bi,
+             tableau, sql, statistics, google sheets, dashboard, looker studio, data mining,
+             data cleaning, pandas, numpy, r, spss, business intelligence, excel formula, etl,
+             data modeling, bigquery, google analytics, financial modeling, data extraction]
+  web_dev:
+    label: Full-stack Web Development
+    skills: [web development, javascript, react, node.js, php, wordpress, html, css, laravel,
+             django, flask, fastapi, next.js, typescript, vue.js, angular, full-stack development,
+             back-end development, front-end development, web application, api, api integration,
+             rest api, mongodb, mysql, postgresql, shopify, woocommerce, web design, tailwind css,
+             express.js, ruby on rails, graphql, aws, docker, firebase, bubble.io, webflow,
+             git, github, database, saas]
+  mobile_dev:
+    label: Mobile Development
+    skills: [mobile app development, android, ios, flutter, react native, swift, kotlin,
+             android app development, ios development, dart, xcode, mobile app design]
+  design_creative:
+    label: Design / 3D / Video
+    skills: [graphic design, 3d modeling, 3d rendering, 3d design, 3d animation, logo design,
+             illustration, figma, ui/ux design, user interface design, blender, autodesk maya,
+             adobe photoshop, adobe illustrator, video editing, animation, motion graphics,
+             product design, architectural rendering, 3d printing, character design, unity]
+  marketing_sales:
+    label: Marketing / Sales
+    skills: [social media marketing, lead generation, search engine optimization, google ads,
+             facebook advertising, email marketing, marketing strategy, sales, instagram, facebook,
+             content marketing, social media management, digital marketing, seo keyword research,
+             social media content creation, tiktok, linkedin marketing, cold calling, b2b marketing,
+             affiliate marketing, ppc campaign, market research, telemarketing, appointment setting]
+  writing_translation:
+    label: Writing / Translation
+    skills: [content writing, copywriting, translation, blog writing, article writing, proofreading,
+             ghostwriting, creative writing, technical writing, editing, english, spanish,
+             blog content, seo writing, script writing]
+  admin_support:
+    label: Admin / Support
+    skills: [data entry, virtual assistance, customer service, administrative support,
+             email communication, project management, bookkeeping, accounting, quickbooks online,
+             transcription, online research, crm, scheduling, ecommerce product upload]
+
+# Collapse spelling variants to one canonical skill (applied to tags and to free text).
+aliases:
+  html5: html
+  css3: css
+  reactjs: react
+  react.js: react
+  nodejs: node.js
+  node: node.js
+  vuejs: vue.js
+  vue: vue.js
+  nextjs: next.js
+  next js: next.js
+  expressjs: express.js
+  tailwind: tailwind css
+  power bi: microsoft power bi
+  powerbi: microsoft power bi
+  excel: microsoft excel
+  ms excel: microsoft excel
+  google sheet: google sheets
+  seo: search engine optimization
+  ml: machine learning
+  ai: artificial intelligence
+  nlp: natural language processing
+  llm: large language model
+  llms: large language model
+  gpt: chatgpt
+  chat gpt: chatgpt
+  openai: openai api
+  sklearn: scikit-learn
+  scikit learn: scikit-learn
+  postgres: postgresql
+  mongo: mongodb
+  restful api: rest api
+  rest: rest api
+  ui/ux: ui/ux design
+  ux/ui: ui/ux design
+  ui design: user interface design
+  photoshop: adobe photoshop
+  illustrator: adobe illustrator
+  maya: autodesk maya
+  virtual assistant: virtual assistance
+  va: virtual assistance
+  full stack development: full-stack development
+  full stack: full-stack development
+  fullstack: full-stack development
+  backend development: back-end development
+  backend: back-end development
+  frontend development: front-end development
+  frontend: front-end development
+  quickbooks: quickbooks online
+  bubble: bubble.io
+  google looker studio: looker studio
+  amazon web services: aws
+
+# Surface forms too ambiguous to infer from free text (still valid as explicit tags).
+text_stoplist: [r, c, go, english, editing, sales, api, dashboard, facebook, instagram, unity,
+                animation, scheduling, va, ml, rest, node, vue, crm, etl]

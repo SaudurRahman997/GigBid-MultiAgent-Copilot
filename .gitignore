@@ -36,3 +36,6 @@ apps/web/playwright-report/
 .DS_Store
 Thumbs.db
 .idea/
+
+# Large derived data (rebuilt by `make seed`)
+data/processed/jobs_corpus.parquet

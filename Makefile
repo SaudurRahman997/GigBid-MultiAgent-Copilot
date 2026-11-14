@@ -3,7 +3,7 @@
 UV      ?= uv
 COMPOSE := docker compose -f infra/docker-compose.yml $(if $(wildcard .env),--env-file .env,)
 
-.PHONY: help dev up down logs ps test test-integration lint fmt typecheck eval seed demo openapi check-prompts web-dev
+.PHONY: help data dev up down logs ps test test-integration lint fmt typecheck eval seed demo openapi check-prompts web-dev
 
 help: ## list targets
 	@grep -E '^[a-zA-Z_-]+:.*## ' Makefile | awk 'BEGIN{FS=":.*## "}{printf "  %-14s %s\n", $$1, $$2}'
@@ -46,8 +46,12 @@ test-integration: ## tests that need docker services
 eval: ## run all eval runners -> evals/results/*.json (Phase 4/11)
 	@echo "eval: not implemented yet (Phase 4/11)"
 
-seed: ## regenerate processed + synthetic data deterministically (Phase 1)
-	@echo "seed: not implemented yet (Phase 1)"
+data: ## download Kaggle datasets (needs KAGGLE_API_TOKEN in .env) and profile them
+	bash scripts/download_kaggle.sh
+	$(UV) run python -m data.generators.profile_datasets
+
+seed: ## regenerate processed + synthetic data deterministically (needs `make data` once)
+	$(UV) run python -m data.generators.preprocess
 
 demo: ## end-to-end demo (Phase 7+)
 	@echo "demo: not implemented yet (Phase 7)"
