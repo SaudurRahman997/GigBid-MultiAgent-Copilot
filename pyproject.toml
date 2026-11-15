@@ -5,15 +5,21 @@ description = "GigBid: multi-agent freelancer copilot (AI-4016 R&D Assignment II
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 dependencies = [
+    "fastapi==0.163.0",
     "fpdf2==2.9.0",
+    "httpx==0.28.1",
     "kaggle==2.2.5",
     "pandas==3.1.1",
+    "psycopg[binary]==3.3.9",
     "pyarrow==26.0.1",
+    "pydantic-settings==2.16.3",
     "python-calamine==0.9.1",
     "pyyaml==6.0.3",
     "scikit-learn==1.9.1",
     "six==1.17.0",
+    "sqlalchemy==2.1.8",
     "tabulate==0.10.0",
+    "uvicorn[standard]==0.54.0",
 ]
 
 [tool.uv]
@@ -38,6 +44,7 @@ testpaths = ["tests"]
 pythonpath = ["."]
 addopts = "-q"
 markers = ["integration: needs docker compose services running"]
+filterwarnings = ["ignore:Using `httpx` with `starlette.testclient` is deprecated:UserWarning"]
 
 [dependency-groups]
 dev = [
