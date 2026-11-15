@@ -5,6 +5,7 @@ description = "GigBid: multi-agent freelancer copilot (AI-4016 R&D Assignment II
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 dependencies = [
+    "fpdf2==2.9.0",
     "kaggle==2.2.5",
     "pandas==3.1.1",
     "pyarrow==26.0.1",
@@ -21,7 +22,7 @@ package = false
 [tool.ruff]
 line-length = 100
 target-version = "py312"
-extend-exclude = ["apps/web", "data/raw"]
+extend-exclude = ["apps/web", "data/raw", "data/personas"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP", "SIM"]
@@ -44,3 +45,8 @@ dev = [
     "pytest==9.2.0",
     "ruff==0.17.5",
 ]
+
+[tool.ruff.lint.per-file-ignores]
+# Generators hold long template sentences and data tables; wrapping them hurts readability.
+"data/generators/*" = ["E501"]
+"tests/unit/test_generators.py" = ["E501"]

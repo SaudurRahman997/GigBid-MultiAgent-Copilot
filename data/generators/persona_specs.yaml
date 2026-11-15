@@ -1,0 +1,534 @@
+# Hand-written facts for the three SYNTHETIC freelancer personas. People, companies and projects
+# are fictional. Generators expand these into portfolios (personas.py) and jobs (devset.py).
+#
+# Per archetype:
+#   skills    canonical skills (names from data/processed/skill_taxonomy.json where possible)
+#   implied   how portfolio text describes a skill WITHOUT naming it (hard for lexical search)
+#   job_need  how a job post asks for the same capability (deliberately different wording)
+#   metrics   result templates; {a},{b} are numbers, {p} a percentage
+#   repo      optional public repo with README + small code sample
+
+version: 1
+
+industries:
+  legal:         {noun: law firm, names: [Halden & Pryce LLP, Northgate Legal, Corbel Law Group]}
+  healthcare:    {noun: clinic network, names: [Brightwater Clinics, Meridian Care, Pinecrest Health]}
+  ecommerce:     {noun: online store, names: [Loomly Goods, Cedar & Salt, Parcelbox Shop]}
+  logistics:     {noun: freight company, names: [Ridgeway Freight, Portline Logistics, Haulwise]}
+  fintech:       {noun: lending startup, names: [Fernpay, Ledgerly, Quillfund]}
+  real_estate:   {noun: property management firm, names: [Keystone Lettings, Oakrow Properties, Urbanest]}
+  education:     {noun: online course platform, names: [Learnfield, Brightpath Academy, Skillcrate]}
+  saas:          {noun: B2B SaaS company, names: [Tallyhq, Orbitdesk, Signalpad]}
+  manufacturing: {noun: auto-parts manufacturer, names: [Velden Components, Ironbark Parts, Castwell]}
+  hospitality:   {noun: boutique hotel group, names: [Saltmarsh Hotels, The Linden Collection, Harbourline Stays]}
+  nonprofit:     {noun: nonprofit, names: [Open Harvest, Riverkeep Trust, Common Table]}
+  marketing:     {noun: marketing agency, names: [Brightloop Media, Fathom & Co, Northstar Digital]}
+
+# Alternative names a client might use (job side only).
+synonyms:
+  large language model: [LLM, GPT-style models, generative AI]
+  langchain: [LangChain, LLM orchestration frameworks]
+  openai api: [OpenAI, GPT-4 API]
+  machine learning: [ML, predictive modelling]
+  natural language processing: [NLP, text analytics]
+  computer vision: [CV, image recognition]
+  pytorch: [PyTorch, torch]
+  scikit-learn: [sklearn, scikit learn]
+  ai agent development: [AI agents, agentic workflows, tool-using LLM agents]
+  chatbot development: [chatbot, conversational AI]
+  hugging face: [Hugging Face transformers, HF models]
+  fastapi: [FastAPI, async Python APIs]
+  react: [React.js, ReactJS]
+  next.js: [Next.js, NextJS]
+  node.js: [Node, NodeJS]
+  typescript: [TS, typed JavaScript]
+  postgresql: [Postgres, PostgreSQL]
+  rest api: [REST endpoints, RESTful services]
+  api integration: [third-party API integration, connecting external services]
+  docker: [containers, Docker]
+  aws: [AWS, Amazon Web Services]
+  microsoft power bi: [Power BI, PowerBI]
+  microsoft excel: [Excel, spreadsheets]
+  sql: [SQL, database queries]
+  data visualization: [dashboards, data viz]
+  statistics: [statistical analysis, hypothesis testing]
+  etl: [data pipelines, ETL]
+  google analytics: [GA4, Google Analytics]
+  looker studio: [Looker Studio, Data Studio]
+  tableau: [Tableau]
+  data cleaning: [data wrangling, data cleanup]
+  financial modeling: [financial models, forecasting models]
+
+personas:
+  ai_ml:
+    name: Aiko Tanaka-Reyes
+    headline: Applied ML engineer — LLM apps, NLP and computer vision that ship
+    location: Lisbon, Portugal (remote)
+    years_experience: 7
+    category: ai_ml
+    floors: {hourly: 30, fixed: 250}
+    target_rate: 55
+    base_skills: [python, machine learning, docker, git, sql]
+    lacks: [ros, reinforcement learning, unity, salesforce, swift, autodesk maya, solidity, sap]
+    archetypes:
+      - key: rag_assistant
+        title: Document Q&A assistant for a {noun}
+        problem: staff at {client} spent hours digging through policy PDFs and past case files to answer routine questions
+        approach:
+          - built a retrieval pipeline that grounds every answer in the client's own documents, with citations back to the source page
+          - chunked and embedded about {a} documents into Postgres with pgvector and added a re-ranking step
+          - wrapped it in a small FastAPI service with a chat front end and an evaluation set of real questions
+        skills: [large language model, langchain, openai api, python, postgresql, fastapi]
+        implied:
+          large language model: a retrieval pipeline that grounds answers in the client's own documents
+          langchain: an orchestration layer that chains retrieval, re-ranking and generation
+        job_need: a chatbot that answers questions from our internal PDFs and cites where the answer came from
+        metrics: ["cut average lookup time from {a} minutes to under {b} seconds", "answered {p}% of internal questions without escalation"]
+        deliverables: [ingestion pipeline, chat API, evaluation report]
+        repo: {name: doc-qa-service, lang: python, kind: fastapi_rag}
+      - key: churn_model
+        title: Subscriber churn prediction for a {noun}
+        problem: "{client} was losing subscribers and only noticed after they cancelled"
+        approach:
+          - built a gradient-boosted model scoring which customers were likely to leave in the next 30 days
+          - engineered usage features from {a} months of event logs with SQL and pandas
+          - delivered weekly risk lists the retention team could act on
+        skills: [machine learning, scikit-learn, python, pandas, sql]
+        implied:
+          machine learning: a gradient-boosted model scoring which customers were likely to leave
+          scikit-learn: a calibrated gradient-boosting classifier with cross-validated thresholds
+        job_need: predict which of our customers are about to cancel so we can reach out first
+        metrics: ["lifted 90-day retention by {p}%", "flagged {p}% of churners at least two weeks early"]
+        deliverables: [trained model, feature pipeline, weekly risk report]
+        repo: {name: churn-signals, lang: python, kind: sklearn_model}
+      - key: invoice_extraction
+        title: Invoice and receipt extraction for a {noun}
+        problem: the finance team at {client} keyed in hundreds of scanned invoices by hand every week
+        approach:
+          - built a pipeline reading scanned invoices and pulling out totals, dates, vendors and line items
+          - fine-tuned a layout-aware model in PyTorch on {a} labelled pages
+          - added confidence thresholds so uncertain fields go to a human
+        skills: [computer vision, natural language processing, pytorch, python, aws]
+        implied:
+          computer vision: reading scanned invoices and pulling out totals, dates and line items
+          natural language processing: turning messy free-text vendor descriptions into clean categories
+        job_need: automatically read supplier invoices (PDF and photos) and push the fields into our accounting system
+        metrics: ["reduced manual data entry by {p}%", "processed {a} invoices a day at {p}% field accuracy"]
+        deliverables: [extraction service, review queue, accuracy report]
+      - key: ticket_classifier
+        title: Support ticket triage for a {noun}
+        problem: "{client}'s support inbox mixed billing, bugs and sales questions, and urgent tickets waited for hours"
+        approach:
+          - trained a transformer classifier routing free-text tickets to the right queue
+          - labelled {a} historical tickets with the support leads and measured agreement
+          - deployed it behind the helpdesk webhook with a fallback to manual triage
+        skills: [natural language processing, hugging face, pytorch, python]
+        implied:
+          natural language processing: routing free-text support tickets to the right team automatically
+          hugging face: a fine-tuned open transformer checkpoint
+        job_need: sort incoming customer emails by topic and urgency without someone reading each one
+        metrics: ["cut first-response time by {p}%", "routed {p}% of tickets correctly without human review"]
+        deliverables: [classifier, webhook integration, labelling guide]
+      - key: llm_agent
+        title: Scheduling assistant agent for a {noun}
+        problem: coordinators at {client} spent half their day on back-and-forth emails to book meetings
+        approach:
+          - built an assistant that calls the calendar and CRM tools on its own to propose and book slots
+          - added guardrails so it asks a human before sending anything external
+          - logged every tool call for audit and replay
+        skills: [ai agent development, langchain, openai api, python]
+        implied:
+          ai agent development: an assistant that calls the calendar and CRM tools on its own
+          openai api: function calling against a hosted GPT model
+        job_need: an AI assistant that can use our calendar and CRM to book appointments, with a human check before sending
+        metrics: ["saved coordinators about {a} hours a week", "booked {p}% of meetings with no manual edits"]
+        deliverables: [agent service, tool connectors, audit log]
+        repo: {name: calendar-agent, lang: python, kind: tool_agent}
+      - key: recommender
+        title: Product recommendations for an {noun}
+        problem: "{client}'s product pages showed the same bestsellers to everyone"
+        approach:
+          - built a model suggesting products based on what similar shoppers bought and viewed
+          - trained on {a} months of orders and served results from a nightly batch job
+          - ran an A/B test against the old bestseller block
+        skills: [machine learning, python, pandas, postgresql]
+        implied:
+          machine learning: suggesting products based on what similar shoppers bought
+        job_need: show each visitor products they are likely to buy based on their browsing
+        metrics: ["raised average order value by {p}%", "increased click-through on recommendations by {p}%"]
+        deliverables: [recommendation model, batch job, A/B test readout]
+      - key: forecasting
+        title: Demand forecasting for a {noun}
+        problem: "{client} kept over-ordering slow items and running out of popular ones"
+        approach:
+          - built a model predicting next month's orders per warehouse and product line
+          - combined {a} years of sales history with holidays and promotions
+          - shipped forecasts to the planners as a weekly spreadsheet export
+        skills: [machine learning, python, pandas, statistics]
+        implied:
+          machine learning: predicting next month's orders per warehouse
+          statistics: prediction intervals so planners could see the uncertainty
+        job_need: forecast how much stock we need each month so we stop running out
+        metrics: ["cut forecast error by {p}%", "reduced stockouts by {p}%"]
+        deliverables: [forecasting model, weekly export, backtest report]
+      - key: defect_detection
+        title: Visual defect detection for an {noun}
+        problem: inspectors at {client} missed small scratches on parts during busy shifts
+        approach:
+          - trained a model spotting scratches and dents in production-line camera images
+          - collected and labelled {a} images with the quality team, including hard edge cases
+          - packaged it in Docker to run on the line's edge PC
+        skills: [computer vision, pytorch, opencv, python, docker]
+        implied:
+          computer vision: spotting scratches and dents in production-line camera images
+          opencv: classic image preprocessing to normalise lighting before the network
+        job_need: use cameras on our production line to catch damaged parts automatically
+        metrics: ["caught {p}% of defects at the line", "cut escaped defects by {p}%"]
+        deliverables: [detection model, edge deployment, labelling set]
+        repo: {name: line-inspector, lang: python, kind: vision_model}
+      - key: llm_finetune
+        title: House-style writing model for a {noun}
+        problem: "{client}'s team rewrote every AI draft because it never sounded like them"
+        approach:
+          - adapted an open-weight model to write in the firm's house style using {a} approved examples
+          - built prompt templates and an evaluation rubric with the editors
+          - served it on a single GPU with batching
+        skills: [large language model, hugging face, pytorch, prompt engineering]
+        implied:
+          large language model: adapting an open-weight model to write in the firm's house style
+          prompt engineering: prompt templates and an evaluation rubric agreed with the editors
+        job_need: fine-tune an AI model so its drafts match our brand voice
+        metrics: ["cut editing time per draft by {p}%", "editors accepted {p}% of drafts with light edits"]
+        deliverables: [fine-tuned model, prompt library, evaluation rubric]
+      - key: support_chatbot
+        title: Website support assistant for a {noun}
+        problem: "{client} could not answer customer questions outside office hours"
+        approach:
+          - built a website assistant that answers customer questions around the clock from the help centre
+          - added handoff to a human agent when confidence was low
+          - tracked unanswered questions to improve the help centre each week
+        skills: [chatbot development, openai api, fastapi, python]
+        implied:
+          chatbot development: a website assistant that answers customer questions around the clock
+        job_need: a 24/7 assistant on our site that answers FAQs and hands over to staff when stuck
+        metrics: ["resolved {p}% of chats without an agent", "cut after-hours tickets by {p}%"]
+        deliverables: [chat widget, answer service, weekly gap report]
+
+  fullstack:
+    name: Diego Okafor-Lindqvist
+    headline: Full-stack web developer — React/Next.js front ends on solid Node and Python back ends
+    location: Valencia, Spain (remote)
+    years_experience: 8
+    category: web_dev
+    floors: {hourly: 25, fixed: 200}
+    target_rate: 45
+    base_skills: [javascript, html, css, git, web development]
+    lacks: [unity, machine learning, autodesk maya, financial modeling, flutter, swift, salesforce, sap]
+    archetypes:
+      - key: saas_dashboard
+        title: Analytics dashboard for a {noun}
+        problem: "{client}'s customers exported CSVs to see their own usage numbers"
+        approach:
+          - built a component-based single-page front end with charts customers can filter and share
+          - designed the Postgres schema and a typed Node.js API serving {a} accounts
+          - added role-based access and audit logging
+        skills: [react, typescript, node.js, postgresql, tailwind css]
+        implied:
+          react: a component-based single-page front end
+          typescript: end-to-end type checking from the database to the UI
+        job_need: an in-app dashboard where our customers can see and filter their own metrics
+        metrics: ["cut support requests for reports by {p}%", "loaded dashboards in under {b} seconds for {a} accounts"]
+        deliverables: [dashboard UI, API, access control]
+        repo: {name: usage-dashboard, lang: typescript, kind: react_component}
+      - key: ecommerce_store
+        title: Custom storefront for an {noun}
+        problem: "{client}'s theme was slow on mobile and checkout was confusing"
+        approach:
+          - rebuilt the storefront theme with faster product pages and a simpler checkout flow
+          - connected inventory and shipping providers through their APIs
+          - set up analytics events for every checkout step
+        skills: [shopify, javascript, css, api integration]
+        implied:
+          shopify: rebuilt the storefront theme and checkout flow on a hosted commerce platform
+          api integration: connected inventory and shipping providers through their APIs
+        job_need: speed up our online shop on phones and fix the checkout drop-off
+        metrics: ["raised mobile conversion by {p}%", "cut page load time from {a} to {b} seconds"]
+        deliverables: [storefront theme, integrations, analytics events]
+      - key: booking_platform
+        title: Online booking platform for a {noun}
+        problem: "{client} took bookings by phone and lost them when lines were busy"
+        approach:
+          - built server-rendered React pages for fast first load and good search ranking
+          - modelled availability and bookings in Postgres with conflict checks
+          - integrated card payments and email confirmations
+        skills: [next.js, typescript, postgresql, api integration]
+        implied:
+          next.js: server-rendered React pages for fast first load
+          api integration: card payments and transactional email providers wired in
+        job_need: let customers book and pay online instead of calling us
+        metrics: ["moved {p}% of bookings online in three months", "handled {a} bookings in the first month"]
+        deliverables: [booking site, admin panel, payment integration]
+        repo: {name: bookwell, lang: typescript, kind: next_api_route}
+      - key: rest_api
+        title: Mobile backend API for a {noun}
+        problem: "{client}'s mobile apps talked directly to a spreadsheet and broke weekly"
+        approach:
+          - designed a set of HTTP endpoints the mobile team consumes, with versioning and docs
+          - stored data in MongoDB with validation and indexes for the hot queries
+          - containerised the service and added health checks
+        skills: [node.js, express.js, mongodb, rest api, docker]
+        implied:
+          rest api: a set of HTTP endpoints the mobile team consumes
+          docker: containerised the service with health checks
+        job_need: a reliable backend our iOS and Android apps can call
+        metrics: ["cut API error rate to under {b}%", "served {a} requests a minute at peak"]
+        deliverables: [API service, OpenAPI docs, deployment]
+        repo: {name: fieldops-api, lang: javascript, kind: express_route}
+      - key: django_portal
+        title: Customer portal for a {noun}
+        problem: customers of {client} emailed for every document and status update
+        approach:
+          - built a self-service portal where customers log in, upload files and track requests
+          - used Django's admin for staff workflows and Postgres for storage
+          - added email notifications on status changes
+        skills: [django, python, postgresql, html, css]
+        implied:
+          django: a Python web framework with a built-in staff admin
+        job_need: a login area where our clients can upload documents and see the status of their requests
+        metrics: ["cut status-update emails by {p}%", "onboarded {a} customers in the first quarter"]
+        deliverables: [customer portal, staff admin, notifications]
+      - key: wordpress_site
+        title: Marketing site rebuild for a {noun}
+        problem: "{client}'s site was hard to update and scored poorly on speed"
+        approach:
+          - rebuilt the site on a popular CMS with custom blocks the marketing team can edit
+          - wrote a lightweight custom theme instead of a page builder
+          - set up caching and image optimisation
+        skills: [wordpress, php, css, web design]
+        implied:
+          wordpress: a popular CMS with custom editable blocks
+          php: a lightweight custom theme written from scratch
+        job_need: a fast company website our marketing team can edit without a developer
+        metrics: ["improved mobile speed score from {a} to {b}", "cut time to publish a page by {p}%"]
+        deliverables: [custom theme, editable blocks, performance tuning]
+      - key: laravel_app
+        title: Internal operations app for a {noun}
+        problem: "{client} tracked jobs across five spreadsheets and lost track of who did what"
+        approach:
+          - built an internal app with role-based screens for dispatchers and field staff
+          - used a PHP framework on MySQL with a reactive front end
+          - imported {a} rows of historical data cleanly
+        skills: [laravel, php, mysql, vue.js]
+        implied:
+          laravel: a PHP MVC framework with queues and scheduled jobs
+          vue.js: a reactive front end for the dispatch board
+        job_need: replace our spreadsheets with a simple internal tool for scheduling field jobs
+        metrics: ["cut scheduling time by {p}%", "replaced {a} spreadsheets with one app"]
+        deliverables: [internal app, data migration, user roles]
+      - key: realtime_chat
+        title: Real-time messaging feature for a {noun}
+        problem: users of {client} could not message each other inside the product
+        approach:
+          - added in-app messaging with live updates, typing indicators and read receipts
+          - used a managed realtime database with security rules per conversation
+          - built the UI as reusable React components
+        skills: [react, firebase, javascript, node.js]
+        implied:
+          firebase: a managed realtime database with per-conversation security rules
+        job_need: add live chat between users inside our web app
+        metrics: ["{p}% of active users sent a message in week one", "kept message latency under {b} ms"]
+        deliverables: [chat feature, security rules, UI components]
+      - key: payments_integration
+        title: Subscription billing for a {noun}
+        problem: "{client} invoiced subscribers by hand at the end of each month"
+        approach:
+          - integrated a payments provider for subscriptions, upgrades and failed-payment retries
+          - wrote webhook handlers with idempotency keys so retries never double-charge
+          - deployed on managed cloud functions with alerting
+        skills: [api integration, node.js, typescript, aws]
+        implied:
+          api integration: integrated a payments provider for subscriptions and retries
+          aws: deployed on managed cloud functions with alerting
+        job_need: automatic monthly billing for our subscribers, including failed-card retries
+        metrics: ["recovered {p}% of failed payments automatically", "removed {a} hours of manual invoicing a month"]
+        deliverables: [billing integration, webhooks, alerting]
+      - key: cloud_migration
+        title: Cloud migration for a {noun}
+        problem: "{client}'s app ran on one ageing server and went down during traffic spikes"
+        approach:
+          - moved the app from a single server to containers on managed cloud with autoscaling
+          - set up CI so every merge is tested and deployed automatically
+          - moved the database to a managed Postgres instance with backups
+        skills: [docker, aws, postgresql, github]
+        implied:
+          docker: moved the app from a single server to containers
+          aws: managed cloud with autoscaling and a managed database
+        job_need: move our app off a single server so it stops crashing when traffic spikes
+        metrics: ["cut downtime to zero during the next {a} launches", "reduced hosting cost by {p}%"]
+        deliverables: [container setup, CI pipeline, runbook]
+
+  data_analyst:
+    name: Nadia Brennan-Osei
+    headline: Data analyst — dashboards, SQL and spreadsheet automation that teams actually use
+    location: Manchester, UK (remote)
+    years_experience: 6
+    category: data_analysis
+    floors: {hourly: 20, fixed: 150}
+    target_rate: 38
+    base_skills: [data analysis, microsoft excel, sql, google sheets]
+    lacks: [react, ios development, flutter, unity, 3d modeling, laravel, solidity, autodesk maya]
+    archetypes:
+      - key: sales_dashboard
+        title: Sales performance dashboard for a {noun}
+        problem: managers at {client} waited a week for a static sales report
+        approach:
+          - built an interactive report the sales team filters by region and rep every Monday
+          - modelled the data with a star schema and wrote the SQL behind each measure
+          - scheduled refreshes from the CRM export
+        skills: [microsoft power bi, sql, data visualization, microsoft excel]
+        implied:
+          microsoft power bi: an interactive report the sales team filters by region every Monday
+          data visualization: clear visuals that show the pipeline at a glance
+        job_need: a live sales dashboard our managers can filter by region and salesperson
+        metrics: ["cut reporting time from {a} hours to {b} minutes a week", "adopted by {a} managers in month one"]
+        deliverables: [dashboard, data model, refresh schedule]
+        repo: {name: sales-model-sql, lang: sql, kind: sql_query}
+      - key: tableau_kpis
+        title: Executive KPI views for a {noun}
+        problem: leadership at {client} argued over whose numbers were right
+        approach:
+          - built a single set of KPI views with agreed definitions and drill-downs
+          - documented every metric definition in a data dictionary
+          - connected the views directly to the warehouse
+        skills: [tableau, sql, data visualization]
+        implied:
+          tableau: drag-and-drop KPI views with drill-downs
+        job_need: one trusted set of company KPIs that leadership can drill into
+        metrics: ["replaced {a} conflicting reports", "cut monthly reporting prep by {p}%"]
+        deliverables: [KPI views, data dictionary, warehouse connection]
+      - key: excel_automation
+        title: Spreadsheet automation for a {noun}
+        problem: an analyst at {client} spent most of every Monday copying data between workbooks
+        approach:
+          - turned a six-hour weekly spreadsheet routine into a one-click refresh
+          - rebuilt the formulas with lookups and dynamic arrays so nothing breaks when rows are added
+          - added checks that flag missing or duplicate entries
+        skills: [microsoft excel, excel formula, data cleaning]
+        implied:
+          microsoft excel: a workbook that refreshes with one click
+          excel formula: lookups and dynamic arrays that survive new rows
+        job_need: automate a weekly report we currently build by copying between workbooks
+        metrics: ["saved about {a} hours a week", "eliminated {p}% of copy-paste errors"]
+        deliverables: [automated workbook, validation checks, how-to guide]
+      - key: survey_analysis
+        title: Customer survey analysis for a {noun}
+        problem: "{client} collected {a} survey responses but nobody had time to analyse them"
+        approach:
+          - cleaned the responses and tested which differences between customer groups were real
+          - coded open-text answers into themes
+          - presented findings in a short slide deck with clear recommendations
+        skills: [statistics, data analysis, python]
+        implied:
+          statistics: tested which differences between customer groups were real
+        job_need: analyse our customer survey and tell us what actually matters
+        metrics: ["findings drove {a} product changes", "identified the driver behind a {p}% satisfaction gap"]
+        deliverables: [cleaned dataset, analysis, slide deck]
+      - key: marketing_attribution
+        title: Marketing attribution reporting for a {noun}
+        problem: "{client} could not tell which campaigns brought in paying customers"
+        approach:
+          - joined web analytics events with CRM deals to follow customers from first visit to sale
+          - built a shared report the marketing team checks every week
+          - fixed broken tracking tags on key pages
+        skills: [google analytics, sql, looker studio, data analysis]
+        implied:
+          google analytics: web analytics events joined to CRM deals
+          looker studio: a free shared reporting tool the marketing team checks weekly
+        job_need: show us which ads and channels actually lead to sales
+        metrics: ["reallocated budget that lowered cost per lead by {p}%", "tracked {p}% of deals back to a channel"]
+        deliverables: [attribution model, weekly report, tracking fixes]
+      - key: etl_pipeline
+        title: Data pipeline into a warehouse for a {noun}
+        problem: "{client}'s data lived in five tools and every report started with manual exports"
+        approach:
+          - wrote scheduled jobs that pull data from each tool, clean it and load it into one warehouse
+          - modelled the tables so analysts can write simple queries
+          - added row-count and freshness checks with alerts
+        skills: [etl, sql, python, bigquery]
+        implied:
+          etl: scheduled jobs that pull, clean and load data into one warehouse
+          bigquery: a serverless cloud data warehouse
+        job_need: get all our data from different tools into one place automatically
+        metrics: ["removed {a} manual exports a week", "kept data fresh within {b} hours"]
+        deliverables: [pipelines, warehouse model, data checks]
+        repo: {name: warehouse-loaders, lang: python, kind: etl_job}
+      - key: financial_model
+        title: Budget and cash-flow model for a {noun}
+        problem: "{client}'s founders could not see how hiring plans affected their runway"
+        approach:
+          - built a driver-based model linking hiring, pricing and churn assumptions to cash flow
+          - added scenario switches for best, base and worst cases
+          - walked the founders through it so they could update it themselves
+        skills: [financial modeling, microsoft excel, data analysis]
+        implied:
+          financial modeling: a driver-based model linking hiring and pricing to cash flow
+        job_need: a cash-flow model showing how hiring plans affect our runway
+        metrics: ["used in a fundraise of {a} hundred thousand", "cut budget-planning time by {p}%"]
+        deliverables: [financial model, scenarios, walkthrough]
+      - key: ab_test_analysis
+        title: Experiment analysis for a {noun}
+        problem: "{client} ran A/B tests but declared winners after two days"
+        approach:
+          - set up sample-size planning and a standard readout for every experiment
+          - reanalysed {a} past tests and found which wins were noise
+          - taught the team how to read confidence intervals
+        skills: [statistics, python, pandas, data analysis]
+        implied:
+          statistics: sample-size planning and confidence intervals for every experiment
+        job_need: help us run A/B tests properly and stop trusting lucky results
+        metrics: ["found that {p}% of past 'wins' were noise", "standardised analysis for {a} experiments"]
+        deliverables: [experiment template, reanalysis, training session]
+      - key: data_cleaning
+        title: CRM data cleanup for a {noun}
+        problem: "{client}'s CRM had duplicates, typos and missing fields across {a} contacts"
+        approach:
+          - deduplicated and standardised contact records with fuzzy matching
+          - filled gaps from reliable sources and flagged what could not be fixed
+          - wrote a repeatable cleanup script for future imports
+        skills: [data cleaning, python, pandas, google sheets]
+        implied:
+          data cleaning: deduplicated and standardised records with fuzzy matching
+        job_need: clean up our messy customer list with lots of duplicates
+        metrics: ["removed {p}% duplicate records", "cleaned {a} contacts in two weeks"]
+        deliverables: [clean dataset, cleanup script, issue log]
+      - key: inventory_analysis
+        title: Inventory insights for a {noun}
+        problem: "{client} had cash tied up in stock that never sold"
+        approach:
+          - analysed sell-through by product and location with SQL to find dead stock
+          - built a reorder view showing what to restock and what to clear
+          - shared a monthly summary with the buying team
+        skills: [sql, data visualization, tableau, data analysis]
+        implied:
+          sql: queries over sell-through by product and location
+        job_need: find which products are tying up cash and what we should reorder
+        metrics: ["freed about {a} thousand in tied-up stock", "cut dead stock by {p}%"]
+        deliverables: [stock analysis, reorder view, monthly summary]
+
+# Job-side text for capabilities a persona LACKS (used for "missing skill -> skip" jobs).
+lack_needs:
+  ros: a ROS developer to integrate sensors on our warehouse robot
+  reinforcement learning: someone experienced in reinforcement learning to train a game-playing agent
+  unity: a Unity developer to build a 3D mobile game prototype
+  salesforce: a Salesforce Apex developer to customise our CRM workflows
+  swift: a Swift developer to build a native iOS app
+  autodesk maya: a Maya artist to rig and animate characters
+  solidity: a Solidity engineer to write and audit smart contracts
+  sap: an SAP ABAP consultant for our ERP rollout
+  machine learning: a machine-learning engineer to build a fraud-detection model
+  financial modeling: a financial modeller to build a three-statement model for investors
+  flutter: a Flutter developer for a cross-platform mobile app
+  react: a React developer to rebuild our customer web app
+  ios development: an iOS developer to ship our app to the App Store
+  3d modeling: a 3D artist to model furniture for our catalogue
+  laravel: a Laravel developer to extend our PHP web app
