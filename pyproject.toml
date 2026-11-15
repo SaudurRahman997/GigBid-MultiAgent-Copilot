@@ -14,6 +14,7 @@ dependencies = [
     "langchain-mcp-adapters==0.3.2",
     "langchain-ollama==1.1.0",
     "langgraph==1.2.22",
+    "langgraph-checkpoint-postgres==3.2.1",
     "mcp==1.30.0",
     "pandas==3.1.1",
     "pgvector==0.5.1",
@@ -69,3 +70,8 @@ dev = [
 "tests/unit/test_rag.py" = ["E501"]  # fixture texts
 "scripts/gen_tools_doc.py" = ["E501"]  # markdown table rows inside the doc template
 "evals/runners/*" = ["E501"]  # report/table formatting strings
+# Graph nodes/routers keep state dicts and MCP calls on one line (marked `# fmt: skip`).
+"agent/**/*.py" = ["E501"]
+"evals/inprocess_mcp.py" = ["E501"]
+"tests/unit/test_graphs.py" = ["E501"]
+"mcp_servers/portfolio/server.py" = ["E501"]

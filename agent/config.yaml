@@ -68,14 +68,15 @@ mcp:
     scout:         [search_jobs, get_job]
     job_analyst:   [get_job]
     risk_assessor: [get_job, get_client_history]
-    fit_matcher:   [search_evidence, get_case_study, list_skills]
-    pricing:       [get_job, get_connects_balance]
+    submitter_preview: [create_proposal_draft, get_connects_balance]
+    fit_matcher:   [search_evidence, get_case_study, list_skills, get_profile]
+    pricing:       [get_job, get_connects_balance, get_market_rates]
     writer:        [search_evidence, get_case_study]
-    verifier:      [search_evidence, get_case_study]
+    verifier:      [verify_claims, search_evidence]
     critic:        []
     compliance:    []
     submitter:     [create_proposal_draft, submit_proposal, get_connects_balance]
-    liaison:       [list_messages, search_evidence, send_message, free_slots, create_tentative_hold]
+    liaison:       [list_messages, search_evidence, get_profile, verify_claims, send_message, free_slots, create_tentative_hold]
     single_agent:  [search_jobs, get_job, get_client_history, search_evidence, get_case_study, list_skills, create_proposal_draft]
 verify:                        # claim verification (rag/verify.py)
   judge: rerank                # rerank (deterministic, default) | llm (verifier model)
@@ -84,3 +85,29 @@ verify:                        # claim verification (rag/verify.py)
   partial_logit: -3.0          # >= this -> partial, below -> unsupported
   numbers_must_match: true     # a number absent from the evidence caps a claim at "partial"
   retrieval_variant: v2_hybrid # evidence retrieval for claims (cheap); revisit after R&D B
+agents:
+  modes:                       # llm | rules  (rules = deterministic fallback, used by tests/offline evals)
+    job_analyst: llm
+    risk_assessor: rules       # rules + regex injection detector; llm adds a classifier pass
+    writer: llm
+    critic: llm
+    classify_intent: llm
+    liaison: llm
+  fallback_to_rules_on_llm_error: true
+  node_retries: 2              # extra attempts per node on transient errors
+  node_timeout_s: 90
+decision:
+  min_fit_to_bid: 0.6          # must-have weighted fit to recommend bidding
+  watch_min_fit: 0.4           # between watch_min_fit and min_fit_to_bid -> watch
+  min_client_score: 0.35       # below -> skip (poor client history)
+  max_connects: 16
+pricing:
+  fixed_cap_over_budget: 1.10  # never quote more than 110% of a fixed budget
+  hourly_target_weight: 0.5    # blend of persona target rate and market median
+writer:
+  max_words: 220
+  min_evidence: 2
+memory:
+  style_min_drafts: 3          # an edit pattern becomes a style rule after >= 3 approved drafts
+  style_max_phrase_words: 8
+  outcome_terminal_events: [replied, interview, hired, lost]
