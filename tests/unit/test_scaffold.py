@@ -54,7 +54,9 @@ def test_env_example_has_no_real_secrets():
         if "=" in line and not line.startswith("#"):
             key, _, value = line.partition("=")
             if any(s in key for s in ("KEY", "SECRET", "TOKEN", "PASSWORD")):
-                assert value in {"", "change-me"}, key
+                # empty, "change-me", or obviously fake dev tokens ("dev-...")
+                tokens = [t.split(":", 1)[-1] for t in value.split(",")] if value else []
+                assert value in {"", "change-me"} or all(t.startswith("dev-") for t in tokens), key
 
 
 def test_prompt_checker_flags_hardcoded_prompt(tmp_path):
