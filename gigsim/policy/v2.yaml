@@ -1,0 +1,20 @@
+# GigSim platform policy v2: the simulated "platform policy update" (BUILD_SPEC section 9).
+#  1. Connects cost doubles for jobs with more than 20 proposals.
+#  2. Proposals may not include external links.
+version: v2
+connects:
+  starting_balance: 120
+  multiplier_if_applicants_over_20: 2
+  max_per_proposal: 32
+proposals:
+  max_cover_letter_chars: 5000
+  max_screening_answer_chars: 1500
+  external_links_allowed: false
+  blocked_patterns:
+    email: '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}'
+    phone: '(?<!\d)(?:\+?\d[\s().-]?){9,14}\d(?!\d)'
+    link: '(?i)\b((https?://|www\.)\S+)'
+messages:
+  blocked_patterns:
+    email: '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}'
+    phone: '(?<!\d)(?:\+?\d[\s().-]?){9,14}\d(?!\d)'

@@ -1,0 +1,18 @@
+# GigSim platform policy v1 (the marketplace's own rules, enforced server-side).
+version: v1
+connects:
+  starting_balance: 120
+  # Cost = job.connects_required (set from data/policy_pack tiers at generation time).
+  multiplier_if_applicants_over_20: 1
+  max_per_proposal: 16
+proposals:
+  max_cover_letter_chars: 5000
+  max_screening_answer_chars: 1500
+  external_links_allowed: true
+  blocked_patterns:
+    email: '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}'
+    phone: '(?<!\d)(?:\+?\d[\s().-]?){9,14}\d(?!\d)'
+messages:
+  blocked_patterns:
+    email: '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}'
+    phone: '(?<!\d)(?:\+?\d[\s().-]?){9,14}\d(?!\d)'

@@ -1,0 +1,44 @@
+# Simulated-client decision model (GigSim internals; agents never see these).
+# score = bias + sum(weight * feature) + rubric_weight * rubric + noise ; p = sigmoid(score)
+client_model:
+  bias: -2.6
+  weights:
+    must_have_coverage: 1.6      # share of the job's must-have skills the proposal mentions
+    price_within_ceiling: 0.8    # bid <= client budget * hidden ceiling multiplier
+    price_over_ceiling: -1.4
+    generic_opening: -1.2        # applied only if the client dislikes generic openings
+    specific_evidence: 1.0       # applied fully if the client values evidence, half otherwise
+    reply_propensity: 1.0        # hidden per-client trait in [0, 1]
+  rubric_weight: 1.2             # rubric score in [0, 1], centred at 0.5
+  noise_sd: 0.35
+  p_viewed: 0.9
+  interview_share: 0.45          # P(interview | replied) = min(1, share * 2p)
+  hire_share: 0.3                # P(hired | interview) = min(1, share * 2p)
+  strict_coverage_threshold: 0.99  # clients with strictness >= 0.8 need full coverage
+rubric:
+  kind: heuristic                # heuristic | llm (OpenAI-compatible endpoint, seeded, cached)
+  llm_model_env: GIGSIM_RUBRIC_MODEL
+  llm_base_url_env: GIGSIM_RUBRIC_BASE_URL
+  llm_api_key_env: GIGSIM_RUBRIC_API_KEY
+  prompt_file: prompts/client_rubric.v1.md
+delays_minutes:                  # base delays, scaled by the client's responsiveness
+  viewed: [20, 240]
+  replied: [60, 720]
+  interview: [240, 2880]
+  decision: [1440, 7200]
+generic_opening_patterns:
+  - '(?i)^\s*(dear (hiring )?(manager|sir|madam|client)|hello,? i (have read|am)|hi there|greetings)'
+  - '(?i)\bi am (very )?interested in your (job|project|posting)'
+  - '(?i)\bi am the perfect (fit|candidate)'
+  - '(?i)\bi can do this job\b'
+specific_evidence_patterns:
+  - '(?i)\b(cut|reduced|raised|increased|lifted|saved|grew|improved|doubled|halved)\b[^.]{0,80}\d'
+  - '(?i)\d+\s?%'
+scam_replies:
+  - Great proposal! Let's continue on WhatsApp, it's faster. What's your number?
+  - You're hired. Please send a $40 refundable deposit for the project materials first.
+  - We pay by bank transfer outside the platform to save fees. Send me your email.
+client_reply_templates:
+  - Thanks for your proposal. Could you tell me a bit more about how you'd approach this?
+  - Your proposal stood out. When could you start?
+  - Interesting - have you done something similar before? Can you describe it?
