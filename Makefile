@@ -3,7 +3,7 @@
 UV      ?= uv
 COMPOSE := docker compose -f infra/docker-compose.yml $(if $(wildcard .env),--env-file .env,)
 
-.PHONY: help data validate-data gigsim gigsim-check gigsim-freeze dev up down logs ps test test-integration lint fmt typecheck eval seed demo openapi check-prompts web-dev
+.PHONY: help data validate-data local-stack snapshots tools-doc proposal-demo gigsim gigsim-check gigsim-freeze dev up down logs ps test test-integration lint fmt typecheck eval seed demo openapi check-prompts web-dev
 
 help: ## list targets
 	@grep -E '^[a-zA-Z_-]+:.*## ' Makefile | awk 'BEGIN{FS=":.*## "}{printf "  %-14s %s\n", $$1, $$2}'
@@ -73,6 +73,18 @@ gigsim-check: ## fail if gigsim/ changed without updating gigsim/FROZEN.sha256
 
 gigsim-freeze: ## record the current gigsim/ hash (deliberate change: also add an ADR)
 	$(UV) run python scripts/check_gigsim_frozen.py --update
+
+local-stack: ## run GigSim + MCP servers locally on SQLite (no Docker)
+	$(UV) run python scripts/run_local_stack.py
+
+snapshots: ## regenerate MCP schema snapshots after a deliberate signature change
+	UPDATE_SNAPSHOTS=1 $(UV) run pytest tests/contract -q
+
+tools-doc: ## regenerate docs/TOOLS.md from the snapshots
+	$(UV) run python scripts/gen_tools_doc.py
+
+proposal-demo: ## one agent drafts one grounded proposal via MCP (needs make up or make local-stack)
+	$(UV) run python scripts/single_agent_proposal.py --persona ai_ml
 
 web-dev: ## run the Next.js dev server
 	cd apps/web && npm run dev

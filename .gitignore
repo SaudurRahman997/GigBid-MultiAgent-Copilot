@@ -44,3 +44,6 @@ data/processed/jobs_corpus.parquet
 *.db
 *.db-wal
 *.db-shm
+
+# Local runtime state (sqlite dev DBs, degraded-mode queue)
+var/
