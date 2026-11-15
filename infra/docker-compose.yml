@@ -52,6 +52,31 @@ services:
       start_period: 20s
     restart: unless-stopped
 
+  gigsim:
+    build:
+      context: ..
+      dockerfile: gigsim/Dockerfile
+    image: gigbid-gigsim:dev
+    environment:
+      GIGSIM_DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-gigbid}:${POSTGRES_PASSWORD:-gigbid}@postgres:5432/${POSTGRES_DB:-gigbid}
+      GIGSIM_SEED: ${GIGSIM_SEED:-42}
+      GIGSIM_ERROR_RATE: ${GIGSIM_ERROR_RATE:-0.03}
+      GIGSIM_RATE_LIMIT_PER_MIN: ${GIGSIM_RATE_LIMIT_PER_MIN:-60}
+      GIGSIM_RELEASE_INTERVAL_MIN: ${GIGSIM_RELEASE_INTERVAL_MIN:-10}
+      GIGSIM_TIME_SCALE: ${GIGSIM_TIME_SCALE:-60}
+      GIGSIM_POLICY_VERSION: ${GIGSIM_POLICY_VERSION:-v1}
+      GIGSIM_TOKENS: ${GIGSIM_TOKENS:-ai_ml:dev-token-ai-ml,fullstack:dev-token-fullstack,data_analyst:dev-token-data-analyst,reviewer:dev-token-reviewer}
+      GIGSIM_ADMIN_TOKEN: ${GIGSIM_ADMIN_TOKEN:-dev-admin-token}
+      GIGSIM_INCLUDE_HELDOUT: ${GIGSIM_INCLUDE_HELDOUT:-true}
+    ports:
+      - "${GIGSIM_PORT:-8100}:8100"
+    volumes:
+      - ../data:/app/data:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
 volumes:
   pgdata:
   redisdata:
