@@ -13,7 +13,18 @@ import re
 
 import numpy as np
 from rank_bm25 import BM25Okapi
-from sqlalchemy import Column, Integer, MetaData, String, Table, Text, create_engine, delete, select, text
+from sqlalchemy import (
+    Column,
+    Integer,
+    MetaData,
+    String,
+    Table,
+    Text,
+    create_engine,
+    delete,
+    select,
+    text,
+)
 from sqlalchemy.dialects.postgresql import JSONB
 
 from rag.chunking import Chunk
@@ -43,7 +54,11 @@ class MemoryDenseIndex:
     def __init__(self, chunks: list[Chunk], embedder: Embedder):
         self.chunks = chunks
         self.embedder = embedder
-        self.matrix = embedder.embed_documents([c.text for c in chunks]) if chunks else np.zeros((0, embedder.dim))
+        self.matrix = (
+            embedder.embed_documents([c.text for c in chunks])
+            if chunks
+            else np.zeros((0, embedder.dim))
+        )
 
     def search(self, query: str, k: int) -> list[tuple[Chunk, float]]:
         if not self.chunks:
@@ -90,8 +105,12 @@ class PgVectorIndex:
             conn.execute(text("CREATE SCHEMA IF NOT EXISTS gigbid"))
         pg_meta.create_all(self.engine, tables=[self.table])
         with self.engine.begin() as conn:
-            conn.execute(text("CREATE INDEX IF NOT EXISTS rag_chunks_hnsw ON gigbid.rag_chunks "
-                              "USING hnsw (embedding vector_cosine_ops)"))  # fmt: skip
+            conn.execute(
+                text(
+                    "CREATE INDEX IF NOT EXISTS rag_chunks_hnsw ON gigbid.rag_chunks "
+                    "USING hnsw (embedding vector_cosine_ops)"
+                )
+            )
         self._by_id: dict[str, Chunk] = {}
 
     def sync(self, chunks: list[Chunk]) -> dict:
@@ -109,11 +128,24 @@ class PgVectorIndex:
                 conn.execute(delete(t).where(t.c.chunk_id.in_(stale)))
             for c, v in zip(changed, vecs, strict=True):
                 conn.execute(delete(t).where(t.c.chunk_id == c.chunk_id))
-                conn.execute(t.insert().values(
-                    chunk_id=c.chunk_id, persona=self.persona, strategy=self.strategy, doc_id=c.doc_id,
-                    idx=c.index, content_hash=c.content_hash, text=c.text,
-                    metadata=json.loads(json.dumps(c.doc.metadata)), embedding=v.tolist()))  # fmt: skip
-        return {"upserted": len(changed), "deleted": len(stale), "unchanged": len(chunks) - len(changed)}
+                conn.execute(
+                    t.insert().values(
+                        chunk_id=c.chunk_id,
+                        persona=self.persona,
+                        strategy=self.strategy,
+                        doc_id=c.doc_id,
+                        idx=c.index,
+                        content_hash=c.content_hash,
+                        text=c.text,
+                        metadata=json.loads(json.dumps(c.doc.metadata)),
+                        embedding=v.tolist(),
+                    )
+                )
+        return {
+            "upserted": len(changed),
+            "deleted": len(stale),
+            "unchanged": len(chunks) - len(changed),
+        }
 
     def search(self, query: str, k: int) -> list[tuple[Chunk, float]]:
         q = self.embedder.embed_query(query).tolist()
@@ -123,6 +155,7 @@ class PgVectorIndex:
             rows = conn.execute(
                 select(t.c.chunk_id, (1 - dist).label("sim"))
                 .where(t.c.persona == self.persona, t.c.strategy == self.strategy)
-                .order_by(dist, t.c.chunk_id).limit(k)
-            ).all()  # fmt: skip
+                .order_by(dist, t.c.chunk_id)
+                .limit(k)
+            ).all()
         return [(self._by_id[cid], float(sim)) for cid, sim in rows if cid in self._by_id]

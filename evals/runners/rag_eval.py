@@ -39,8 +39,13 @@ K_RECALL, K_NDCG = 5, 10
 
 def git_sha() -> str:
     try:
-        return subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True,
-                              cwd=ROOT, check=True).stdout.strip()  # fmt: skip
+        return subprocess.run(
+            ["git", "rev-parse", "--short", "HEAD"],
+            capture_output=True,
+            text=True,
+            cwd=ROOT,
+            check=True,
+        ).stdout.strip()
     except (OSError, subprocess.CalledProcessError):
         return "unknown"
 
@@ -68,7 +73,9 @@ def summarize(rows: list[dict]) -> dict:
         "project_recall@5": round(mean([r["project_recall@5"] for r in gold]), 4),
         "refused_with_gold": round(mean([float(not r["ranked"]) for r in gold]), 4),
         "no_evidence_jobs": len(none),
-        "correct_refusal_rate": round(mean([float(not r["ranked"]) for r in none]), 4) if none else None,
+        "correct_refusal_rate": round(mean([float(not r["ranked"]) for r in none]), 4)
+        if none
+        else None,
         "latency_ms_p50": round(percentile(lat, 50), 1),
         "latency_ms_p95": round(percentile(lat, 95), 1),
     }
@@ -85,18 +92,24 @@ def breakdowns(rows: list[dict]) -> dict:
     out = {}
     for name, pred in groups.items():
         sel = [r for r in gold if pred(r)]
-        out[name] = {"n": len(sel), "recall@5": round(mean([r["recall@5"] for r in sel]), 4),
-                     "project_recall@5": round(mean([r["project_recall@5"] for r in sel]), 4),
-                     "mrr": round(mean([r["mrr"] for r in sel]), 4)}  # fmt: skip
+        out[name] = {
+            "n": len(sel),
+            "recall@5": round(mean([r["recall@5"] for r in sel]), 4),
+            "project_recall@5": round(mean([r["project_recall@5"] for r in sel]), 4),
+            "mrr": round(mean([r["mrr"] for r in sel]), 4),
+        }
     return out
 
 
-def evaluate(variant: str, personas: list[str], split: str, limit: int | None, index: str,
-             db_url: str | None) -> dict:  # fmt: skip
+def evaluate(
+    variant: str, personas: list[str], split: str, limit: int | None, index: str, db_url: str | None
+) -> dict:
     cfg = rag_config()
     per_persona, all_rows = {}, []
     for persona in personas:
-        ctx = build_context(persona, default_embedder(), default_reranker(), cfg, index=index, db_url=db_url)
+        ctx = build_context(
+            persona, default_embedder(), default_reranker(), cfg, index=index, db_url=db_url
+        )
         retriever = CONTEXT_VARIANTS[variant](ctx)
         # evidence item -> project (proposals excluded: a past pitch is not proof of delivery)
         project_of = {d.id: d.project_id for d in ctx.docs if d.type != "proposal" and d.project_id}
@@ -110,22 +123,34 @@ def evaluate(variant: str, personas: list[str], split: str, limit: int | None, i
             hits = retriever.retrieve(q, k=K_NDCG)
             ms = (time.perf_counter() - t0) * 1000
             ranked = [h.doc.id for h in hits]
-            rows.append({
-                "persona": persona, "job_id": job["job_id"], "job_type": g["job_type"],
-                "gold": sorted(gold), "ranked": ranked, "latency_ms": round(ms, 1),
-                "recall@5": recall_at_k(ranked, gold, K_RECALL), "mrr": mrr(ranked, gold),
-                "ndcg@10": ndcg_at_k(ranked, grades, K_NDCG),
-                "project_recall@5": project_recall(ranked, g["anchor_project_ids"], project_of, K_RECALL),
-                "phrasings": sorted({r["phrasing"] for r in job.get("requirements", [])}),
-                "anchors": len(g["anchor_project_ids"]),
-            })  # fmt: skip
+            rows.append(
+                {
+                    "persona": persona,
+                    "job_id": job["job_id"],
+                    "job_type": g["job_type"],
+                    "gold": sorted(gold),
+                    "ranked": ranked,
+                    "latency_ms": round(ms, 1),
+                    "recall@5": recall_at_k(ranked, gold, K_RECALL),
+                    "mrr": mrr(ranked, gold),
+                    "ndcg@10": ndcg_at_k(ranked, grades, K_NDCG),
+                    "project_recall@5": project_recall(
+                        ranked, g["anchor_project_ids"], project_of, K_RECALL
+                    ),
+                    "phrasings": sorted({r["phrasing"] for r in job.get("requirements", [])}),
+                    "anchors": len(g["anchor_project_ids"]),
+                }
+            )
         if ctx.reranker is not None and hasattr(ctx.reranker, "flush"):
             ctx.reranker.flush()
         per_persona[persona] = {**summarize(rows), "breakdowns": breakdowns(rows)}
         all_rows += rows
-        print(f"  {variant:<14} {persona:<13} R@5={per_persona[persona]['recall@5']:.3f} "
-              f"projR@5={per_persona[persona]['project_recall@5']:.3f} "
-              f"MRR={per_persona[persona]['mrr']:.3f} nDCG@10={per_persona[persona]['ndcg@10']:.3f}", flush=True)  # fmt: skip
+        print(
+            f"  {variant:<14} {persona:<13} R@5={per_persona[persona]['recall@5']:.3f} "
+            f"projR@5={per_persona[persona]['project_recall@5']:.3f} "
+            f"MRR={per_persona[persona]['mrr']:.3f} nDCG@10={per_persona[persona]['ndcg@10']:.3f}",
+            flush=True,
+        )
 
     cfg_hash = hashlib.sha256(json.dumps(cfg, sort_keys=True).encode()).hexdigest()[:12]
     result = {
@@ -146,7 +171,9 @@ def evaluate(variant: str, personas: list[str], split: str, limit: int | None, i
     }
     out_dir = OUT / split
     out_dir.mkdir(parents=True, exist_ok=True)
-    (out_dir / f"{variant}.json").write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8", newline="\n")
+    (out_dir / f"{variant}.json").write_text(
+        json.dumps(result, indent=2) + "\n", encoding="utf-8", newline="\n"
+    )
     with (out_dir / f"{variant}.jobs.jsonl").open("w", encoding="utf-8", newline="\n") as f:
         for r in all_rows:
             f.write(json.dumps(r, sort_keys=True) + "\n")
@@ -165,13 +192,18 @@ def main(argv: list[str] | None = None) -> int:
     variants = list(CONTEXT_VARIANTS) if args.variants == ["all"] else args.variants
     index = args.index or rag_config().get("index", "memory")
     if args.split == "test":
-        print("WARNING: held-out test split - report only, never tune on these numbers", file=sys.stderr)
+        print(
+            "WARNING: held-out test split - report only, never tune on these numbers",
+            file=sys.stderr,
+        )
     for v in variants:
         r = evaluate(v, args.personas, args.split, args.limit, index, args.db_url)
         o = r["overall"]
-        print(f"{v:<14} OVERALL R@5={o['recall@5']:.3f} projR@5={o['project_recall@5']:.3f} "
-              f"MRR={o['mrr']:.3f} nDCG@10={o['ndcg@10']:.3f} "
-              f"p95={o['latency_ms_p95']}ms -> evals/results/rag/{args.split}/{v}.json")  # fmt: skip
+        print(
+            f"{v:<14} OVERALL R@5={o['recall@5']:.3f} projR@5={o['project_recall@5']:.3f} "
+            f"MRR={o['mrr']:.3f} nDCG@10={o['ndcg@10']:.3f} "
+            f"p95={o['latency_ms_p95']}ms -> evals/results/rag/{args.split}/{v}.json"
+        )
     return 0
 
 

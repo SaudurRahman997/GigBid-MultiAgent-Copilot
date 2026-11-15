@@ -19,7 +19,9 @@ def mrr(ranked: Sequence[str], gold: set[str]) -> float:
 
 def ndcg_at_k(ranked: Sequence[str], grades: dict[str, int], k: int = 10) -> float:
     """Graded nDCG (gain 2^g - 1). grades: doc id -> relevance (2 primary, 1 related)."""
-    dcg = sum((2 ** grades.get(d, 0) - 1) / math.log2(i + 1) for i, d in enumerate(ranked[:k], start=1))
+    dcg = sum(
+        (2 ** grades.get(d, 0) - 1) / math.log2(i + 1) for i, d in enumerate(ranked[:k], start=1)
+    )
     ideal = sorted(grades.values(), reverse=True)[:k]
     idcg = sum((2**g - 1) / math.log2(i + 1) for i, g in enumerate(ideal, start=1))
     return dcg / idcg if idcg else 0.0
@@ -40,3 +42,14 @@ def f1(tp: int, fp: int, fn: int) -> float:
 
 def mean(values: Sequence[float]) -> float:
     return sum(values) / len(values) if values else 0.0
+
+
+def cohen_kappa(a: Sequence[str], b: Sequence[str]) -> float:
+    """Cohen's kappa for two raters over the same items (any number of categories)."""
+    if len(a) != len(b) or not a:
+        raise ValueError("need two equal-length, non-empty label lists")
+    n = len(a)
+    cats = sorted(set(a) | set(b))
+    po = sum(x == y for x, y in zip(a, b, strict=True)) / n
+    pe = sum((a.count(c) / n) * (b.count(c) / n) for c in cats)
+    return 1.0 if pe == 1 else (po - pe) / (1 - pe)

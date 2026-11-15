@@ -42,7 +42,9 @@ def clean_requirement(line: str) -> str:
 
 def from_job(title: str, description: str, skills: list[str] | None = None) -> RetrievalQuery:
     lines = description.split("\n")
-    first = next((ln.strip() for ln in lines if ln.strip() and not ln.strip().startswith(("-", "•"))), "")
+    first = next(
+        (ln.strip() for ln in lines if ln.strip() and not ln.strip().startswith(("-", "•"))), ""
+    )
     need = re.split(r"(?<=[.!?])\s+", first)[0] if first else title
     bullets = [clean_requirement(b) for b in lines if b.strip().startswith(("-", "•"))]
     reqs: list[str] = []

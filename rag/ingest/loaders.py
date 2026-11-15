@@ -2,7 +2,7 @@
 
 Sources per persona folder (data/personas/<p>/ or an uploaded folder):
   cv.pdf                      PDF CV (pypdf text extraction)
-  case_studies/*.md           Markdown with YAML front matter (id, project_id, date, client_industry)
+  case_studies/*.md           Markdown + YAML front matter (id, project_id, date, client_industry)
   repos/<name>/README.md      READMEs        repos/<name>/<code file>   code samples
   reviews.jsonl               client reviews (rating)
   proposals.jsonl             past proposals (outcome won/replied/ignored)
@@ -45,10 +45,17 @@ class Document:
 
     @property
     def metadata(self) -> dict:
-        return {"persona": self.persona, "type": self.type, "project": self.project_id,
-                "skills": list(self.skills), "date": self.date,
-                "client_industry": self.client_industry, "outcome": self.outcome,
-                "source": self.source, "title": self.title}  # fmt: skip
+        return {
+            "persona": self.persona,
+            "type": self.type,
+            "project": self.project_id,
+            "skills": list(self.skills),
+            "date": self.date,
+            "client_industry": self.client_industry,
+            "outcome": self.outcome,
+            "source": self.source,
+            "title": self.title,
+        }
 
 
 def _read_jsonl(path: Path) -> list[dict]:
@@ -101,45 +108,101 @@ def load_folder(folder: Path, persona: str) -> list[Document]:
     def enrich(doc: Document) -> Document:
         meta = sidecar.get(doc.id)
         if meta:
-            return replace(doc, skills=tuple(meta.get("skills") or ()), outcome=meta.get("outcome") or doc.outcome,
-                           project_id=meta.get("project_id") or doc.project_id,
-                           client_industry=meta.get("client_industry") or doc.client_industry,
-                           date=meta.get("date") or doc.date)  # fmt: skip
+            return replace(
+                doc,
+                skills=tuple(meta.get("skills") or ()),
+                outcome=meta.get("outcome") or doc.outcome,
+                project_id=meta.get("project_id") or doc.project_id,
+                client_industry=meta.get("client_industry") or doc.client_industry,
+                date=meta.get("date") or doc.date,
+            )
         return replace(doc, skills=doc.skills or detect_skills(doc.title + " " + doc.text))
 
     cv = folder / "cv.pdf"
     if cv.exists():
-        docs.append(Document(id=f"{persona}:cv", persona=persona, type="cv", title="CV", text=pdf_text(cv),
-                             source="cv.pdf"))  # fmt: skip
+        docs.append(
+            Document(
+                id=f"{persona}:cv",
+                persona=persona,
+                type="cv",
+                title="CV",
+                text=pdf_text(cv),
+                source="cv.pdf",
+            )
+        )
 
     for f in sorted((folder / "case_studies").glob("*.md")):
         meta, body = _front_matter(f.read_text(encoding="utf-8"))
         title = next((ln[2:].strip() for ln in body.splitlines() if ln.startswith("# ")), f.stem)
-        docs.append(Document(id=meta.get("id", f"{persona}:case:{f.stem}"), persona=persona, type="case_study",
-                             title=title, text=body, source=f"case_studies/{f.name}",
-                             date=str(meta["date"]) if meta.get("date") else None,
-                             project_id=meta.get("project_id"), client_industry=meta.get("client_industry")))  # fmt: skip
+        docs.append(
+            Document(
+                id=meta.get("id", f"{persona}:case:{f.stem}"),
+                persona=persona,
+                type="case_study",
+                title=title,
+                text=body,
+                source=f"case_studies/{f.name}",
+                date=str(meta["date"]) if meta.get("date") else None,
+                project_id=meta.get("project_id"),
+                client_industry=meta.get("client_industry"),
+            )
+        )
 
     for repo in sorted(p for p in (folder / "repos").glob("*") if p.is_dir()):
         readme = repo / "README.md"
         if readme.exists():
             text = re.sub(r"<!--.*?-->", "", readme.read_text(encoding="utf-8"), flags=re.S).strip()
-            docs.append(Document(id=f"{persona}:readme:{repo.name}", persona=persona, type="readme",
-                                 title=f"{repo.name} README", text=text, source=f"repos/{repo.name}/README.md"))  # fmt: skip
+            docs.append(
+                Document(
+                    id=f"{persona}:readme:{repo.name}",
+                    persona=persona,
+                    type="readme",
+                    title=f"{repo.name} README",
+                    text=text,
+                    source=f"repos/{repo.name}/README.md",
+                )
+            )
         for code in sorted(c for c in repo.iterdir() if c.suffix in CODE_SUFFIXES):
-            docs.append(Document(id=f"{persona}:code:{repo.name}", persona=persona, type="code",
-                                 title=f"{repo.name}/{code.name}", text=code.read_text(encoding="utf-8"),
-                                 source=f"repos/{repo.name}/{code.name}"))  # fmt: skip
+            docs.append(
+                Document(
+                    id=f"{persona}:code:{repo.name}",
+                    persona=persona,
+                    type="code",
+                    title=f"{repo.name}/{code.name}",
+                    text=code.read_text(encoding="utf-8"),
+                    source=f"repos/{repo.name}/{code.name}",
+                )
+            )
 
     for r in _read_jsonl(folder / "reviews.jsonl"):
-        docs.append(Document(id=r["id"], persona=persona, type="review", title=f"Review from {r['reviewer']}",
-                             text=r["text"], source="reviews.jsonl", date=str(r.get("date", ""))[:10] or None,
-                             outcome=f"{r['rating']}/5", project_id=r.get("project_id")))  # fmt: skip
+        docs.append(
+            Document(
+                id=r["id"],
+                persona=persona,
+                type="review",
+                title=f"Review from {r['reviewer']}",
+                text=r["text"],
+                source="reviews.jsonl",
+                date=str(r.get("date", ""))[:10] or None,
+                outcome=f"{r['rating']}/5",
+                project_id=r.get("project_id"),
+            )
+        )
 
     for p in _read_jsonl(folder / "proposals.jsonl"):
-        docs.append(Document(id=p["id"], persona=persona, type="proposal", title=p["job_title"], text=p["text"],
-                             source="proposals.jsonl", date=p.get("date"), outcome=p.get("outcome"),
-                             skills=tuple(p.get("skills") or ())))  # fmt: skip
+        docs.append(
+            Document(
+                id=p["id"],
+                persona=persona,
+                type="proposal",
+                title=p["job_title"],
+                text=p["text"],
+                source="proposals.jsonl",
+                date=p.get("date"),
+                outcome=p.get("outcome"),
+                skills=tuple(p.get("skills") or ()),
+            )
+        )
 
     return [enrich(d) for d in docs]
 

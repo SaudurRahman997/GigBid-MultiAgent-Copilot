@@ -66,7 +66,9 @@ def _sections(doc: Document) -> list[str]:
         blocks = re.split(r"\n(?=- |• |## |[A-Z][a-z]+ [A-Z]|\d{4}-\d{2})", doc.text)
         return [b.strip() for b in blocks if b.strip()]
     blocks = re.split(r"\n(?=#{1,3} )|\n\s*\n", doc.text)
-    return [b.strip() for b in blocks if b.strip() and not re.fullmatch(r"#+ .*", b.strip())] or [doc.text]
+    return [b.strip() for b in blocks if b.strip() and not re.fullmatch(r"#+ .*", b.strip())] or [
+        doc.text
+    ]
 
 
 def structured_chunks(doc: Document, max_words: int = 220) -> list[Chunk]:
@@ -76,7 +78,9 @@ def structured_chunks(doc: Document, max_words: int = 220) -> list[Chunk]:
     def flush():
         if buf:
             body = "\n".join(buf)
-            out.append(Chunk(f"{doc.id}#s{len(out)}", doc.id, len(out), f"{doc.title}\n{body}", doc))
+            out.append(
+                Chunk(f"{doc.id}#s{len(out)}", doc.id, len(out), f"{doc.title}\n{body}", doc)
+            )
             buf.clear()
 
     for sec in _sections(doc):
@@ -90,7 +94,9 @@ def structured_chunks(doc: Document, max_words: int = 220) -> list[Chunk]:
     return out
 
 
-def chunk_documents(docs: list[Document] | tuple[Document, ...], strategy: str, cfg: dict) -> list[Chunk]:
+def chunk_documents(
+    docs: list[Document] | tuple[Document, ...], strategy: str, cfg: dict
+) -> list[Chunk]:
     if strategy == "fixed":
         return [c for d in docs for c in fixed_chunks(d, cfg["fixed_words"], cfg["fixed_overlap"])]
     return [c for d in docs for c in structured_chunks(d, cfg["max_words"])]

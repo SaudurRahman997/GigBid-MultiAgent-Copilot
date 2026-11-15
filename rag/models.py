@@ -56,8 +56,14 @@ def _normalize(m: np.ndarray) -> np.ndarray:
 
 
 class FastEmbedEmbedder:
-    def __init__(self, model: str, dim: int, query_prefix: str = "", doc_prefix: str = "",
-                 cache_dir: Path | None = None):  # fmt: skip
+    def __init__(
+        self,
+        model: str,
+        dim: int,
+        query_prefix: str = "",
+        doc_prefix: str = "",
+        cache_dir: Path | None = None,
+    ):
         self.name, self.dim = model, dim
         self.qp, self.dp = query_prefix, doc_prefix
         self.cache = (cache_dir or ROOT / "var" / "cache" / "rag") / "emb" / _slug(model)
@@ -88,7 +94,11 @@ class FastEmbedEmbedder:
                 v = np.asarray(v, dtype=np.float32)
                 np.save(self.cache / f"{_sha(texts[i])}.npy", v)
                 out[i] = v
-        return _normalize(np.vstack(out).astype(np.float32)) if texts else np.zeros((0, self.dim), np.float32)
+        return (
+            _normalize(np.vstack(out).astype(np.float32))
+            if texts
+            else np.zeros((0, self.dim), np.float32)
+        )
 
     def embed_documents(self, texts: list[str]) -> np.ndarray:
         return self._embed([self.dp + t for t in texts])
@@ -104,7 +114,9 @@ class FastEmbedReranker:
         d.mkdir(parents=True, exist_ok=True)
         self.cache_file = d / f"{_slug(model)}.json"
         self._scores: dict[str, float] = (
-            json.loads(self.cache_file.read_text(encoding="utf-8")) if self.cache_file.exists() else {}
+            json.loads(self.cache_file.read_text(encoding="utf-8"))
+            if self.cache_file.exists()
+            else {}
         )
         self._model = None
         self._lock = threading.Lock()
@@ -122,7 +134,9 @@ class FastEmbedReranker:
         missing = [i for i, k in enumerate(keys) if k not in self._scores]
         if missing:
             with self._lock:
-                scores = list(self._load().rerank(query, [passages[i] for i in missing], batch_size=16))
+                scores = list(
+                    self._load().rerank(query, [passages[i] for i in missing], batch_size=16)
+                )
             for i, s in zip(missing, scores, strict=True):
                 self._scores[keys[i]] = float(s)
             self._dirty += len(missing)
@@ -155,7 +169,11 @@ class HashEmbedder:
         return v
 
     def embed_documents(self, texts: list[str]) -> np.ndarray:
-        return _normalize(np.vstack([self._vec(t) for t in texts])) if texts else np.zeros((0, self.dim))
+        return (
+            _normalize(np.vstack([self._vec(t) for t in texts]))
+            if texts
+            else np.zeros((0, self.dim))
+        )
 
     def embed_query(self, text: str) -> np.ndarray:
         return _normalize(self._vec(text)[None])[0]
@@ -175,8 +193,13 @@ class OverlapReranker:
 def default_embedder() -> FastEmbedEmbedder:
     c = _cfg()
     e = c["embeddings"]
-    return FastEmbedEmbedder(e["model"], int(e["dim"]), e.get("query_prefix", ""), e.get("doc_prefix", ""),
-                             ROOT / c["rag"]["cache_dir"])  # fmt: skip
+    return FastEmbedEmbedder(
+        e["model"],
+        int(e["dim"]),
+        e.get("query_prefix", ""),
+        e.get("doc_prefix", ""),
+        ROOT / c["rag"]["cache_dir"],
+    )
 
 
 @lru_cache(maxsize=2)

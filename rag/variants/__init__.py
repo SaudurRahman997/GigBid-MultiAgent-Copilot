@@ -12,5 +12,7 @@ from rag.variants.v3_rerank import V3Rerank
 from rag.variants.v4_outcome import V4Outcome
 from rag.variants.v8_corrective import V8Corrective
 
-CONTEXT_VARIANTS = {v.variant: v for v in (V0Naive, V1Decompose, V2Hybrid, V3Rerank, V4Outcome, V8Corrective)}
+CONTEXT_VARIANTS = {
+    v.variant: v for v in (V0Naive, V1Decompose, V2Hybrid, V3Rerank, V4Outcome, V8Corrective)
+}
 VARIANTS = {BM25Retriever.variant: BM25Retriever, **CONTEXT_VARIANTS}

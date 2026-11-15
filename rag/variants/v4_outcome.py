@@ -28,5 +28,7 @@ class V4Outcome(V3Rerank):
 
     def ranked_chunks(self, query):
         boost = self.cfg["outcome_boost"]
-        scored = [(c, s * outcome_multiplier(c.doc, boost)) for c, s in super().ranked_chunks(query)]
+        scored = [
+            (c, s * outcome_multiplier(c.doc, boost)) for c, s in super().ranked_chunks(query)
+        ]
         return sorted(scored, key=lambda cs: (-cs[1], cs[0].chunk_id))

@@ -1,11 +1,14 @@
-"""V8 - corrective RAG as a small LangGraph loop: retrieve -> grade -> (rewrite -> retrieve)* -> answer | refuse.
+"""V8 - corrective RAG as a small LangGraph loop.
 
-  retrieve  V3 (hybrid + cross-encoder) for the current sub-queries
-  grade     evidence is "good" when its cross-encoder logit >= rag.crag.min_rerank_score
-  rewrite   expand each sub-query with the canonical skill names and aliases it implies
-            (taxonomy), plus the job title - deterministic, no LLM, so evals are reproducible
-  refuse    after rag.crag.max_rounds without enough good evidence, return NOTHING: the writer
-            then cannot ground a claim, which is the honest outcome for jobs outside the portfolio
+  retrieve -> grade -> (rewrite -> retrieve)* -> answer | refuse
+
+
+retrieve  V3 (hybrid + cross-encoder) for the current sub-queries
+grade     evidence is "good" when its cross-encoder logit >= rag.crag.min_rerank_score
+rewrite   expand each sub-query with the canonical skill names and aliases it implies
+          (taxonomy), plus the job title - deterministic, no LLM, so evals are reproducible
+refuse    after rag.crag.max_rounds without enough good evidence, return NOTHING: the writer
+          then cannot ground a claim, which is the honest outcome for jobs outside the portfolio
 """
 
 from __future__ import annotations
@@ -91,7 +94,9 @@ class V8Corrective(V3Rerank):
         g.add_node("refuse", refuse)
         g.add_edge(START, "retrieve")
         g.add_edge("retrieve", "grade")
-        g.add_conditional_edges("grade", route, {"done": END, "rewrite": "rewrite", "refuse": "refuse"})
+        g.add_conditional_edges(
+            "grade", route, {"done": END, "rewrite": "rewrite", "refuse": "refuse"}
+        )
         g.add_edge("rewrite", "retrieve")
         g.add_edge("refuse", END)
         return g.compile()

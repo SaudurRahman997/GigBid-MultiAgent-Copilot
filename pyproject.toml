@@ -66,4 +66,6 @@ dev = [
 # Generators hold long template sentences and data tables; wrapping them hurts readability.
 "data/generators/*" = ["E501"]
 "tests/unit/test_generators.py" = ["E501"]
+"tests/unit/test_rag.py" = ["E501"]  # fixture texts
 "scripts/gen_tools_doc.py" = ["E501"]  # markdown table rows inside the doc template
+"evals/runners/*" = ["E501"]  # report/table formatting strings

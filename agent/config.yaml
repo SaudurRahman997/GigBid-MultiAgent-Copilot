@@ -77,3 +77,10 @@ mcp:
     submitter:     [create_proposal_draft, submit_proposal, get_connects_balance]
     liaison:       [list_messages, search_evidence, send_message, free_slots, create_tentative_hold]
     single_agent:  [search_jobs, get_job, get_client_history, search_evidence, get_case_study, list_skills, create_proposal_draft]
+verify:                        # claim verification (rag/verify.py)
+  judge: rerank                # rerank (deterministic, default) | llm (verifier model)
+  k: 5                         # evidence items retrieved per claim
+  support_logit: 0.0           # cross-encoder logit >= this -> supported (calibrated vs human labels)
+  partial_logit: -3.0          # >= this -> partial, below -> unsupported
+  numbers_must_match: true     # a number absent from the evidence caps a claim at "partial"
+  retrieval_variant: v2_hybrid # evidence retrieval for claims (cheap); revisit after R&D B

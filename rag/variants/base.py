@@ -50,9 +50,15 @@ class Context:
     cfg: dict
 
 
-def build_context(persona: str, embedder: Embedder | None = None, reranker: Reranker | None = None,
-                  cfg: dict | None = None, docs: tuple[Document, ...] | None = None,
-                  index: str | None = None, db_url: str | None = None) -> Context:  # fmt: skip
+def build_context(
+    persona: str,
+    embedder: Embedder | None = None,
+    reranker: Reranker | None = None,
+    cfg: dict | None = None,
+    docs: tuple[Document, ...] | None = None,
+    index: str | None = None,
+    db_url: str | None = None,
+) -> Context:
     cfg = cfg or rag_config()
     embedder = embedder or default_embedder()
     docs = docs if docs is not None else load_persona(persona)
@@ -62,12 +68,17 @@ def build_context(persona: str, embedder: Embedder | None = None, reranker: Rera
     if kind == "pgvector":
         if not db_url:
             raise ValueError("pgvector index needs db_url")
-        ds, df = PgVectorIndex(db_url, embedder, persona, "structured"), PgVectorIndex(db_url, embedder, persona, "fixed")
+        ds, df = (
+            PgVectorIndex(db_url, embedder, persona, "structured"),
+            PgVectorIndex(db_url, embedder, persona, "fixed"),
+        )
         ds.sync(structured)
         df.sync(fixed)
     else:
         ds, df = MemoryDenseIndex(structured, embedder), MemoryDenseIndex(fixed, embedder)
-    return Context(persona, docs, structured, fixed, ds, df, LexicalIndex(structured), embedder, reranker, cfg)
+    return Context(
+        persona, docs, structured, fixed, ds, df, LexicalIndex(structured), embedder, reranker, cfg
+    )
 
 
 @lru_cache(maxsize=8)
