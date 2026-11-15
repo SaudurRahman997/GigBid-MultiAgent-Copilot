@@ -82,3 +82,15 @@ def scan_file_rel(path: Path) -> list[str]:
         return scan_file(path)
     finally:
         cp.ROOT = old
+
+
+def test_prompt_checker_file_exemption_needs_reason(tmp_path):
+    body = 'P = "You are a helpful proposal writer. ' + "x" * 150 + '"\n'
+    with_reason = tmp_path / "a.py"
+    with_reason.write_text(
+        "# prompt-ok-file: attack strings used as test data\n" + body, encoding="utf-8"
+    )
+    no_reason = tmp_path / "b.py"
+    no_reason.write_text("# prompt-ok-file:\n" + body, encoding="utf-8")
+    assert not scan_file_rel(with_reason)
+    assert scan_file_rel(no_reason)
