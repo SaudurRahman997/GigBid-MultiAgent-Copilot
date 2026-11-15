@@ -62,7 +62,13 @@ def render() -> None:
                 for r in rows:
                     row = table.row()
                     for c in r:
-                        row.cell(inline(c).replace("**", ""))
+                        text = inline(c).replace("**", "")
+                        if text.startswith("http"):
+                            pdf.set_text_color(30, 80, 200)
+                            row.cell(text, link=text)
+                            pdf.set_text_color(0)
+                        else:
+                            row.cell(text)
             pdf.ln(3)
             continue
         if line.startswith("# "):
