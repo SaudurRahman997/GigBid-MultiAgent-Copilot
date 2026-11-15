@@ -146,6 +146,45 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
+  api:
+    build:
+      context: ..
+      dockerfile: apps/api/Dockerfile
+    image: gigbid-api:dev
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-gigbid}:${POSTGRES_PASSWORD:-gigbid}@postgres:5432/${POSTGRES_DB:-gigbid}
+      MCP_TOKENS: ${MCP_TOKENS:-ai_ml:dev-mcp-ai-ml,fullstack:dev-mcp-fullstack,data_analyst:dev-mcp-data-analyst,reviewer:dev-mcp-reviewer}
+      MCP_PORTFOLIO_URL: http://mcp-portfolio:8201/mcp
+      MCP_MARKETPLACE_URL: http://mcp-marketplace:8202/mcp
+      MCP_WORKSPACE_URL: http://mcp-workspace:8203/mcp
+      JWT_SECRET: ${JWT_SECRET:-change-me}
+      TOKEN_ENCRYPTION_KEY: ${TOKEN_ENCRYPTION_KEY:-}
+      REVIEWER_EMAIL: ${REVIEWER_EMAIL:-}
+      REVIEWER_PASSWORD: ${REVIEWER_PASSWORD:-}
+      WEB_ORIGINS: ${WEB_ORIGINS:-http://localhost:3000}
+      GIGBID_AGENT_MODE: ${GIGBID_AGENT_MODE:-rules}
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+    ports:
+      - "${API_PORT:-8000}:8000"
+    volumes:
+      - ../data:/app/data:ro
+      - ../agent/config.yaml:/app/agent/config.yaml:ro
+      - ../evals/results:/app/evals/results:ro
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8000/docs', timeout=3).status == 200 else 1)"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    depends_on:
+      mcp-portfolio:
+        condition: service_healthy
+      mcp-marketplace:
+        condition: service_healthy
+      mcp-workspace:
+        condition: service_healthy
+    restart: unless-stopped
+
 volumes:
   pgdata:
   redisdata:

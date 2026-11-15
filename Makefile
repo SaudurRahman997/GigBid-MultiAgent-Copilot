@@ -3,7 +3,7 @@
 UV      ?= uv
 COMPOSE := docker compose -f infra/docker-compose.yml $(if $(wildcard .env),--env-file .env,)
 
-.PHONY: help data validate-data local-stack snapshots tools-doc proposal-demo gigsim gigsim-check gigsim-freeze dev up down logs ps test test-integration lint fmt typecheck eval seed demo openapi check-prompts web-dev
+.PHONY: help data validate-data local-stack snapshots tools-doc proposal-demo gigsim gigsim-check gigsim-freeze dev up down logs ps test test-integration lint fmt typecheck eval seed demo openapi check-prompts web-dev api
 
 help: ## list targets
 	@grep -E '^[a-zA-Z_-]+:.*## ' Makefile | awk 'BEGIN{FS=":.*## "}{printf "  %-14s %s\n", $$1, $$2}'
@@ -63,7 +63,11 @@ demo: ## end-to-end demo (Phase 7+)
 	@echo "demo: not implemented yet (Phase 7)"
 
 openapi: ## export FastAPI schema and regenerate the TS client (Phase 6)
-	@echo "openapi: not implemented yet (Phase 6)"
+	$(UV) run python -m scripts.export_openapi
+	cd apps/web && npx openapi-typescript ../api/openapi.json -o src/lib/api/schema.d.ts
+
+api: ## run the API with auto-reload (http://localhost:8000/docs)
+	$(UV) run uvicorn apps.api.main:app --reload --port 8000
 
 gigsim: ## run GigSim locally on SQLite with auto-reload (http://localhost:8100/docs)
 	GIGSIM_DATABASE_URL=sqlite:///./gigsim-dev.db $(UV) run uvicorn gigsim.app:create_app --factory --reload --port 8100
