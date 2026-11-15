@@ -139,6 +139,72 @@
         "openWorldHint": false,
         "readOnlyHint": true
       },
+      "description": "The freelancer's profile: headline, evidenced skills, minimum budget/rate, target rate.",
+      "inputSchema": {
+        "properties": {},
+        "title": "get_profileArguments",
+        "type": "object"
+      },
+      "name": "get_profile",
+      "outputSchema": {
+        "properties": {
+          "category": {
+            "title": "Category",
+            "type": "string"
+          },
+          "floors": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "description": "minimum acceptable fixed budget and hourly rate",
+            "title": "Floors",
+            "type": "object"
+          },
+          "headline": {
+            "title": "Headline",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "persona": {
+            "title": "Persona",
+            "type": "string"
+          },
+          "skills": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Skills",
+            "type": "array"
+          },
+          "target_rate": {
+            "title": "Target Rate",
+            "type": "number"
+          }
+        },
+        "required": [
+          "persona",
+          "name",
+          "headline",
+          "category",
+          "skills",
+          "floors",
+          "target_rate"
+        ],
+        "title": "Profile",
+        "type": "object"
+      },
+      "title": "Get freelancer profile"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
       "description": "Skills evidenced in the portfolio, with how many evidence items support each.",
       "inputSchema": {
         "properties": {},
@@ -410,6 +476,100 @@
         "type": "object"
       },
       "title": "Search portfolio evidence"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Split a draft into factual claims and check each against the portfolio:\n        supported | partial | unsupported, with the evidence ids that back it.",
+      "inputSchema": {
+        "properties": {
+          "draft": {
+            "description": "Proposal or message text",
+            "maxLength": 6000,
+            "minLength": 20,
+            "title": "Draft",
+            "type": "string"
+          }
+        },
+        "required": [
+          "draft"
+        ],
+        "title": "verify_claimsArguments",
+        "type": "object"
+      },
+      "name": "verify_claims",
+      "outputSchema": {
+        "$defs": {
+          "ClaimCheckOut": {
+            "properties": {
+              "cited": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Cited",
+                "type": "array"
+              },
+              "evidence": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Evidence",
+                "type": "array"
+              },
+              "reason": {
+                "title": "Reason",
+                "type": "string"
+              },
+              "status": {
+                "title": "Status",
+                "type": "string"
+              },
+              "text": {
+                "title": "Text",
+                "type": "string"
+              }
+            },
+            "required": [
+              "text",
+              "status",
+              "evidence",
+              "cited",
+              "reason"
+            ],
+            "title": "ClaimCheckOut",
+            "type": "object"
+          }
+        },
+        "properties": {
+          "checks": {
+            "items": {
+              "$ref": "#/$defs/ClaimCheckOut"
+            },
+            "title": "Checks",
+            "type": "array"
+          },
+          "judge": {
+            "title": "Judge",
+            "type": "string"
+          },
+          "unsupported_rate": {
+            "title": "Unsupported Rate",
+            "type": "number"
+          }
+        },
+        "required": [
+          "checks",
+          "unsupported_rate",
+          "judge"
+        ],
+        "title": "VerifyResult",
+        "type": "object"
+      },
+      "title": "Verify claims in a draft"
     }
   ]
 }
