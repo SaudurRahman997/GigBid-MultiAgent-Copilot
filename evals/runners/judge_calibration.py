@@ -30,7 +30,7 @@ from rag.verify import config, default_judge, gather_evidence
 ROOT = Path(__file__).resolve().parents[2]
 LABEL_DIR = ROOT / "evals" / "labels"
 SHEET = LABEL_DIR / "claims_to_label.csv"
-CONSTRUCTION = LABEL_DIR / "claims_construction_labels.json"
+CONSTRUCTION = ROOT / "var" / "labels" / "claims_construction_labels.json"  # answer key: kept out of sight (git-ignored)
 OUT = ROOT / "evals" / "results" / "verify" / "judge_calibration.json"
 SEED = 7
 N_PROPOSALS, CLAIMS_PER_PROPOSAL = 30, 3
@@ -58,6 +58,7 @@ def make_sheet() -> None:
             )
             construction[item] = c["label"]
     LABEL_DIR.mkdir(parents=True, exist_ok=True)
+    CONSTRUCTION.parent.mkdir(parents=True, exist_ok=True)
     with SHEET.open("w", encoding="utf-8", newline="") as f:
         w = csv.DictWriter(f, fieldnames=["item", "persona", "claim", "evidence", "human_label"])
         w.writeheader()

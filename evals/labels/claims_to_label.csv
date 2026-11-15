@@ -1,0 +1,1206 @@
+item,persona,claim,evidence,human_label
+P01-C1,ai_ml,"I have delivered several salesforce projects, including work as Salesforce Apex developer.","ai_ml:review:11: Exactly what we needed, delivered on time. Coordinators at Keystone Lettings spent half their day on back-and-forth emails to book meetings. That is no longer the case - we saved coordinators about 120 hours a week. Highly recommended. || ai_ml:review:23: Exactly what we needed, delivered on time. Within a few weeks we resolved 47% of chats without an agent. || ai_ml:proposal:044: Hello, I have read your job description and I am the perfect fit.
+
+I am skilled in computer vision, pytorch, opencv and have completed many similar projects with great feedback.
+
+My rate is $39.2/hour. Looking forward to hearing from you.",
+P01-C2,ai_ml,"For a property management firm I collected and labelled 5 images with the quality team, including hard edge cases.","ai_ml:case:18: # Visual defect detection for a property management firm
+
+**Situation.** Inspectors at Oakrow Properties missed small scratches on parts during busy shifts.
+
+**Task.** Oakrow Properties needed this fixed within 15 weeks.
+
+**Action.** Trained a model spotting scratches and dents in production-line camera images; collected and labelled 5 images with  || ai_ml:proposal:079: Reading your post, the goal is detection model that your team trusts, with edge deployment alongside it.
+
+I did something very close for a property management firm: I trained a model spotting scratches and dents in production-line camera images. The result was that we caught 58% of defects at the line.
+
+My rate is $71.0/hour. Happy to share a short || ai_ml:proposal:113: Reading your post, the goal is detection model that your team trusts, with edge deployment alongside it.
+
+I did something very close for a property management firm: I trained a model spotting scratches and dents in production-line camera images. The result was that we caught 58% of defects at the line.
+
+My rate is $34.7/hour. Happy to share a short",
+P01-C3,ai_ml,I have eight years of reinforcement learning experience with Fortune 500 clients.,"ai_ml:proposal:026: Greetings, I am an experienced professional ready to start immediately.
+
+I have many years of experience with machine learning, scikit-learn, python and always deliver high quality work on time.
+
+My rate is $50.6/hour. Looking forward to hearing from you. || ai_ml:proposal:062: Dear Hiring Manager, I am very interested in your job posting.
+
+I have many years of experience with machine learning, scikit-learn, python and always deliver high quality work on time.
+
+My rate is $28.8/hour. Looking forward to hearing from you. || ai_ml:proposal:019: Reading your post, the goal is trained model that your team trusts, with feature pipeline alongside it.
+
+I have many years of experience with machine learning, scikit-learn, python and always deliver high quality work on time.
+
+My rate is $27.0/hour. I can start this week; let me know a good time to talk here.",
+P02-C1,ai_ml,"I adapted an open-weight model to write in the firm's house style using 300 approved examples for a freight company, and we editors accepted 35% of drafts with light edits.","ai_ml:proposal:017: Greetings, I am an experienced professional ready to start immediately.
+
+I did something very close for a freight company: I adapted an open-weight model to write in the firm's house style using 300 approved examples. The result was that we editors accepted 16% of drafts with light edits.
+
+My rate is $14.5/hour. Looking forward to hearing from you. || ai_ml:proposal:035: Dear Hiring Manager, I am very interested in your job posting.
+
+Last time I solved this, for a freight company, I adapted an open-weight model to write in the firm's house style using 300 approved examples - and we editors accepted 16% of drafts with light edits.
+
+My fixed price for this scope is $276. Looking forward to hearing from you. || ai_ml:proposal:130: Hi there! I can do this job for you.
+
+Last time I solved this, for a freight company, I adapted an open-weight model to write in the firm's house style using 300 approved examples - and we editors accepted 16% of drafts with light edits.
+
+My fixed price for this scope is $240. Looking forward to hearing from you.",
+P02-C2,ai_ml,"I adapted an open-weight model to write in the firm's house style using 300 approved examples for a freight company, and we editors accepted 16% of drafts with light edits.","ai_ml:proposal:017: Greetings, I am an experienced professional ready to start immediately.
+
+I did something very close for a freight company: I adapted an open-weight model to write in the firm's house style using 300 approved examples. The result was that we editors accepted 16% of drafts with light edits.
+
+My rate is $14.5/hour. Looking forward to hearing from you. || ai_ml:proposal:035: Dear Hiring Manager, I am very interested in your job posting.
+
+Last time I solved this, for a freight company, I adapted an open-weight model to write in the firm's house style using 300 approved examples - and we editors accepted 16% of drafts with light edits.
+
+My fixed price for this scope is $276. Looking forward to hearing from you. || ai_ml:proposal:130: Hi there! I can do this job for you.
+
+Last time I solved this, for a freight company, I adapted an open-weight model to write in the firm's house style using 300 approved examples - and we editors accepted 16% of drafts with light edits.
+
+My fixed price for this scope is $240. Looking forward to hearing from you.",
+P02-C3,ai_ml,"I have delivered several solidity projects, including work as Solidity engineer.","ai_ml:cv: Applied ML engineer - LLM apps, NLP and computer vision that ship
+Lisbon, Portugal (remote) - 7 years of experience
+ 
+Summary
+Freelancer focused on ai ml work for small and mid-sized businesses. I scope carefully, ship in small steps and measure
+results.
+ 
+Skills
+python, machine learning, docker, g… || ai_ml:review:25: Exactly what we needed, delivered on time. Before this, inspectors at Oakrow Properties missed small scratches on parts during busy shifts. Now we caught 58% of defects at the line. Already planning the next project together. || ai_ml:review:24: Exactly what we needed, delivered on time. Inspectors at Oakrow Properties missed small scratches on parts during busy shifts. That is no longer the case - we caught 58% of defects at the line.",
+P03-C1,ai_ml,"I have delivered several reinforcement learning projects, including work as someone experienced in reinforcement learning.","ai_ml:proposal:068: Greetings, I am an experienced professional ready to start immediately.
+
+I am skilled in machine learning, python, pandas and have completed many similar projects with great feedback.
+
+My rate is $36.2/hour. Happy to share a short plan after a quick call on the platform. || ai_ml:proposal:026: Greetings, I am an experienced professional ready to start immediately.
+
+I have many years of experience with machine learning, scikit-learn, python and always deliver high quality work on time.
+
+My rate is $50.6/hour. Looking forward to hearing from you. || ai_ml:proposal:062: Dear Hiring Manager, I am very interested in your job posting.
+
+I have many years of experience with machine learning, scikit-learn, python and always deliver high quality work on time.
+
+My rate is $28.8/hour. Looking forward to hearing from you.",
+P03-C2,ai_ml,"I built a gradient-boosted model scoring which customers were likely to leave in the next 30 days for a B2B SaaS company, and we lifted 187-day retention by 24%.","ai_ml:proposal:037: Greetings, I am an experienced professional ready to start immediately.
+
+I did something very close for a B2B SaaS company: I built a gradient-boosted model scoring which customers were likely to leave in the next 30 days. The result was that we lifted 90-day retention by 24%.
+
+My fixed price for this scope is $213. Looking forward to hearing from  || ai_ml:proposal:056: Hi there! I can do this job for you.
+
+I did something very close for a B2B SaaS company: I built a gradient-boosted model scoring which customers were likely to leave in the next 30 days. The result was that we lifted 90-day retention by 24%.
+
+My rate is $72.7/hour. I can start this week; let me know a good time to talk here. || ai_ml:case:13: # Subscriber churn prediction for a B2B SaaS company
+
+**Situation.** Tallyhq was losing subscribers and only noticed after they cancelled.
+
+**Task.** Tallyhq needed this fixed within 9 weeks.
+
+**Action.** Built a gradient-boosted model scoring which customers were likely to leave in the next 30 days; engineered usage features from 5 months of event",
+P03-C3,ai_ml,I have eight years of solidity experience with Fortune 500 clients.,"ai_ml:proposal:026: Greetings, I am an experienced professional ready to start immediately.
+
+I have many years of experience with machine learning, scikit-learn, python and always deliver high quality work on time.
+
+My rate is $50.6/hour. Looking forward to hearing from you. || ai_ml:proposal:064: Reading your post, the goal is trained model that your team trusts, with feature pipeline alongside it.
+
+I have many years of experience with machine learning, scikit-learn, python and always deliver high quality work on time.
+
+My fixed price for this scope is $641. I can start this week; let me know a good time to talk here. || ai_ml:proposal:103: Dear Hiring Manager, I am very interested in your job posting.
+
+I have many years of experience with machine learning, scikit-learn, python and always deliver high quality work on time.
+
+My fixed price for this scope is $1,747. Happy to share a short plan after a quick call on the platform.",
+P04-C1,ai_ml,"I trained a model spotting scratches and dents in production-line camera images for a property management firm, and we caught 120% of defects at the line.","ai_ml:proposal:079: Reading your post, the goal is detection model that your team trusts, with edge deployment alongside it.
+
+I did something very close for a property management firm: I trained a model spotting scratches and dents in production-line camera images. The result was that we caught 58% of defects at the line.
+
+My rate is $71.0/hour. Happy to share a short || ai_ml:proposal:015: Greetings, I am an experienced professional ready to start immediately.
+
+Last time I solved this, for a property management firm, I trained a model spotting scratches and dents in production-line camera images - and we caught 58% of defects at the line.
+
+My fixed price for this scope is $61. I can start this week; let me know a good time to talk he || ai_ml:proposal:113: Reading your post, the goal is detection model that your team trusts, with edge deployment alongside it.
+
+I did something very close for a property management firm: I trained a model spotting scratches and dents in production-line camera images. The result was that we caught 58% of defects at the line.
+
+My rate is $34.7/hour. Happy to share a short",
+P04-C2,ai_ml,"I trained a model spotting scratches and dents in production-line camera images for a property management firm, and we caught 58% of defects at the line.","ai_ml:proposal:079: Reading your post, the goal is detection model that your team trusts, with edge deployment alongside it.
+
+I did something very close for a property management firm: I trained a model spotting scratches and dents in production-line camera images. The result was that we caught 58% of defects at the line.
+
+My rate is $71.0/hour. Happy to share a short || ai_ml:proposal:113: Reading your post, the goal is detection model that your team trusts, with edge deployment alongside it.
+
+I did something very close for a property management firm: I trained a model spotting scratches and dents in production-line camera images. The result was that we caught 58% of defects at the line.
+
+My rate is $34.7/hour. Happy to share a short || ai_ml:proposal:015: Greetings, I am an experienced professional ready to start immediately.
+
+Last time I solved this, for a property management firm, I trained a model spotting scratches and dents in production-line camera images - and we caught 58% of defects at the line.
+
+My fixed price for this scope is $61. I can start this week; let me know a good time to talk he",
+P04-C3,ai_ml,"I have delivered several reinforcement learning projects, including work as someone experienced in reinforcement learning.","ai_ml:proposal:068: Greetings, I am an experienced professional ready to start immediately.
+
+I am skilled in machine learning, python, pandas and have completed many similar projects with great feedback.
+
+My rate is $36.2/hour. Happy to share a short plan after a quick call on the platform. || ai_ml:proposal:026: Greetings, I am an experienced professional ready to start immediately.
+
+I have many years of experience with machine learning, scikit-learn, python and always deliver high quality work on time.
+
+My rate is $50.6/hour. Looking forward to hearing from you. || ai_ml:proposal:062: Dear Hiring Manager, I am very interested in your job posting.
+
+I have many years of experience with machine learning, scikit-learn, python and always deliver high quality work on time.
+
+My rate is $28.8/hour. Looking forward to hearing from you.",
+P05-C1,ai_ml,"I have delivered several solidity projects, including work as Solidity engineer.","ai_ml:cv: Applied ML engineer - LLM apps, NLP and computer vision that ship
+Lisbon, Portugal (remote) - 7 years of experience
+ 
+Summary
+Freelancer focused on ai ml work for small and mid-sized businesses. I scope carefully, ship in small steps and measure
+results.
+ 
+Skills
+python, machine learning, docker, g… || ai_ml:review:25: Exactly what we needed, delivered on time. Before this, inspectors at Oakrow Properties missed small scratches on parts during busy shifts. Now we caught 58% of defects at the line. Already planning the next project together. || ai_ml:review:24: Exactly what we needed, delivered on time. Inspectors at Oakrow Properties missed small scratches on parts during busy shifts. That is no longer the case - we caught 58% of defects at the line.",
+P05-C2,ai_ml,I have eight years of salesforce experience with Fortune 500 clients.,"ai_ml:proposal:026: Greetings, I am an experienced professional ready to start immediately.
+
+I have many years of experience with machine learning, scikit-learn, python and always deliver high quality work on time.
+
+My rate is $50.6/hour. Looking forward to hearing from you. || ai_ml:proposal:125: Greetings, I am an experienced professional ready to start immediately.
+
+I have many years of experience with natural language processing, hugging face, pytorch and always deliver high quality work on time.
+
+My fixed price for this scope is $839. Looking forward to hearing from you. || ai_ml:proposal:064: Reading your post, the goal is trained model that your team trusts, with feature pipeline alongside it.
+
+I have many years of experience with machine learning, scikit-learn, python and always deliver high quality work on time.
+
+My fixed price for this scope is $641. I can start this week; let me know a good time to talk here.",
+P05-C3,ai_ml,For a freight company I added handoff to a human agent when confidence was low.,"ai_ml:case:03: # Website support assistant for a freight company
+
+**Situation.** Portline Logistics could not answer customer questions outside office hours.
+
+**Task.** Portline Logistics needed this fixed within 8 weeks.
+
+**Action.** Built a website assistant that answers customer questions around the clock from the help centre; added handoff to a human agent wh || ai_ml:case:17: # Website support assistant for a nonprofit
+
+_Common Table · nonprofit · 2026-05 · 4 weeks_
+
+Common Table could not answer customer questions outside office hours. I built a website assistant that answers customer questions around the clock from the help centre. Along the way I added handoff to a human agent when confidence was low, and finally tra || ai_ml:case:10: # Invoice and receipt extraction for a freight company
+
+_Ridgeway Freight · freight company · 2024-09 · 8 weeks_
+
+The finance team at Ridgeway Freight keyed in hundreds of scanned invoices by hand every week. I built a pipeline reading scanned invoices and pulling out totals, dates, vendors and line items. Along the way I fine-tuned a layout-aware ",
+P06-C1,ai_ml,"I have delivered several unity projects, including work as Unity developer.","ai_ml:review:23: Exactly what we needed, delivered on time. Within a few weeks we resolved 47% of chats without an agent. || ai_ml:review:11: Exactly what we needed, delivered on time. Coordinators at Keystone Lettings spent half their day on back-and-forth emails to book meetings. That is no longer the case - we saved coordinators about 120 hours a week. Highly recommended. || ai_ml:proposal:124: For a lending startup like yours, the work is really trained model plus feature pipeline, done without disrupting your team.
+
+I am skilled in machine learning, scikit-learn, python and have completed many similar projects with great feedback.
+
+My fixed price for this scope is $393. Looking forward to hearing from you.",
+P06-C2,ai_ml,For a freight company I added handoff to a human agent when confidence was low.,"ai_ml:case:03: # Website support assistant for a freight company
+
+**Situation.** Portline Logistics could not answer customer questions outside office hours.
+
+**Task.** Portline Logistics needed this fixed within 8 weeks.
+
+**Action.** Built a website assistant that answers customer questions around the clock from the help centre; added handoff to a human agent wh || ai_ml:case:17: # Website support assistant for a nonprofit
+
+_Common Table · nonprofit · 2026-05 · 4 weeks_
+
+Common Table could not answer customer questions outside office hours. I built a website assistant that answers customer questions around the clock from the help centre. Along the way I added handoff to a human agent when confidence was low, and finally tra || ai_ml:case:10: # Invoice and receipt extraction for a freight company
+
+_Ridgeway Freight · freight company · 2024-09 · 8 weeks_
+
+The finance team at Ridgeway Freight keyed in hundreds of scanned invoices by hand every week. I built a pipeline reading scanned invoices and pulling out totals, dates, vendors and line items. Along the way I fine-tuned a layout-aware ",
+P06-C3,ai_ml,"I trained a transformer classifier routing free-text tickets to the right queue for a auto-parts manufacturer, and we routed 33% of tickets correctly without human review.","ai_ml:proposal:084: Hello, I have read your job description and I am the perfect fit.
+
+I did something very close for an auto-parts manufacturer: I trained a transformer classifier routing free-text tickets to the right queue. The result was that we routed 33% of tickets correctly without human review.
+
+My rate is $26.4/hour. Looking forward to hearing from you. || ai_ml:proposal:116: Greetings, I am an experienced professional ready to start immediately.
+
+Last time I solved this, for an auto-parts manufacturer, I trained a transformer classifier routing free-text tickets to the right queue - and we routed 33% of tickets correctly without human review.
+
+My fixed price for this scope is $424. Looking forward to hearing from you. || ai_ml:proposal:150: Greetings, I am an experienced professional ready to start immediately.
+
+Last time I solved this, for an auto-parts manufacturer, I trained a transformer classifier routing free-text tickets to the right queue - and we routed 33% of tickets correctly without human review.
+
+My fixed price for this scope is $42. Looking forward to hearing from you.",
+P07-C1,ai_ml,"I have delivered several unity projects, including work as Unity developer.","ai_ml:review:23: Exactly what we needed, delivered on time. Within a few weeks we resolved 47% of chats without an agent. || ai_ml:review:11: Exactly what we needed, delivered on time. Coordinators at Keystone Lettings spent half their day on back-and-forth emails to book meetings. That is no longer the case - we saved coordinators about 120 hours a week. Highly recommended. || ai_ml:proposal:124: For a lending startup like yours, the work is really trained model plus feature pipeline, done without disrupting your team.
+
+I am skilled in machine learning, scikit-learn, python and have completed many similar projects with great feedback.
+
+My fixed price for this scope is $393. Looking forward to hearing from you.",
+P07-C2,ai_ml,I have eight years of reinforcement learning experience with Fortune 500 clients.,"ai_ml:proposal:026: Greetings, I am an experienced professional ready to start immediately.
+
+I have many years of experience with machine learning, scikit-learn, python and always deliver high quality work on time.
+
+My rate is $50.6/hour. Looking forward to hearing from you. || ai_ml:proposal:062: Dear Hiring Manager, I am very interested in your job posting.
+
+I have many years of experience with machine learning, scikit-learn, python and always deliver high quality work on time.
+
+My rate is $28.8/hour. Looking forward to hearing from you. || ai_ml:proposal:019: Reading your post, the goal is trained model that your team trusts, with feature pipeline alongside it.
+
+I have many years of experience with machine learning, scikit-learn, python and always deliver high quality work on time.
+
+My rate is $27.0/hour. I can start this week; let me know a good time to talk here.",
+P07-C3,ai_ml,"I adapted an open-weight model to write in the firm's house style using 4 approved examples for a online store, and we cut editing time per draft by 21%.","ai_ml:case:09: # House-style writing model for an online store
+
+_Loomly Goods · online store · 2024-07 · 10 weeks_
+
+Loomly Goods's team rewrote every AI draft because it never sounded like them. I adapted an open-weight model to write in the firm's house style using 4 approved examples. Along the way I built prompt templates and an evaluation rubric with the edit || ai_ml:proposal:140: Hello, I have read your job description and I am the perfect fit.
+
+I did something very close for an online store: I adapted an open-weight model to write in the firm's house style using 4 approved examples. The result was that we cut editing time per draft by 21%.
+
+My rate is $59.5/hour. Happy to share a short plan after a quick call on the platfo || ai_ml:proposal:071: Your online store needs fine-tuned model and prompt library - and the current workaround is eating your team's time.
+
+I did something very close for a freight company: I adapted an open-weight model to write in the firm's house style using 300 approved examples. The result was that we editors accepted 16% of drafts with light edits.
+
+My rate is $35",
+P08-C1,ai_ml,For a freight company I fine-tuned a layout-aware model in PyTorch on 5 labelled pages.,"ai_ml:case:10: # Invoice and receipt extraction for a freight company
+
+_Ridgeway Freight · freight company · 2024-09 · 8 weeks_
+
+The finance team at Ridgeway Freight keyed in hundreds of scanned invoices by hand every week. I built a pipeline reading scanned invoices and pulling out totals, dates, vendors and line items. Along the way I fine-tuned a layout-aware  || ai_ml:case:14: # Invoice and receipt extraction for a B2B SaaS company
+
+**Situation.** The finance team at Tallyhq keyed in hundreds of scanned invoices by hand every week.
+
+**Task.** Tallyhq needed this fixed within 15 weeks.
+
+**Action.** Built a pipeline reading scanned invoices and pulling out totals, dates, vendors and line items; fine-tuned a layout-aware mo || ai_ml:proposal:100: For a property management firm like yours, the work is really fine-tuned model plus prompt library, done without disrupting your team.
+
+I have many years of experience with large language model, hugging face, pytorch and always deliver high quality work on time.
+
+My fixed price for this scope is $619. I can start this week; let me know a good time ",
+P08-C2,ai_ml,"I built a gradient-boosted model scoring which customers were likely to leave in the next 30 days for a auto-parts manufacturer, and we lifted 90-day retention by 45%.","ai_ml:proposal:067: Hi there! I can do this job for you.
+
+I did something very close for an auto-parts manufacturer: I built a gradient-boosted model scoring which customers were likely to leave in the next 30 days. The result was that we lifted 90-day retention by 45%.
+
+My rate is $48.8/hour. Looking forward to hearing from you. || ai_ml:proposal:139: Dear Hiring Manager, I am very interested in your job posting.
+
+Last time I solved this, for an auto-parts manufacturer, I built a gradient-boosted model scoring which customers were likely to leave in the next 30 days - and we lifted 90-day retention by 45%.
+
+My rate is $69.6/hour. Happy to share a short plan after a quick call on the platform. || ai_ml:proposal:039: Your auto-parts manufacturer needs trained model and feature pipeline - and the current workaround is eating your team's time.
+
+Last time I solved this, for a B2B SaaS company, I built a gradient-boosted model scoring which customers were likely to leave in the next 30 days - and we lifted 90-day retention by 24%.
+
+My rate is $24.6/hour. I can star",
+P08-C3,ai_ml,"I built a gradient-boosted model scoring which customers were likely to leave in the next 30 days for a auto-parts manufacturer, and we lifted 183-day retention by 45%.","ai_ml:proposal:067: Hi there! I can do this job for you.
+
+I did something very close for an auto-parts manufacturer: I built a gradient-boosted model scoring which customers were likely to leave in the next 30 days. The result was that we lifted 90-day retention by 45%.
+
+My rate is $48.8/hour. Looking forward to hearing from you. || ai_ml:proposal:139: Dear Hiring Manager, I am very interested in your job posting.
+
+Last time I solved this, for an auto-parts manufacturer, I built a gradient-boosted model scoring which customers were likely to leave in the next 30 days - and we lifted 90-day retention by 45%.
+
+My rate is $69.6/hour. Happy to share a short plan after a quick call on the platform. || ai_ml:proposal:039: Your auto-parts manufacturer needs trained model and feature pipeline - and the current workaround is eating your team's time.
+
+Last time I solved this, for a B2B SaaS company, I built a gradient-boosted model scoring which customers were likely to leave in the next 30 days - and we lifted 90-day retention by 24%.
+
+My rate is $24.6/hour. I can star",
+P09-C1,ai_ml,"I have delivered several autodesk maya projects, including work as Maya artist.","ai_ml:proposal:046: For a nonprofit like yours, the work is really fine-tuned model plus prompt library, done without disrupting your team.
+
+I am skilled in large language model, hugging face, pytorch and have completed many similar projects with great feedback.
+
+My rate is $73.1/hour. Looking forward to hearing from you. || ai_ml:proposal:023: For an online course platform like yours, the work is really classifier plus webhook integration, done without disrupting your team.
+
+I am skilled in natural language processing, hugging face, pytorch and have completed many similar projects with great feedback.
+
+My rate is $42.5/hour. Looking forward to hearing from you. || ai_ml:proposal:110: Hi there! I can do this job for you.
+
+I am skilled in machine learning, python, pandas and have completed many similar projects with great feedback.
+
+My rate is $19.7/hour. I can start this week; let me know a good time to talk here.",
+P09-C2,ai_ml,For a property management firm I added guardrails so it asks a human before sending anything external.,"ai_ml:case:15: # Document Q&A assistant for a property management firm
+
+_Oakrow Properties · property management firm · 2026-01 · 4 weeks_
+
+Staff at Oakrow Properties spent hours digging through policy PDFs and past case files to answer routine questions. I built a retrieval pipeline that grounds every answer in the client's own documents, with citations back to  || ai_ml:case:08: # Scheduling assistant agent for a property management firm
+
+_Keystone Lettings · property management firm · 2024-07 · 20 weeks_
+
+Coordinators at Keystone Lettings spent half their day on back-and-forth emails to book meetings. I built an assistant that calls the calendar and CRM tools on its own to propose and book slots. Along the way I added gua || ai_ml:proposal:086: Your property management firm needs ingestion pipeline and chat API - and the current workaround is eating your team's time.
+
+I did something very close for a property management firm: I built a retrieval pipeline that grounds every answer in the client's own documents, with citations back to the source page. The result was that we answered 28% of ",
+P09-C3,ai_ml,"I built a model suggesting products based on what similar shoppers bought and viewed for a online store, and we raised average order value by 63%.","ai_ml:proposal:105: Reading your post, the goal is recommendation model that your team trusts, with batch job alongside it.
+
+Last time I solved this, for an online store, I built a model suggesting products based on what similar shoppers bought and viewed - and we raised average order value by 63%.
+
+My fixed price for this scope is $62. Looking forward to hearing from || ai_ml:case:06: # Product recommendations for an online store
+
+_Parcelbox Shop · online store · 2024-05 · 15 weeks_
+
+Parcelbox Shop's product pages showed the same bestsellers to everyone. I built a model suggesting products based on what similar shoppers bought and viewed. Along the way I trained on 120 months of orders and served results from a nightly batch job || ai_ml:proposal:096: Hi there! I can do this job for you.
+
+Last time I solved this, for an online store, I built a model suggesting products based on what similar shoppers bought and viewed - and we raised average order value by 63%.
+
+My rate is $17.5/hour. Looking forward to hearing from you.",
+P10-C1,ai_ml,"I built a pipeline reading scanned invoices and pulling out totals, dates, vendors and line items for a B2B SaaS company, and we processed 246 invoices a day at 19% field accuracy.","ai_ml:proposal:066: Greetings, I am an experienced professional ready to start immediately.
+
+I did something very close for a B2B SaaS company: I built a pipeline reading scanned invoices and pulling out totals, dates, vendors and line items. The result was that we processed 120 invoices a day at 19% field accuracy.
+
+My fixed price for this scope is $38. Happy to shar || ai_ml:proposal:078: Greetings, I am an experienced professional ready to start immediately.
+
+I did something very close for a B2B SaaS company: I built a pipeline reading scanned invoices and pulling out totals, dates, vendors and line items. The result was that we processed 120 invoices a day at 19% field accuracy.
+
+My rate is $31.7/hour. I can start this week; let m || ai_ml:case:14: # Invoice and receipt extraction for a B2B SaaS company
+
+**Situation.** The finance team at Tallyhq keyed in hundreds of scanned invoices by hand every week.
+
+**Task.** Tallyhq needed this fixed within 15 weeks.
+
+**Action.** Built a pipeline reading scanned invoices and pulling out totals, dates, vendors and line items; fine-tuned a layout-aware mo",
+P10-C2,ai_ml,"I have delivered several salesforce projects, including work as Salesforce Apex developer.","ai_ml:review:11: Exactly what we needed, delivered on time. Coordinators at Keystone Lettings spent half their day on back-and-forth emails to book meetings. That is no longer the case - we saved coordinators about 120 hours a week. Highly recommended. || ai_ml:review:23: Exactly what we needed, delivered on time. Within a few weeks we resolved 47% of chats without an agent. || ai_ml:proposal:044: Hello, I have read your job description and I am the perfect fit.
+
+I am skilled in computer vision, pytorch, opencv and have completed many similar projects with great feedback.
+
+My rate is $39.2/hour. Looking forward to hearing from you.",
+P10-C3,ai_ml,"I built a pipeline reading scanned invoices and pulling out totals, dates, vendors and line items for a B2B SaaS company, and we processed 120 invoices a day at 19% field accuracy.","ai_ml:proposal:066: Greetings, I am an experienced professional ready to start immediately.
+
+I did something very close for a B2B SaaS company: I built a pipeline reading scanned invoices and pulling out totals, dates, vendors and line items. The result was that we processed 120 invoices a day at 19% field accuracy.
+
+My fixed price for this scope is $38. Happy to shar || ai_ml:proposal:078: Greetings, I am an experienced professional ready to start immediately.
+
+I did something very close for a B2B SaaS company: I built a pipeline reading scanned invoices and pulling out totals, dates, vendors and line items. The result was that we processed 120 invoices a day at 19% field accuracy.
+
+My rate is $31.7/hour. I can start this week; let m || ai_ml:case:14: # Invoice and receipt extraction for a B2B SaaS company
+
+**Situation.** The finance team at Tallyhq keyed in hundreds of scanned invoices by hand every week.
+
+**Task.** Tallyhq needed this fixed within 15 weeks.
+
+**Action.** Built a pipeline reading scanned invoices and pulling out totals, dates, vendors and line items; fine-tuned a layout-aware mo",
+P11-C1,fullstack,"I integrated a payments provider for subscriptions, upgrades and failed-payment retries for a freight company, and we recovered 12% of failed payments automatically.","fullstack:proposal:105: Reading your post, the goal is billing integration that your team trusts, with webhooks alongside it.
+
+Last time I solved this, for a freight company, I integrated a payments provider for subscriptions, upgrades and failed-payment retries - and we recovered 12% of failed payments automatically.
+
+My rate is $55.9/hour. Happy to share a short plan af || fullstack:case:22: # Subscription billing for a freight company
+
+**Situation.** Haulwise invoiced subscribers by hand at the end of each month.
+
+**Task.** Haulwise needed this fixed within 12 weeks.
+
+**Action.** Integrated a payments provider for subscriptions, upgrades and failed-payment retries; wrote webhook handlers with idempotency keys so retries never double-c || fullstack:proposal:032: Dear Hiring Manager, I am very interested in your job posting.
+
+Last time I solved this, for a freight company, I integrated a payments provider for subscriptions, upgrades and failed-payment retries - and we recovered 12% of failed payments automatically.
+
+My rate is $13.2/hour. Happy to share a short plan after a quick call on the platform.",
+P11-C2,fullstack,I have eight years of flutter experience with Fortune 500 clients.,"fullstack:proposal:101: Greetings, I am an experienced professional ready to start immediately.
+
+I have many years of experience with react, firebase, javascript and always deliver high quality work on time.
+
+My rate is $16.4/hour. I can start this week; let me know a good time to talk here. || fullstack:case:06: # Customer portal for a marketing agency
+
+**Situation.** Customers of Fathom & Co emailed for every document and status update.
+
+**Task.** Fathom & Co needed this fixed within 16 weeks.
+
+**Action.** Built a self-service portal where customers log in, upload files and track requests; used Django's admin for staff workflows and Postgres for storage;  || fullstack:proposal:115: Hello, I have read your job description and I am the perfect fit.
+
+I have many years of experience with wordpress, php, css and always deliver high quality work on time.
+
+My fixed price for this scope is $20. Looking forward to hearing from you.",
+P11-C3,fullstack,"I integrated a payments provider for subscriptions, upgrades and failed-payment retries for a freight company, and we recovered 27% of failed payments automatically.","fullstack:proposal:105: Reading your post, the goal is billing integration that your team trusts, with webhooks alongside it.
+
+Last time I solved this, for a freight company, I integrated a payments provider for subscriptions, upgrades and failed-payment retries - and we recovered 12% of failed payments automatically.
+
+My rate is $55.9/hour. Happy to share a short plan af || fullstack:proposal:032: Dear Hiring Manager, I am very interested in your job posting.
+
+Last time I solved this, for a freight company, I integrated a payments provider for subscriptions, upgrades and failed-payment retries - and we recovered 12% of failed payments automatically.
+
+My rate is $13.2/hour. Happy to share a short plan after a quick call on the platform. || fullstack:case:22: # Subscription billing for a freight company
+
+**Situation.** Haulwise invoiced subscribers by hand at the end of each month.
+
+**Task.** Haulwise needed this fixed within 12 weeks.
+
+**Action.** Integrated a payments provider for subscriptions, upgrades and failed-payment retries; wrote webhook handlers with idempotency keys so retries never double-c",
+P12-C1,fullstack,For a nonprofit I set up CI so every merge is tested and deployed automatically.,"fullstack:case:17: # Cloud migration for a nonprofit
+
+_Open Harvest · nonprofit · 2026-01 · 9 weeks_
+
+Open Harvest's app ran on one ageing server and went down during traffic spikes. I moved the app from a single server to containers on managed cloud with autoscaling. Along the way I set up CI so every merge is tested and deployed automatically, and finally moved the || fullstack:case:12: # Cloud migration for an auto-parts manufacturer
+
+**Client:** Castwell (auto-parts manufacturer)  
+**When:** 2025-10, 12 weeks
+
+## Challenge
+Castwell's app ran on one ageing server and went down during traffic spikes.
+
+## What I did
+- Moved the app from a single server to containers on managed cloud with autoscaling
+- Set up CI so every merge is te || fullstack:case:20: # Cloud migration for a property management firm
+
+**Client:** Urbanest (property management firm)  
+**When:** 2026-05, 20 weeks
+
+## Challenge
+Urbanest's app ran on one ageing server and went down during traffic spikes.
+
+## What I did
+- Moved the app from a single server to containers on managed cloud with autoscaling
+- Set up CI so every merge is t",
+P12-C2,fullstack,"I built a self-service portal where customers log in, upload files and track requests for a freight company, and we cut status-update emails by 99%.","fullstack:proposal:027: Hi there! I can do this job for you.
+
+Last time I solved this, for a freight company, I built a self-service portal where customers log in, upload files and track requests - and we cut status-update emails by 47%.
+
+My rate is $36.5/hour. Happy to share a short plan after a quick call on the platform. || fullstack:proposal:035: Dear Hiring Manager, I am very interested in your job posting.
+
+I did something very close for a freight company: I built a self-service portal where customers log in, upload files and track requests. The result was that we cut status-update emails by 47%.
+
+My rate is $34.1/hour. Looking forward to hearing from you. || fullstack:case:18: # Customer portal for a freight company
+
+**Client:** Haulwise (freight company)  
+**When:** 2026-04, 11 weeks
+
+## Challenge
+Customers of Haulwise emailed for every document and status update.
+
+## What I did
+- Built a self-service portal where customers log in, upload files and track requests
+- Used Django's admin for staff workflows and Postgres fo",
+P12-C3,fullstack,"I built a self-service portal where customers log in, upload files and track requests for a freight company, and we cut status-update emails by 47%.","fullstack:proposal:027: Hi there! I can do this job for you.
+
+Last time I solved this, for a freight company, I built a self-service portal where customers log in, upload files and track requests - and we cut status-update emails by 47%.
+
+My rate is $36.5/hour. Happy to share a short plan after a quick call on the platform. || fullstack:proposal:035: Dear Hiring Manager, I am very interested in your job posting.
+
+I did something very close for a freight company: I built a self-service portal where customers log in, upload files and track requests. The result was that we cut status-update emails by 47%.
+
+My rate is $34.1/hour. Looking forward to hearing from you. || fullstack:case:18: # Customer portal for a freight company
+
+**Client:** Haulwise (freight company)  
+**When:** 2026-04, 11 weeks
+
+## Challenge
+Customers of Haulwise emailed for every document and status update.
+
+## What I did
+- Built a self-service portal where customers log in, upload files and track requests
+- Used Django's admin for staff workflows and Postgres fo",
+P13-C1,fullstack,"I integrated a payments provider for subscriptions, upgrades and failed-payment retries for a boutique hotel group, and we recovered 43% of failed payments automatically.","fullstack:proposal:038: Greetings, I am an experienced professional ready to start immediately.
+
+Last time I solved this, for a boutique hotel group, I integrated a payments provider for subscriptions, upgrades and failed-payment retries - and we recovered 18% of failed payments automatically.
+
+My rate is $33.6/hour. Happy to share a short plan after a quick call on the p || fullstack:proposal:060: Reading your post, the goal is billing integration that your team trusts, with webhooks alongside it.
+
+Last time I solved this, for a boutique hotel group, I integrated a payments provider for subscriptions, upgrades and failed-payment retries - and we recovered 18% of failed payments automatically.
+
+My fixed price for this scope is $87. Happy to s || fullstack:proposal:069: Reading your post, the goal is billing integration that your team trusts, with webhooks alongside it.
+
+I did something very close for a boutique hotel group: I integrated a payments provider for subscriptions, upgrades and failed-payment retries. The result was that we recovered 18% of failed payments automatically.
+
+My rate is $17.4/hour. Happy to",
+P13-C2,fullstack,"I integrated a payments provider for subscriptions, upgrades and failed-payment retries for a boutique hotel group, and we recovered 18% of failed payments automatically.","fullstack:proposal:060: Reading your post, the goal is billing integration that your team trusts, with webhooks alongside it.
+
+Last time I solved this, for a boutique hotel group, I integrated a payments provider for subscriptions, upgrades and failed-payment retries - and we recovered 18% of failed payments automatically.
+
+My fixed price for this scope is $87. Happy to s || fullstack:proposal:038: Greetings, I am an experienced professional ready to start immediately.
+
+Last time I solved this, for a boutique hotel group, I integrated a payments provider for subscriptions, upgrades and failed-payment retries - and we recovered 18% of failed payments automatically.
+
+My rate is $33.6/hour. Happy to share a short plan after a quick call on the p || fullstack:proposal:069: Reading your post, the goal is billing integration that your team trusts, with webhooks alongside it.
+
+I did something very close for a boutique hotel group: I integrated a payments provider for subscriptions, upgrades and failed-payment retries. The result was that we recovered 18% of failed payments automatically.
+
+My rate is $17.4/hour. Happy to",
+P13-C3,fullstack,"I have delivered several flutter projects, including work as Flutter developer for a cross-platform mobile app.","fullstack:proposal:092: For a lending startup like yours, the work is really API service plus OpenAPI docs, done without disrupting your team.
+
+I am skilled in node.js, express.js, mongodb and have completed many similar projects with great feedback.
+
+My rate is $34.9/hour. Looking forward to hearing from you. || fullstack:proposal:145: Dear Hiring Manager, I am very interested in your job posting.
+
+I am skilled in node.js, express.js, mongodb and have completed many similar projects with great feedback.
+
+My fixed price for this scope is $508. Looking forward to hearing from you. || fullstack:review:01: Exactly what we needed, delivered on time. Before this, urbanest's mobile apps talked directly to a spreadsheet and broke weekly. Now we cut API error rate to under 10%.",
+P14-C1,fullstack,For a B2B SaaS company I wrote a lightweight custom theme instead of a page builder.,"fullstack:case:04: # Marketing site rebuild for a B2B SaaS company
+
+_Orbitdesk · B2B SaaS company · 2022-08 · 12 weeks_
+
+Orbitdesk's site was hard to update and scored poorly on speed. I rebuilt the site on a popular CMS with custom blocks the marketing team can edit. Along the way I wrote a lightweight custom theme instead of a page builder, and finally set up cachi || fullstack:proposal:012: For a B2B SaaS company like yours, the work is really custom theme plus editable blocks, done without disrupting your team.
+
+I am skilled in wordpress, php, css and have completed many similar projects with great feedback.
+
+My fixed price for this scope is $398. Happy to share a short plan after a quick call on the platform. || fullstack:proposal:026: For a law firm like yours, the work is really custom theme plus editable blocks, done without disrupting your team.
+
+I did something very close for a B2B SaaS company: I rebuilt the site on a popular CMS with custom blocks the marketing team can edit. The result was that we cut time to publish a page by 58%.
+
+My rate is $24.3/hour. Happy to share a",
+P14-C2,fullstack,"I built a component-based single-page front end with charts customers can filter and share for a B2B SaaS company, and we cut support requests for reports by 28%.","fullstack:proposal:074: Hi there! I can do this job for you.
+
+I did something very close for a B2B SaaS company: I built a component-based single-page front end with charts customers can filter and share. The result was that we cut support requests for reports by 12%.
+
+My fixed price for this scope is $38. Happy to share a short plan after a quick call on the platform. || fullstack:case:11: # Analytics dashboard for a B2B SaaS company
+
+_Tallyhq · B2B SaaS company · 2025-08 · 14 weeks_
+
+Tallyhq's customers exported CSVs to see their own usage numbers. I built a component-based single-page front end with charts customers can filter and share. Along the way I designed the Postgres schema and a typed Node.js API serving 120 accounts, and  || fullstack:proposal:004: Greetings, I am an experienced professional ready to start immediately.
+
+Last time I solved this, for a B2B SaaS company, I built a component-based single-page front end with charts customers can filter and share - and we cut support requests for reports by 12%.
+
+My fixed price for this scope is $673. Looking forward to hearing from you.",
+P14-C3,fullstack,"I have delivered several salesforce projects, including work as Salesforce Apex developer.","fullstack:cv: Diego Okafor-Lindqvist
+ 
+Full-stack web developer - React/Next.js front ends on solid Node and Python back ends
+Valencia, Spain (remote) - 8 years of experience
+ 
+Summary
+Freelancer focused on web dev work for small and mid-sized businesses. I scope carefully, ship in small steps and
+measure result… || fullstack:review:01: Exactly what we needed, delivered on time. Before this, urbanest's mobile apps talked directly to a spreadsheet and broke weekly. Now we cut API error rate to under 10%. || fullstack:proposal:065: For a B2B SaaS company like yours, the work is really dashboard UI plus API, done without disrupting your team.
+
+I am skilled in react, typescript, node.js and have completed many similar projects with great feedback.
+
+My rate is $48.1/hour. Looking forward to hearing from you.",
+P15-C1,fullstack,For a B2B SaaS company I designed the Postgres schema and a typed Node.js API serving 120 accounts.,"fullstack:case:11: # Analytics dashboard for a B2B SaaS company
+
+_Tallyhq · B2B SaaS company · 2025-08 · 14 weeks_
+
+Tallyhq's customers exported CSVs to see their own usage numbers. I built a component-based single-page front end with charts customers can filter and share. Along the way I designed the Postgres schema and a typed Node.js API serving 120 accounts, and  || fullstack:case:21: # Analytics dashboard for a nonprofit
+
+_Open Harvest · nonprofit · 2026-07 · 13 weeks_
+
+Open Harvest's customers exported CSVs to see their own usage numbers. I built a component-based single-page front end with charts customers can filter and share. Along the way I designed the Postgres schema and a typed Node.js API serving 1200 accounts, and fin || fullstack:proposal:065: For a B2B SaaS company like yours, the work is really dashboard UI plus API, done without disrupting your team.
+
+I am skilled in react, typescript, node.js and have completed many similar projects with great feedback.
+
+My rate is $48.1/hour. Looking forward to hearing from you.",
+P15-C2,fullstack,"I built server-rendered React pages for fast first load and good search ranking for a lending startup, and we moved 142% of bookings online in three months.","fullstack:proposal:024: Hi there! I can do this job for you.
+
+I did something very close for a lending startup: I built server-rendered React pages for fast first load and good search ranking. The result was that we moved 68% of bookings online in three months.
+
+My fixed price for this scope is $557. I can start this week; let me know a good time to talk here. || fullstack:case:15: # Online booking platform for a lending startup
+
+_Ledgerly · lending startup · 2025-12 · 18 weeks_
+
+Ledgerly took bookings by phone and lost them when lines were busy. I built server-rendered React pages for fast first load and good search ranking. Along the way I modelled availability and bookings in Postgres with conflict checks, and finally inte || fullstack:proposal:006: Greetings, I am an experienced professional ready to start immediately.
+
+I did something very close for a lending startup: I built server-rendered React pages for fast first load and good search ranking. The result was that we moved 68% of bookings online in three months.
+
+My rate is $14.5/hour. Looking forward to hearing from you.",
+P15-C3,fullstack,I have eight years of salesforce experience with Fortune 500 clients.,"fullstack:proposal:101: Greetings, I am an experienced professional ready to start immediately.
+
+I have many years of experience with react, firebase, javascript and always deliver high quality work on time.
+
+My rate is $16.4/hour. I can start this week; let me know a good time to talk here. || fullstack:proposal:010: Hi there! I can do this job for you.
+
+I have many years of experience with next.js, typescript, postgresql and always deliver high quality work on time.
+
+My fixed price for this scope is $40. I can start this week; let me know a good time to talk here. || fullstack:proposal:117: Dear Hiring Manager, I am very interested in your job posting.
+
+I have many years of experience with django, python, postgresql and always deliver high quality work on time.
+
+My fixed price for this scope is $317. I can start this week; let me know a good time to talk here.",
+P16-C1,fullstack,"I built a component-based single-page front end with charts customers can filter and share for a nonprofit, and we cut support requests for reports by 37%.","fullstack:case:21: # Analytics dashboard for a nonprofit
+
+_Open Harvest · nonprofit · 2026-07 · 13 weeks_
+
+Open Harvest's customers exported CSVs to see their own usage numbers. I built a component-based single-page front end with charts customers can filter and share. Along the way I designed the Postgres schema and a typed Node.js API serving 1200 accounts, and fin || fullstack:proposal:001: Greetings, I am an experienced professional ready to start immediately.
+
+Last time I solved this, for a nonprofit, I built a component-based single-page front end with charts customers can filter and share - and we cut support requests for reports by 14%.
+
+My rate is $47.6/hour. Looking forward to hearing from you. || fullstack:proposal:086: Reading your post, the goal is dashboard UI that your team trusts, with API alongside it.
+
+I did something very close for a nonprofit: I built a component-based single-page front end with charts customers can filter and share. The result was that we cut support requests for reports by 14%.
+
+My fixed price for this scope is $345. Looking forward to ",
+P16-C2,fullstack,For a clinic network I connected inventory and shipping providers through their APIs.,"fullstack:case:02: # Custom storefront for a clinic network
+
+_Brightwater Clinics · clinic network · 2022-06 · 11 weeks_
+
+Brightwater Clinics's theme was slow on mobile and checkout was confusing. I rebuilt the storefront theme with faster product pages and a simpler checkout flow. Along the way I connected inventory and shipping providers through their APIs, and fin || fullstack:proposal:136: Your clinic network needs customer portal and staff admin - and the current workaround is eating your team's time.
+
+I did something very close for a clinic network: I built a self-service portal where customers log in, upload files and track requests. The result was that we onboarded 20 customers in the first quarter.
+
+My fixed price for this scope || fullstack:proposal:150: Your clinic network needs billing integration and webhooks - and the current workaround is eating your team's time.
+
+I have many years of experience with api integration, node.js, typescript and always deliver high quality work on time.
+
+My fixed price for this scope is $120. Happy to share a short plan after a quick call on the platform.",
+P16-C3,fullstack,"I built a component-based single-page front end with charts customers can filter and share for a nonprofit, and we cut support requests for reports by 14%.","fullstack:case:21: # Analytics dashboard for a nonprofit
+
+_Open Harvest · nonprofit · 2026-07 · 13 weeks_
+
+Open Harvest's customers exported CSVs to see their own usage numbers. I built a component-based single-page front end with charts customers can filter and share. Along the way I designed the Postgres schema and a typed Node.js API serving 1200 accounts, and fin || fullstack:proposal:001: Greetings, I am an experienced professional ready to start immediately.
+
+Last time I solved this, for a nonprofit, I built a component-based single-page front end with charts customers can filter and share - and we cut support requests for reports by 14%.
+
+My rate is $47.6/hour. Looking forward to hearing from you. || fullstack:proposal:086: Reading your post, the goal is dashboard UI that your team trusts, with API alongside it.
+
+I did something very close for a nonprofit: I built a component-based single-page front end with charts customers can filter and share. The result was that we cut support requests for reports by 14%.
+
+My fixed price for this scope is $345. Looking forward to ",
+P17-C1,fullstack,"I moved the app from a single server to containers on managed cloud with autoscaling for a auto-parts manufacturer, and we reduced hosting cost by 35%.","fullstack:proposal:008: Hello, I have read your job description and I am the perfect fit.
+
+I did something very close for an auto-parts manufacturer: I moved the app from a single server to containers on managed cloud with autoscaling. The result was that we reduced hosting cost by 35%.
+
+My fixed price for this scope is $21. Happy to share a short plan after a quick call  || fullstack:proposal:099: Hi there! I can do this job for you.
+
+I did something very close for an auto-parts manufacturer: I moved the app from a single server to containers on managed cloud with autoscaling. The result was that we reduced hosting cost by 35%.
+
+My rate is $28.5/hour. Happy to share a short plan after a quick call on the platform. || fullstack:case:12: # Cloud migration for an auto-parts manufacturer
+
+**Client:** Castwell (auto-parts manufacturer)  
+**When:** 2025-10, 12 weeks
+
+## Challenge
+Castwell's app ran on one ageing server and went down during traffic spikes.
+
+## What I did
+- Moved the app from a single server to containers on managed cloud with autoscaling
+- Set up CI so every merge is te",
+P17-C2,fullstack,"I have delivered several swift projects, including work as Swift developer.","fullstack:cv: Diego Okafor-Lindqvist
+ 
+Full-stack web developer - React/Next.js front ends on solid Node and Python back ends
+Valencia, Spain (remote) - 8 years of experience
+ 
+Summary
+Freelancer focused on web dev work for small and mid-sized businesses. I scope carefully, ship in small steps and
+measure result… || fullstack:review:01: Exactly what we needed, delivered on time. Before this, urbanest's mobile apps talked directly to a spreadsheet and broke weekly. Now we cut API error rate to under 10%. || fullstack:review:23: Exactly what we needed, delivered on time. Before this, brightwater Clinics's mobile apps talked directly to a spreadsheet and broke weekly. Now we cut API error rate to under 10%. Already planning the next project together.",
+P17-C3,fullstack,For a clinic network I stored data in MongoDB with validation and indexes for the hot queries.,"fullstack:case:19: # Mobile backend API for a clinic network
+
+**Situation.** Brightwater Clinics's mobile apps talked directly to a spreadsheet and broke weekly.
+
+**Task.** Brightwater Clinics needed this fixed within 20 weeks.
+
+**Action.** Designed a set of HTTP endpoints the mobile team consumes, with versioning and docs; stored data in MongoDB with validation and  || fullstack:case:01: # Mobile backend API for a property management firm
+
+**Situation.** Urbanest's mobile apps talked directly to a spreadsheet and broke weekly.
+
+**Task.** Urbanest needed this fixed within 8 weeks.
+
+**Action.** Designed a set of HTTP endpoints the mobile team consumes, with versioning and docs; stored data in MongoDB with validation and indexes for t || fullstack:proposal:085: Your clinic network needs internal app and data migration - and the current workaround is eating your team's time.
+
+I have many years of experience with laravel, php, mysql and always deliver high quality work on time.
+
+My fixed price for this scope is $186. Happy to share a short plan after a quick call on the platform.",
+P18-C1,fullstack,"I have delivered several sap projects, including work as SAP ABAP consultant for our ERP rollout.","fullstack:proposal:143: For a clinic network like yours, the work is really internal app plus data migration, done without disrupting your team.
+
+I am skilled in laravel, php, mysql and have completed many similar projects with great feedback.
+
+My fixed price for this scope is $401. Looking forward to hearing from you. || fullstack:proposal:092: For a lending startup like yours, the work is really API service plus OpenAPI docs, done without disrupting your team.
+
+I am skilled in node.js, express.js, mongodb and have completed many similar projects with great feedback.
+
+My rate is $34.9/hour. Looking forward to hearing from you. || fullstack:review:25: Diego understood our problem faster than we did. Within a few weeks we cut support requests for reports by 14%. Already planning the next project together.",
+P18-C2,fullstack,For a nonprofit I designed the Postgres schema and a typed Node.js API serving 1200 accounts.,"fullstack:case:21: # Analytics dashboard for a nonprofit
+
+_Open Harvest · nonprofit · 2026-07 · 13 weeks_
+
+Open Harvest's customers exported CSVs to see their own usage numbers. I built a component-based single-page front end with charts customers can filter and share. Along the way I designed the Postgres schema and a typed Node.js API serving 1200 accounts, and fin || fullstack:case:11: # Analytics dashboard for a B2B SaaS company
+
+_Tallyhq · B2B SaaS company · 2025-08 · 14 weeks_
+
+Tallyhq's customers exported CSVs to see their own usage numbers. I built a component-based single-page front end with charts customers can filter and share. Along the way I designed the Postgres schema and a typed Node.js API serving 120 accounts, and  || fullstack:proposal:009: Reading your post, the goal is API service that your team trusts, with OpenAPI docs alongside it.
+
+I am skilled in node.js, express.js, mongodb and have completed many similar projects with great feedback.
+
+My fixed price for this scope is $955. Happy to share a short plan after a quick call on the platform.",
+P18-C3,fullstack,"I rebuilt the site on a popular CMS with custom blocks the marketing team can edit for a online course platform, and we cut time to publish a page by 113%.","fullstack:proposal:118: Your clinic network needs custom theme and editable blocks - and the current workaround is eating your team's time.
+
+I did something very close for a law firm: I rebuilt the site on a popular CMS with custom blocks the marketing team can edit. The result was that we cut time to publish a page by 23%.
+
+My rate is $17.5/hour. Happy to share a short p || fullstack:proposal:037: Your lending startup needs custom theme and editable blocks - and the current workaround is eating your team's time.
+
+I did something very close for a law firm: I rebuilt the site on a popular CMS with custom blocks the marketing team can edit. The result was that we cut time to publish a page by 23%.
+
+My rate is $10.8/hour. Looking forward to hear || fullstack:case:05: # Marketing site rebuild for an online course platform
+
+**Client:** Learnfield (online course platform)  
+**When:** 2022-12, 5 weeks
+
+## Challenge
+Learnfield's site was hard to update and scored poorly on speed.
+
+## What I did
+- Rebuilt the site on a popular CMS with custom blocks the marketing team can edit
+- Wrote a lightweight custom theme inste",
+P19-C1,fullstack,"I rebuilt the site on a popular CMS with custom blocks the marketing team can edit for a B2B SaaS company, and we cut time to publish a page by 58%.","fullstack:case:04: # Marketing site rebuild for a B2B SaaS company
+
+_Orbitdesk · B2B SaaS company · 2022-08 · 12 weeks_
+
+Orbitdesk's site was hard to update and scored poorly on speed. I rebuilt the site on a popular CMS with custom blocks the marketing team can edit. Along the way I wrote a lightweight custom theme instead of a page builder, and finally set up cachi || fullstack:proposal:026: For a law firm like yours, the work is really custom theme plus editable blocks, done without disrupting your team.
+
+I did something very close for a B2B SaaS company: I rebuilt the site on a popular CMS with custom blocks the marketing team can edit. The result was that we cut time to publish a page by 58%.
+
+My rate is $24.3/hour. Happy to share a || fullstack:proposal:139: Hi there! I can do this job for you.
+
+Last time I solved this, for a B2B SaaS company, I rebuilt the site on a popular CMS with custom blocks the marketing team can edit - and we cut time to publish a page by 58%.
+
+My rate is $22.6/hour. Happy to share a short plan after a quick call on the platform.",
+P19-C2,fullstack,For a law firm I wrote a lightweight custom theme instead of a page builder.,"fullstack:case:16: # Marketing site rebuild for a law firm
+
+**Client:** Corbel Law Group (law firm)  
+**When:** 2026-01, 5 weeks
+
+## Challenge
+Corbel Law Group's site was hard to update and scored poorly on speed.
+
+## What I did
+- Rebuilt the site on a popular CMS with custom blocks the marketing team can edit
+- Wrote a lightweight custom theme instead of a page buil || fullstack:proposal:026: For a law firm like yours, the work is really custom theme plus editable blocks, done without disrupting your team.
+
+I did something very close for a B2B SaaS company: I rebuilt the site on a popular CMS with custom blocks the marketing team can edit. The result was that we cut time to publish a page by 58%.
+
+My rate is $24.3/hour. Happy to share a || fullstack:proposal:037: Your lending startup needs custom theme and editable blocks - and the current workaround is eating your team's time.
+
+I did something very close for a law firm: I rebuilt the site on a popular CMS with custom blocks the marketing team can edit. The result was that we cut time to publish a page by 23%.
+
+My rate is $10.8/hour. Looking forward to hear",
+P19-C3,fullstack,I have eight years of machine learning experience with Fortune 500 clients.,"fullstack:proposal:076: Hello, I have read your job description and I am the perfect fit.
+
+I have many years of experience with django, python, postgresql and always deliver high quality work on time.
+
+My fixed price for this scope is $217. I can start this week; let me know a good time to talk here. || fullstack:proposal:101: Greetings, I am an experienced professional ready to start immediately.
+
+I have many years of experience with react, firebase, javascript and always deliver high quality work on time.
+
+My rate is $16.4/hour. I can start this week; let me know a good time to talk here. || fullstack:proposal:117: Dear Hiring Manager, I am very interested in your job posting.
+
+I have many years of experience with django, python, postgresql and always deliver high quality work on time.
+
+My fixed price for this scope is $317. I can start this week; let me know a good time to talk here.",
+P20-C1,fullstack,"I built server-rendered React pages for fast first load and good search ranking for a online store, and we moved 88% of bookings online in three months.","fullstack:case:13: # Online booking platform for an online store
+
+_Cedar & Salt · online store · 2025-11 · 12 weeks_
+
+Cedar & Salt took bookings by phone and lost them when lines were busy. I built server-rendered React pages for fast first load and good search ranking. Along the way I modelled availability and bookings in Postgres with conflict checks, and finally i || fullstack:proposal:031: Hi there! I can do this job for you.
+
+Last time I solved this, for an online store, I built server-rendered React pages for fast first load and good search ranking - and we moved 40% of bookings online in three months.
+
+My rate is $27.7/hour. Happy to share a short plan after a quick call on the platform. || fullstack:proposal:125: Reading your post, the goal is booking site that your team trusts, with admin panel alongside it.
+
+I did something very close for an online store: I built server-rendered React pages for fast first load and good search ranking. The result was that we moved 40% of bookings online in three months.
+
+My fixed price for this scope is $239. Looking forwa",
+P20-C2,fullstack,"I have delivered several sap projects, including work as SAP ABAP consultant for our ERP rollout.","fullstack:proposal:143: For a clinic network like yours, the work is really internal app plus data migration, done without disrupting your team.
+
+I am skilled in laravel, php, mysql and have completed many similar projects with great feedback.
+
+My fixed price for this scope is $401. Looking forward to hearing from you. || fullstack:proposal:092: For a lending startup like yours, the work is really API service plus OpenAPI docs, done without disrupting your team.
+
+I am skilled in node.js, express.js, mongodb and have completed many similar projects with great feedback.
+
+My rate is $34.9/hour. Looking forward to hearing from you. || fullstack:review:25: Diego understood our problem faster than we did. Within a few weeks we cut support requests for reports by 14%. Already planning the next project together.",
+P20-C3,fullstack,For a law firm I connected inventory and shipping providers through their APIs.,"fullstack:case:09: # Custom storefront for a law firm
+
+_Northgate Legal · law firm · 2024-10 · 12 weeks_
+
+Northgate Legal's theme was slow on mobile and checkout was confusing. I rebuilt the storefront theme with faster product pages and a simpler checkout flow. Along the way I connected inventory and shipping providers through their APIs, and finally set up analytic || fullstack:proposal:019: Hi there! I can do this job for you.
+
+Last time I solved this, for a freight company, I built a self-service portal where customers log in, upload files and track requests - and we cut status-update emails by 47%.
+
+My rate is $30.0/hour. I can start this week; let me know a good time to talk here. || fullstack:proposal:053: For a law firm like yours, the work is really customer portal plus staff admin, done without disrupting your team.
+
+I have many years of experience with django, python, postgresql and always deliver high quality work on time.
+
+My fixed price for this scope is $330. Looking forward to hearing from you.",
+P21-C1,data_analyst,"I have delivered several laravel projects, including work as Laravel developer.","data_analyst:proposal:002: For an online course platform like yours, the work is really clean dataset plus cleanup script, done without disrupting your team.
+
+I am skilled in data cleaning, python, pandas and have completed many similar projects with great feedback.
+
+My fixed price for this scope is $21. Looking forward to hearing from you. || data_analyst:proposal:116: For a lending startup like yours, the work is really cleaned dataset plus analysis, done without disrupting your team.
+
+I am skilled in statistics, data analysis, python and have completed many similar projects with great feedback.
+
+My fixed price for this scope is $234. Looking forward to hearing from you. || data_analyst:case:10: # Marketing attribution reporting for a nonprofit
+
+_Riverkeep Trust · nonprofit · 2023-09 · 6 weeks_
+
+Riverkeep Trust could not tell which campaigns brought in paying customers. I joined web analytics events with CRM deals to follow customers from first visit to sale. Along the way I built a shared report the marketing team checks every week, and f",
+P21-C2,data_analyst,For a auto-parts manufacturer I modelled the data with a star schema and wrote the SQL behind each measure.,"data_analyst:proposal:022: Your auto-parts manufacturer needs cleaned dataset and analysis - and the current workaround is eating your team's time.
+
+I have many years of experience with statistics, data analysis, python and always deliver high quality work on time.
+
+My rate is $42.1/hour. Happy to share a short plan after a quick call on the platform. || data_analyst:case:16: # Sales performance dashboard for an auto-parts manufacturer
+
+_Castwell · auto-parts manufacturer · 2026-01 · 15 weeks_
+
+Managers at Castwell waited a week for a static sales report. I built an interactive report the sales team filters by region and rep every Monday. Along the way I modelled the data with a star schema and wrote the SQL behind each || data_analyst:proposal:001: Your auto-parts manufacturer needs stock analysis and reorder view - and the current workaround is eating your team's time.
+
+Last time I solved this, for a property management firm, I analysed sell-through by product and location with SQL to find dead stock - and we freed about 12 thousand in tied-up stock.
+
+My rate is $10.1/hour. Looking forward t",
+P21-C3,data_analyst,"I built a driver-based model linking hiring, pricing and churn assumptions to cash flow for a auto-parts manufacturer, and we cut budget-planning time by 104%.","data_analyst:proposal:038: Hello, I have read your job description and I am the perfect fit.
+
+Last time I solved this, for a property management firm, I built a driver-based model linking hiring, pricing and churn assumptions to cash flow - and we cut budget-planning time by 66%.
+
+My rate is $33.5/hour. Looking forward to hearing from you. || data_analyst:proposal:145: Hi there! I can do this job for you.
+
+I did something very close for a property management firm: I built a driver-based model linking hiring, pricing and churn assumptions to cash flow. The result was that we cut budget-planning time by 66%.
+
+My fixed price for this scope is $45. Happy to share a short plan after a quick call on the platform. || data_analyst:proposal:070: Your auto-parts manufacturer needs financial model and scenarios - and the current workaround is eating your team's time.
+
+I did something very close for a property management firm: I built a driver-based model linking hiring, pricing and churn assumptions to cash flow. The result was that we cut budget-planning time by 66%.
+
+My fixed price for thi",
+P22-C1,data_analyst,"I wrote scheduled jobs that pull data from each tool, clean it and load it into one warehouse for a clinic network, and we removed 5 manual exports a week.","data_analyst:case:02: # Data pipeline into a warehouse for a clinic network
+
+_Brightwater Clinics · clinic network · 2022-01 · 7 weeks_
+
+Brightwater Clinics's data lived in five tools and every report started with manual exports. I wrote scheduled jobs that pull data from each tool, clean it and load it into one warehouse. Along the way I modelled the tables so analysts || data_analyst:proposal:082: Hi there! I can do this job for you.
+
+I did something very close for a clinic network: I wrote scheduled jobs that pull data from each tool, clean it and load it into one warehouse. The result was that we removed 5 manual exports a week.
+
+My fixed price for this scope is $1,154. Looking forward to hearing from you. || data_analyst:readme:warehouse-loaders: # warehouse-loaders
+
+Open-sourced, anonymised version of a project built for a clinic network (2022).
+
+## Stack
+`etl`, `sql`, `python`, `bigquery`
+
+## What it does
+Wrote scheduled jobs that pull data from each tool, clean it and load it into one warehouse.
+
+## Components
+- pipelines
+- warehouse model
+- data checks
+
+## Quick start
+```bash
+docker com",
+P22-C2,data_analyst,"I have delivered several react projects, including work as React developer.","data_analyst:proposal:116: For a lending startup like yours, the work is really cleaned dataset plus analysis, done without disrupting your team.
+
+I am skilled in statistics, data analysis, python and have completed many similar projects with great feedback.
+
+My fixed price for this scope is $234. Looking forward to hearing from you. || data_analyst:proposal:020: Greetings, I am an experienced professional ready to start immediately.
+
+I am skilled in google analytics, sql, looker studio and have completed many similar projects with great feedback.
+
+My rate is $38.2/hour. I can start this week; let me know a good time to talk here. || data_analyst:proposal:110: Dear Hiring Manager, I am very interested in your job posting.
+
+I am skilled in google analytics, sql, looker studio and have completed many similar projects with great feedback.
+
+My fixed price for this scope is $806. I can start this week; let me know a good time to talk here.",
+P22-C3,data_analyst,For a marketing agency I filled gaps from reliable sources and flagged what could not be fixed.,"data_analyst:case:17: # CRM data cleanup for a marketing agency
+
+**Situation.** Brightloop Media's CRM had duplicates, typos and missing fields across 4 contacts.
+
+**Task.** Brightloop Media needed this fixed within 19 weeks.
+
+**Action.** Deduplicated and standardised contact records with fuzzy matching; filled gaps from reliable sources and flagged what could not be fi || data_analyst:case:05: # Marketing attribution reporting for a marketing agency
+
+**Client:** Northstar Digital (marketing agency)  
+**When:** 2022-06, 16 weeks
+
+## Challenge
+Northstar Digital could not tell which campaigns brought in paying customers.
+
+## What I did
+- Joined web analytics events with CRM deals to follow customers from first visit to sale
+- Built a shared || data_analyst:case:10: # Marketing attribution reporting for a nonprofit
+
+_Riverkeep Trust · nonprofit · 2023-09 · 6 weeks_
+
+Riverkeep Trust could not tell which campaigns brought in paying customers. I joined web analytics events with CRM deals to follow customers from first visit to sale. Along the way I built a shared report the marketing team checks every week, and f",
+P23-C1,data_analyst,For a B2B SaaS company I built a reorder view showing what to restock and what to clear.,"data_analyst:case:11: # Inventory insights for a B2B SaaS company
+
+_Orbitdesk · B2B SaaS company · 2023-10 · 12 weeks_
+
+Orbitdesk had cash tied up in stock that never sold. I analysed sell-through by product and location with SQL to find dead stock. Along the way I built a reorder view showing what to restock and what to clear, and finally shared a monthly summary with  || data_analyst:proposal:050: Your B2B SaaS company needs automated workbook and validation checks - and the current workaround is eating your team's time.
+
+I have many years of experience with microsoft excel, excel formula, data cleaning and always deliver high quality work on time.
+
+My fixed price for this scope is $234. Looking forward to hearing from you. || data_analyst:proposal:137: For a B2B SaaS company like yours, the work is really experiment template plus reanalysis, done without disrupting your team.
+
+I did something very close for an auto-parts manufacturer: I set up sample-size planning and a standard readout for every experiment. The result was that we found that 41% of past 'wins' were noise.
+
+My rate is $46.5/hour. ",
+P23-C2,data_analyst,"I joined web analytics events with CRM deals to follow customers from first visit to sale for a nonprofit, and we tracked 31% of deals back to a channel.","data_analyst:case:10: # Marketing attribution reporting for a nonprofit
+
+_Riverkeep Trust · nonprofit · 2023-09 · 6 weeks_
+
+Riverkeep Trust could not tell which campaigns brought in paying customers. I joined web analytics events with CRM deals to follow customers from first visit to sale. Along the way I built a shared report the marketing team checks every week, and f || data_analyst:proposal:125: Greetings, I am an experienced professional ready to start immediately.
+
+Last time I solved this, for a nonprofit, I joined web analytics events with CRM deals to follow customers from first visit to sale - and we tracked 31% of deals back to a channel.
+
+My rate is $75.4/hour. Happy to share a short plan after a quick call on the platform. || data_analyst:proposal:052: Hi there! I can do this job for you.
+
+I did something very close for a nonprofit: I joined web analytics events with CRM deals to follow customers from first visit to sale. The result was that we tracked 31% of deals back to a channel.
+
+My rate is $28.4/hour. Happy to share a short plan after a quick call on the platform.",
+P23-C3,data_analyst,"I joined web analytics events with CRM deals to follow customers from first visit to sale for a nonprofit, and we tracked 70% of deals back to a channel.","data_analyst:case:10: # Marketing attribution reporting for a nonprofit
+
+_Riverkeep Trust · nonprofit · 2023-09 · 6 weeks_
+
+Riverkeep Trust could not tell which campaigns brought in paying customers. I joined web analytics events with CRM deals to follow customers from first visit to sale. Along the way I built a shared report the marketing team checks every week, and f || data_analyst:proposal:125: Greetings, I am an experienced professional ready to start immediately.
+
+Last time I solved this, for a nonprofit, I joined web analytics events with CRM deals to follow customers from first visit to sale - and we tracked 31% of deals back to a channel.
+
+My rate is $75.4/hour. Happy to share a short plan after a quick call on the platform. || data_analyst:proposal:052: Hi there! I can do this job for you.
+
+I did something very close for a nonprofit: I joined web analytics events with CRM deals to follow customers from first visit to sale. The result was that we tracked 31% of deals back to a channel.
+
+My rate is $28.4/hour. Happy to share a short plan after a quick call on the platform.",
+P24-C1,data_analyst,"I built a single set of KPI views with agreed definitions and drill-downs for a nonprofit, and we cut monthly reporting prep by 93%.","data_analyst:proposal:036: Reading your post, the goal is KPI views that your team trusts, with data dictionary alongside it.
+
+I did something very close for a nonprofit: I built a single set of KPI views with agreed definitions and drill-downs. The result was that we cut monthly reporting prep by 42%.
+
+My rate is $78.9/hour. Looking forward to hearing from you. || data_analyst:proposal:079: Greetings, I am an experienced professional ready to start immediately.
+
+Last time I solved this, for a nonprofit, I built a single set of KPI views with agreed definitions and drill-downs - and we cut monthly reporting prep by 42%.
+
+My fixed price for this scope is $330. Looking forward to hearing from you. || data_analyst:case:15: # Executive KPI views for a nonprofit
+
+**Client:** Common Table (nonprofit)  
+**When:** 2024-10, 16 weeks
+
+## Challenge
+Leadership at Common Table argued over whose numbers were right.
+
+## What I did
+- Built a single set of KPI views with agreed definitions and drill-downs
+- Documented every metric definition in a data dictionary
+- Connected the vi",
+P24-C2,data_analyst,"I have delivered several solidity projects, including work as Solidity engineer.","data_analyst:review:06: Exactly what we needed, delivered on time. Northstar Digital could not tell which campaigns brought in paying customers. That is no longer the case - we reallocated budget that lowered cost per lead by 45%. Would hire again without hesitation. || data_analyst:review:24: Exactly what we needed, delivered on time. The headline number: we found that 41% of past 'wins' were noise. Highly recommended. || data_analyst:review:19: Exactly what we needed, delivered on time. The headline number: we cut reporting time from 8 hours to 10 minutes a week. Already planning the next project together.",
+P24-C3,data_analyst,"I built a single set of KPI views with agreed definitions and drill-downs for a nonprofit, and we cut monthly reporting prep by 42%.","data_analyst:proposal:079: Greetings, I am an experienced professional ready to start immediately.
+
+Last time I solved this, for a nonprofit, I built a single set of KPI views with agreed definitions and drill-downs - and we cut monthly reporting prep by 42%.
+
+My fixed price for this scope is $330. Looking forward to hearing from you. || data_analyst:proposal:036: Reading your post, the goal is KPI views that your team trusts, with data dictionary alongside it.
+
+I did something very close for a nonprofit: I built a single set of KPI views with agreed definitions and drill-downs. The result was that we cut monthly reporting prep by 42%.
+
+My rate is $78.9/hour. Looking forward to hearing from you. || data_analyst:case:15: # Executive KPI views for a nonprofit
+
+**Client:** Common Table (nonprofit)  
+**When:** 2024-10, 16 weeks
+
+## Challenge
+Leadership at Common Table argued over whose numbers were right.
+
+## What I did
+- Built a single set of KPI views with agreed definitions and drill-downs
+- Documented every metric definition in a data dictionary
+- Connected the vi",
+P25-C1,data_analyst,"I joined web analytics events with CRM deals to follow customers from first visit to sale for a auto-parts manufacturer, and we reallocated budget that lowered cost per lead by 84%.","data_analyst:proposal:042: Hi there! I can do this job for you.
+
+Last time I solved this, for an auto-parts manufacturer, I joined web analytics events with CRM deals to follow customers from first visit to sale - and we reallocated budget that lowered cost per lead by 40%.
+
+My rate is $11.8/hour. Happy to share a short plan after a quick call on the platform. || data_analyst:proposal:026: Dear Hiring Manager, I am very interested in your job posting.
+
+I did something very close for an auto-parts manufacturer: I joined web analytics events with CRM deals to follow customers from first visit to sale. The result was that we reallocated budget that lowered cost per lead by 40%.
+
+My rate is $11.6/hour. Looking forward to hearing from you || data_analyst:proposal:127: For an online course platform like yours, the work is really attribution model plus weekly report, done without disrupting your team.
+
+I did something very close for an auto-parts manufacturer: I joined web analytics events with CRM deals to follow customers from first visit to sale. The result was that we reallocated budget that lowered cost per l",
+P25-C2,data_analyst,I have eight years of autodesk maya experience with Fortune 500 clients.,"data_analyst:proposal:090: Greetings, I am an experienced professional ready to start immediately.
+
+I have many years of experience with google analytics, sql, looker studio and always deliver high quality work on time.
+
+My fixed price for this scope is $211. Happy to share a short plan after a quick call on the platform. || data_analyst:proposal:118: Greetings, I am an experienced professional ready to start immediately.
+
+I have many years of experience with tableau, sql, data visualization and always deliver high quality work on time.
+
+My fixed price for this scope is $583. Looking forward to hearing from you. || data_analyst:proposal:047: Hello, I have read your job description and I am the perfect fit.
+
+I have many years of experience with google analytics, sql, looker studio and always deliver high quality work on time.
+
+My fixed price for this scope is $434. Happy to share a short plan after a quick call on the platform.",
+P25-C3,data_analyst,"I joined web analytics events with CRM deals to follow customers from first visit to sale for a auto-parts manufacturer, and we reallocated budget that lowered cost per lead by 40%.","data_analyst:proposal:026: Dear Hiring Manager, I am very interested in your job posting.
+
+I did something very close for an auto-parts manufacturer: I joined web analytics events with CRM deals to follow customers from first visit to sale. The result was that we reallocated budget that lowered cost per lead by 40%.
+
+My rate is $11.6/hour. Looking forward to hearing from you || data_analyst:proposal:042: Hi there! I can do this job for you.
+
+Last time I solved this, for an auto-parts manufacturer, I joined web analytics events with CRM deals to follow customers from first visit to sale - and we reallocated budget that lowered cost per lead by 40%.
+
+My rate is $11.8/hour. Happy to share a short plan after a quick call on the platform. || data_analyst:proposal:127: For an online course platform like yours, the work is really attribution model plus weekly report, done without disrupting your team.
+
+I did something very close for an auto-parts manufacturer: I joined web analytics events with CRM deals to follow customers from first visit to sale. The result was that we reallocated budget that lowered cost per l",
+P26-C1,data_analyst,"I built a single set of KPI views with agreed definitions and drill-downs for a property management firm, and we cut monthly reporting prep by 114%.","data_analyst:case:13: # Executive KPI views for a property management firm
+
+**Situation.** Leadership at Urbanest argued over whose numbers were right.
+
+**Task.** Urbanest needed this fixed within 14 weeks.
+
+**Action.** Built a single set of KPI views with agreed definitions and drill-downs; documented every metric definition in a data dictionary; connected the views di || data_analyst:proposal:013: Hello, I have read your job description and I am the perfect fit.
+
+Last time I solved this, for a property management firm, I built a single set of KPI views with agreed definitions and drill-downs - and we cut monthly reporting prep by 55%.
+
+My fixed price for this scope is $860. I can start this week; let me know a good time to talk here. || data_analyst:proposal:044: Your marketing agency needs KPI views and data dictionary - and the current workaround is eating your team's time.
+
+I did something very close for a property management firm: I built a single set of KPI views with agreed definitions and drill-downs. The result was that we cut monthly reporting prep by 55%.
+
+My rate is $18.3/hour. Happy to share a s",
+P26-C2,data_analyst,"I built a single set of KPI views with agreed definitions and drill-downs for a property management firm, and we cut monthly reporting prep by 55%.","data_analyst:case:13: # Executive KPI views for a property management firm
+
+**Situation.** Leadership at Urbanest argued over whose numbers were right.
+
+**Task.** Urbanest needed this fixed within 14 weeks.
+
+**Action.** Built a single set of KPI views with agreed definitions and drill-downs; documented every metric definition in a data dictionary; connected the views di || data_analyst:proposal:013: Hello, I have read your job description and I am the perfect fit.
+
+Last time I solved this, for a property management firm, I built a single set of KPI views with agreed definitions and drill-downs - and we cut monthly reporting prep by 55%.
+
+My fixed price for this scope is $860. I can start this week; let me know a good time to talk here. || data_analyst:proposal:044: Your marketing agency needs KPI views and data dictionary - and the current workaround is eating your team's time.
+
+I did something very close for a property management firm: I built a single set of KPI views with agreed definitions and drill-downs. The result was that we cut monthly reporting prep by 55%.
+
+My rate is $18.3/hour. Happy to share a s",
+P26-C3,data_analyst,For a lending startup I modelled the data with a star schema and wrote the SQL behind each measure.,"data_analyst:case:14: # Sales performance dashboard for a lending startup
+
+**Client:** Quillfund (lending startup)  
+**When:** 2024-02, 10 weeks
+
+## Challenge
+Managers at Quillfund waited a week for a static sales report.
+
+## What I did
+- Built an interactive report the sales team filters by region and rep every Monday
+- Modelled the data with a star schema and wrote th || data_analyst:proposal:043: Greetings, I am an experienced professional ready to start immediately.
+
+I am skilled in sql, data visualization, tableau and have completed many similar projects with great feedback.
+
+My rate is $69.2/hour. Happy to share a short plan after a quick call on the platform. || data_analyst:proposal:075: Your lending startup needs pipelines and warehouse model - and the current workaround is eating your team's time.
+
+I have many years of experience with etl, sql, python and always deliver high quality work on time.
+
+My rate is $32.7/hour. I can start this week; let me know a good time to talk here.",
+P27-C1,data_analyst,For a lending startup I modelled the data with a star schema and wrote the SQL behind each measure.,"data_analyst:case:14: # Sales performance dashboard for a lending startup
+
+**Client:** Quillfund (lending startup)  
+**When:** 2024-02, 10 weeks
+
+## Challenge
+Managers at Quillfund waited a week for a static sales report.
+
+## What I did
+- Built an interactive report the sales team filters by region and rep every Monday
+- Modelled the data with a star schema and wrote th || data_analyst:proposal:043: Greetings, I am an experienced professional ready to start immediately.
+
+I am skilled in sql, data visualization, tableau and have completed many similar projects with great feedback.
+
+My rate is $69.2/hour. Happy to share a short plan after a quick call on the platform. || data_analyst:proposal:075: Your lending startup needs pipelines and warehouse model - and the current workaround is eating your team's time.
+
+I have many years of experience with etl, sql, python and always deliver high quality work on time.
+
+My rate is $32.7/hour. I can start this week; let me know a good time to talk here.",
+P27-C2,data_analyst,I have eight years of solidity experience with Fortune 500 clients.,"data_analyst:proposal:047: Hello, I have read your job description and I am the perfect fit.
+
+I have many years of experience with google analytics, sql, looker studio and always deliver high quality work on time.
+
+My fixed price for this scope is $434. Happy to share a short plan after a quick call on the platform. || data_analyst:proposal:051: Greetings, I am an experienced professional ready to start immediately.
+
+I have many years of experience with sql, data visualization, tableau and always deliver high quality work on time.
+
+My fixed price for this scope is $35. Looking forward to hearing from you. || data_analyst:proposal:090: Greetings, I am an experienced professional ready to start immediately.
+
+I have many years of experience with google analytics, sql, looker studio and always deliver high quality work on time.
+
+My fixed price for this scope is $211. Happy to share a short plan after a quick call on the platform.",
+P27-C3,data_analyst,"I analysed sell-through by product and location with SQL to find dead stock for a property management firm, and we freed about 12 thousand in tied-up stock.","data_analyst:proposal:129: Dear Hiring Manager, I am very interested in your job posting.
+
+Last time I solved this, for a property management firm, I analysed sell-through by product and location with SQL to find dead stock - and we freed about 12 thousand in tied-up stock.
+
+My rate is $9.6/hour. Looking forward to hearing from you. || data_analyst:case:18: # Inventory insights for a property management firm
+
+**Situation.** Oakrow Properties had cash tied up in stock that never sold.
+
+**Task.** Oakrow Properties needed this fixed within 3 weeks.
+
+**Action.** Analysed sell-through by product and location with SQL to find dead stock; built a reorder view showing what to restock and what to clear; shared || data_analyst:proposal:001: Your auto-parts manufacturer needs stock analysis and reorder view - and the current workaround is eating your team's time.
+
+Last time I solved this, for a property management firm, I analysed sell-through by product and location with SQL to find dead stock - and we freed about 12 thousand in tied-up stock.
+
+My rate is $10.1/hour. Looking forward t",
+P28-C1,data_analyst,"I have delivered several solidity projects, including work as Solidity engineer.","data_analyst:review:06: Exactly what we needed, delivered on time. Northstar Digital could not tell which campaigns brought in paying customers. That is no longer the case - we reallocated budget that lowered cost per lead by 45%. Would hire again without hesitation. || data_analyst:review:24: Exactly what we needed, delivered on time. The headline number: we found that 41% of past 'wins' were noise. Highly recommended. || data_analyst:review:19: Exactly what we needed, delivered on time. The headline number: we cut reporting time from 8 hours to 10 minutes a week. Already planning the next project together.",
+P28-C2,data_analyst,"I analysed sell-through by product and location with SQL to find dead stock for a B2B SaaS company, and we cut dead stock by 124%.","data_analyst:case:11: # Inventory insights for a B2B SaaS company
+
+_Orbitdesk · B2B SaaS company · 2023-10 · 12 weeks_
+
+Orbitdesk had cash tied up in stock that never sold. I analysed sell-through by product and location with SQL to find dead stock. Along the way I built a reorder view showing what to restock and what to clear, and finally shared a monthly summary with  || data_analyst:proposal:136: Hello, I have read your job description and I am the perfect fit.
+
+I did something very close for a B2B SaaS company: I analysed sell-through by product and location with SQL to find dead stock. The result was that we cut dead stock by 60%.
+
+My rate is $33.8/hour. Happy to share a short plan after a quick call on the platform. || data_analyst:proposal:023: Greetings, I am an experienced professional ready to start immediately.
+
+Last time I solved this, for a B2B SaaS company, I analysed sell-through by product and location with SQL to find dead stock - and we cut dead stock by 60%.
+
+My fixed price for this scope is $577. Looking forward to hearing from you.",
+P28-C3,data_analyst,"I analysed sell-through by product and location with SQL to find dead stock for a B2B SaaS company, and we cut dead stock by 60%.","data_analyst:case:11: # Inventory insights for a B2B SaaS company
+
+_Orbitdesk · B2B SaaS company · 2023-10 · 12 weeks_
+
+Orbitdesk had cash tied up in stock that never sold. I analysed sell-through by product and location with SQL to find dead stock. Along the way I built a reorder view showing what to restock and what to clear, and finally shared a monthly summary with  || data_analyst:proposal:023: Greetings, I am an experienced professional ready to start immediately.
+
+Last time I solved this, for a B2B SaaS company, I analysed sell-through by product and location with SQL to find dead stock - and we cut dead stock by 60%.
+
+My fixed price for this scope is $577. Looking forward to hearing from you. || data_analyst:proposal:136: Hello, I have read your job description and I am the perfect fit.
+
+I did something very close for a B2B SaaS company: I analysed sell-through by product and location with SQL to find dead stock. The result was that we cut dead stock by 60%.
+
+My rate is $33.8/hour. Happy to share a short plan after a quick call on the platform.",
+P29-C1,data_analyst,For a marketing agency I built a shared report the marketing team checks every week.,"data_analyst:case:05: # Marketing attribution reporting for a marketing agency
+
+**Client:** Northstar Digital (marketing agency)  
+**When:** 2022-06, 16 weeks
+
+## Challenge
+Northstar Digital could not tell which campaigns brought in paying customers.
+
+## What I did
+- Joined web analytics events with CRM deals to follow customers from first visit to sale
+- Built a shared || data_analyst:case:10: # Marketing attribution reporting for a nonprofit
+
+_Riverkeep Trust · nonprofit · 2023-09 · 6 weeks_
+
+Riverkeep Trust could not tell which campaigns brought in paying customers. I joined web analytics events with CRM deals to follow customers from first visit to sale. Along the way I built a shared report the marketing team checks every week, and f || data_analyst:proposal:059: For a marketing agency like yours, the work is really attribution model plus weekly report, done without disrupting your team.
+
+Last time I solved this, for a marketing agency, I joined web analytics events with CRM deals to follow customers from first visit to sale - and we reallocated budget that lowered cost per lead by 45%.
+
+My fixed price for ",
+P29-C2,data_analyst,"I have delivered several ios development projects, including work as iOS developer.","data_analyst:proposal:116: For a lending startup like yours, the work is really cleaned dataset plus analysis, done without disrupting your team.
+
+I am skilled in statistics, data analysis, python and have completed many similar projects with great feedback.
+
+My fixed price for this scope is $234. Looking forward to hearing from you. || data_analyst:review:06: Exactly what we needed, delivered on time. Northstar Digital could not tell which campaigns brought in paying customers. That is no longer the case - we reallocated budget that lowered cost per lead by 45%. Would hire again without hesitation. || data_analyst:proposal:020: Greetings, I am an experienced professional ready to start immediately.
+
+I am skilled in google analytics, sql, looker studio and have completed many similar projects with great feedback.
+
+My rate is $38.2/hour. I can start this week; let me know a good time to talk here.",
+P29-C3,data_analyst,I have eight years of flutter experience with Fortune 500 clients.,"data_analyst:proposal:090: Greetings, I am an experienced professional ready to start immediately.
+
+I have many years of experience with google analytics, sql, looker studio and always deliver high quality work on time.
+
+My fixed price for this scope is $211. Happy to share a short plan after a quick call on the platform. || data_analyst:proposal:047: Hello, I have read your job description and I am the perfect fit.
+
+I have many years of experience with google analytics, sql, looker studio and always deliver high quality work on time.
+
+My fixed price for this scope is $434. Happy to share a short plan after a quick call on the platform. || data_analyst:proposal:102: Greetings, I am an experienced professional ready to start immediately.
+
+I have many years of experience with financial modeling, microsoft excel, data analysis and always deliver high quality work on time.
+
+My rate is $65.4/hour. I can start this week; let me know a good time to talk here.",
+P30-C1,data_analyst,"I cleaned the responses and tested which differences between customer groups were real for a boutique hotel group, and we findings drove 120 product changes.","data_analyst:case:01: # Customer survey analysis for a boutique hotel group
+
+**Situation.** The Linden Collection collected 120 survey responses but nobody had time to analyse them.
+
+**Task.** The Linden Collection needed this fixed within 6 weeks.
+
+**Action.** Cleaned the responses and tested which differences between customer groups were real; coded open-text answers  || data_analyst:proposal:063: Reading your post, the goal is cleaned dataset that your team trusts, with analysis alongside it.
+
+Last time I solved this, for a boutique hotel group, I cleaned the responses and tested which differences between customer groups were real - and we findings drove 120 product changes.
+
+My rate is $18.4/hour. Happy to share a short plan after a quick  || data_analyst:proposal:111: Greetings, I am an experienced professional ready to start immediately.
+
+I did something very close for a boutique hotel group: I cleaned the responses and tested which differences between customer groups were real. The result was that we findings drove 120 product changes.
+
+My rate is $59.2/hour. Looking forward to hearing from you.",
+P30-C2,data_analyst,"I have delivered several unity projects, including work as Unity developer.","data_analyst:review:24: Exactly what we needed, delivered on time. The headline number: we found that 41% of past 'wins' were noise. Highly recommended. || data_analyst:review:06: Exactly what we needed, delivered on time. Northstar Digital could not tell which campaigns brought in paying customers. That is no longer the case - we reallocated budget that lowered cost per lead by 45%. Would hire again without hesitation. || data_analyst:proposal:116: For a lending startup like yours, the work is really cleaned dataset plus analysis, done without disrupting your team.
+
+I am skilled in statistics, data analysis, python and have completed many similar projects with great feedback.
+
+My fixed price for this scope is $234. Looking forward to hearing from you.",
+P30-C3,data_analyst,For a auto-parts manufacturer I rebuilt the formulas with lookups and dynamic arrays so nothing breaks when rows are added.,"data_analyst:case:09: # Spreadsheet automation for an auto-parts manufacturer
+
+**Situation.** An analyst at Ironbark Parts spent most of every Monday copying data between workbooks.
+
+**Task.** Ironbark Parts needed this fixed within 7 weeks.
+
+**Action.** Turned a six-hour weekly spreadsheet routine into a one-click refresh; rebuilt the formulas with lookups and dynamic  || data_analyst:case:04: # Spreadsheet automation for a clinic network
+
+**Client:** Pinecrest Health (clinic network)  
+**When:** 2022-05, 3 weeks
+
+## Challenge
+An analyst at Pinecrest Health spent most of every Monday copying data between workbooks.
+
+## What I did
+- Turned a six-hour weekly spreadsheet routine into a one-click refresh
+- Rebuilt the formulas with lookups a || data_analyst:proposal:055: For an auto-parts manufacturer like yours, the work is really automated workbook plus validation checks, done without disrupting your team.
+
+I did something very close for an auto-parts manufacturer: I turned a six-hour weekly spreadsheet routine into a one-click refresh. The result was that we saved about 8 hours a week.
+
+My fixed price for this s",
