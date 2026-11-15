@@ -21,11 +21,30 @@ nodes:                         # which model role each node uses
   critic: strong
   compliance: small
   liaison: strong
-embeddings: { model: BAAI/bge-m3, device: cpu }
-reranker:   { model: BAAI/bge-reranker-v2-m3, device: cpu }
+embeddings:                    # fastembed (ONNX, CPU); ADR 0005 explains the choice over BGE-M3
+  model: nomic-ai/nomic-embed-text-v1.5
+  dim: 768
+  query_prefix: "search_query: "
+  doc_prefix: "search_document: "
+reranker: { model: BAAI/bge-reranker-v2-m3-int8 }   # int8 build of bge-reranker-v2-m3
 rag:
   variant: bm25_baseline       # INTERIM (Phase 3). Phase 4 sets this from evals/results/, not by default
   k: 5
+  index: memory                # memory | pgvector (same cosine search; pgvector in deployment)
+  chunking: { fixed_words: 200, fixed_overlap: 40, max_words: 220 }
+  candidates: 30               # per sub-query, before fusion / reranking
+  rrf_k: 60
+  outcome_boost:               # V4 multiplicative boosts by evidence outcome
+    won: 1.30
+    replied: 1.12
+    ignored: 0.85
+    rehired: 1.15
+    high_rating: 1.05          # review >= 4.8
+  crag:                        # V8 corrective loop
+    max_rounds: 2
+    min_rerank_score: 0.0      # grader threshold on reranker logit; calibrated on dev, see evals
+    min_good_hits: 1
+  cache_dir: var/cache/rag
 loops:   { critic_max_rounds: 2 }
 budgets:
   max_steps_per_thread: 40
