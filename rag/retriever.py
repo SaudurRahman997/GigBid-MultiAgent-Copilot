@@ -65,9 +65,12 @@ def configured_variant(path: Path = CONFIG) -> str:
 
 @lru_cache(maxsize=32)
 def get_retriever(persona: str, variant: str | None = None, data_dir: str = str(DATA)) -> Retriever:
-    from rag.variants import VARIANTS
+    from rag.variants import CONTEXT_VARIANTS, VARIANTS
+    from rag.variants.base import default_context
 
     name = variant or configured_variant()
     if name not in VARIANTS:
         raise ValueError(f"unknown RAG variant {name!r}; available: {sorted(VARIANTS)}")
+    if name in CONTEXT_VARIANTS:
+        return CONTEXT_VARIANTS[name](default_context(persona))
     return VARIANTS[name](load_corpus(persona, data_dir))
