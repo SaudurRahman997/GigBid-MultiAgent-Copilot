@@ -55,9 +55,13 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--personas", nargs="+", default=["ai_ml", "fullstack", "data_analyst"])
     ap.add_argument("--split", default="dev")
+    ap.add_argument("--off-in-base", nargs="*", default=["rerank", "outcome"], help="components absent from the best pipeline")
     args = ap.parse_args(argv)
     cfg = rag_config()
-    configs = [{}] + [{c: False} for c in COMPONENTS]
+    # Ablate the BEST pipeline from the variant table: V2 hybrid (decompose + bm25 + structured;
+    # reranking and outcome boosts did not improve it). Each row switches one component off.
+    base = {c: c not in args.off_in_base for c in COMPONENTS}
+    configs = [base] + [{**base, c: False} for c in COMPONENTS if base[c]]
     results: dict = {}
     for persona in args.personas:
         ctx = build_context(persona, default_embedder(), default_reranker(), cfg)
@@ -81,11 +85,12 @@ def main(argv: list[str] | None = None) -> int:
         }
         for name, per in results.items()
     }
-    full = overall["full"]
+    full_name = next(iter(results))  # first config = the best pipeline
+    full = overall[full_name]
     delta = {
         name: {m: round(v - full[m], 4) for m, v in vals.items()}
         for name, vals in overall.items()
-        if name != "full"
+        if name != full_name
     }
     out = {
         "runner": "evals/runners/ablation.py",
@@ -93,7 +98,7 @@ def main(argv: list[str] | None = None) -> int:
         "personas": args.personas,
         "git_sha": git_sha(),
         "generated_at": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "overall": overall,
+        "base": full_name, "overall": overall,
         "delta_vs_full": delta,
         "per_persona": results,
     }

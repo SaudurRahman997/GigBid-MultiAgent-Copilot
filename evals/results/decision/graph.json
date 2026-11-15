@@ -1,0 +1,53 @@
+{
+  "runner": "evals/runners/decision_eval.py",
+  "decider": "graph",
+  "split": "dev",
+  "git_sha": "1107aff",
+  "generated_at": "2026-11-15T16:52:45Z",
+  "overall": {
+    "jobs": 600,
+    "bid_f1": 0.8673,
+    "skip_f1": 0.8725,
+    "bid_skip_macro_f1": 0.8699,
+    "accuracy": 0.87,
+    "scam_precision": 0.9048,
+    "scam_recall": 1.0,
+    "price_in_band": 0.6078,
+    "skip_reason_accuracy": 0.8172
+  },
+  "per_persona": {
+    "ai_ml": {
+      "jobs": 200,
+      "bid_f1": 0.8122,
+      "skip_f1": 0.8177,
+      "bid_skip_macro_f1": 0.815,
+      "accuracy": 0.815,
+      "scam_precision": 0.9545,
+      "scam_recall": 1.0,
+      "price_in_band": 0.5,
+      "skip_reason_accuracy": 0.7174
+    },
+    "fullstack": {
+      "jobs": 200,
+      "bid_f1": 0.9333,
+      "skip_f1": 0.9263,
+      "bid_skip_macro_f1": 0.9298,
+      "accuracy": 0.93,
+      "scam_precision": 0.8947,
+      "scam_recall": 1.0,
+      "price_in_band": 0.6122,
+      "skip_reason_accuracy": 0.9011
+    },
+    "data_analyst": {
+      "jobs": 200,
+      "bid_f1": 0.8508,
+      "skip_f1": 0.8767,
+      "bid_skip_macro_f1": 0.8638,
+      "accuracy": 0.865,
+      "scam_precision": 0.8636,
+      "scam_recall": 1.0,
+      "price_in_band": 0.7143,
+      "skip_reason_accuracy": 0.8333
+    }
+  }
+}

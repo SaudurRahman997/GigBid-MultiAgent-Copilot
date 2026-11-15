@@ -85,9 +85,9 @@ def ablation_section(split: str) -> list[str]:
     lines = ["## Ablation (one component off at a time)", ""]
     if not a:
         return lines + ["_not run yet_", ""]
-    full = a["overall"]["full"]
+    full = a["overall"][a.get("base", "full")]
     lines += [
-        f"Full pipeline: Recall@5 {fmt(full['recall@5'])}, MRR {fmt(full['mrr'])}, nDCG@10 {fmt(full['ndcg@10'])}.",
+        f"Best pipeline ({a.get('base')}): Recall@5 {fmt(full['recall@5'])}, MRR {fmt(full['mrr'])}, nDCG@10 {fmt(full['ndcg@10'])}.",
         "",
         "| Removed | dRecall@5 | dProject recall@5 | dMRR | dnDCG@10 |",
         "|---|---|---|---|---|",

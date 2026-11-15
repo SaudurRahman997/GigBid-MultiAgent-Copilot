@@ -184,7 +184,7 @@ def test_corrective_refuses_when_no_evidence_is_good():
 
 
 def test_pipeline_flags_name_the_ablation(ctx):
-    assert Pipeline(ctx).variant == "full"
+    assert Pipeline(ctx).variant == "all_on"
     assert Pipeline(ctx, bm25=False).variant == "no_bm25"
     with pytest.raises(ValueError):
         Pipeline(ctx, nonsense=False)

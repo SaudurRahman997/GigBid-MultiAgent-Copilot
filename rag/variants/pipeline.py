@@ -27,7 +27,7 @@ class Pipeline(Variant):
             raise ValueError(f"unknown components {unknown}")
         self.flags = {c: flags.get(c, True) for c in COMPONENTS}
         off = [c for c, on in self.flags.items() if not on]
-        self.variant = "full" if not off else "no_" + "_".join(off)
+        self.variant = "all_on" if not off else "no_" + "_".join(off)
 
     def ranked_chunks(self, query):
         f, n = self.flags, self.cfg["candidates"]

@@ -50,18 +50,56 @@ def keyword_decider(job: dict, profile: dict) -> dict:
     return {"bid": "bid", "reason": None, "is_scam": False, "price": price}
 
 
-DECIDERS = {"keyword": keyword_decider}
+def graph_decider_factory():
+    """The real bid graph (rules mode) up to its decision, over an in-process tool layer."""
+    import asyncio
+
+    from langgraph.checkpoint.memory import InMemorySaver
+
+    from agent.graphs.bid_graph import build_bid_graph
+    from agent.marketplace_port import load_config
+    from agent.runtime import Deps
+    from evals.inprocess_mcp import FakeMCP
+
+    cfg = load_config()
+    graph = build_bid_graph(cfg, checkpointer=InMemorySaver())
+    tools: dict[str, FakeMCP] = {}
+
+    def decide(job: dict, profile: dict) -> dict:
+        persona = profile["persona"]
+        mcp = tools.setdefault(persona, FakeMCP(persona))
+        deps = Deps(mcp=mcp, config=cfg, user=persona, llm=None)
+        tid = f"eval:{job['job_id']}"
+        out = asyncio.run(graph.ainvoke({"job_id": job["job_id"], "thread_id": tid, "user": persona},
+                                        {"configurable": {"thread_id": tid}}, context=deps))  # fmt: skip
+        d = out.get("decision")
+        action = d.action if d else "skip"
+        risk = out.get("risk")
+        scam = bool(risk and risk.verdict == "block")
+        reason = None
+        if action != "bid":
+            r = (d.reasons[0] if d and d.reasons else "").lower()
+            reason = ("scam" if scam else "missing_skill" if "missing" in r else "low_budget" if "below floor" in r
+                      else "poor_client" if "client" in r else "low_fit")  # fmt: skip
+        price = out["price"].amount if out.get("price") else None
+        return {"bid": "bid" if action == "bid" else "skip", "reason": reason, "is_scam": scam, "price": price}
+
+    return decide
+
+
+DECIDERS = {"keyword": keyword_decider, "graph": None}
 
 
 def evaluate(decider: str, personas: list[str], split: str) -> dict:
     per, all_rows = {}, []
+    fn = graph_decider_factory() if decider == "graph" else DECIDERS[decider]
     for persona in personas:
         profile = json.loads(
             (ROOT / "data" / "personas" / persona / "profile.json").read_text(encoding="utf-8")
         )
         rows = []
         for job in read_jobs(split, persona):
-            d = DECIDERS[decider](job, profile)
+            d = fn(job, profile)
             g = job["_gold"]
             band = g["price_band"]
             rows.append(

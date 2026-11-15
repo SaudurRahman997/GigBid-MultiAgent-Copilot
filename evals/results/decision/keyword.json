@@ -1,0 +1,53 @@
+{
+  "runner": "evals/runners/decision_eval.py",
+  "decider": "keyword",
+  "split": "dev",
+  "git_sha": "c5965fd",
+  "generated_at": "2026-11-15T08:03:54Z",
+  "overall": {
+    "jobs": 600,
+    "bid_f1": 0.7751,
+    "skip_f1": 0.6171,
+    "bid_skip_macro_f1": 0.6961,
+    "accuracy": 0.7167,
+    "scam_precision": 0.9048,
+    "scam_recall": 1.0,
+    "price_in_band": 0.6519,
+    "skip_reason_accuracy": 0.4373
+  },
+  "per_persona": {
+    "ai_ml": {
+      "jobs": 200,
+      "bid_f1": 0.7773,
+      "skip_f1": 0.6405,
+      "bid_skip_macro_f1": 0.7089,
+      "accuracy": 0.725,
+      "scam_precision": 0.9545,
+      "scam_recall": 1.0,
+      "price_in_band": 0.6979,
+      "skip_reason_accuracy": 0.4457
+    },
+    "fullstack": {
+      "jobs": 200,
+      "bid_f1": 0.797,
+      "skip_f1": 0.597,
+      "bid_skip_macro_f1": 0.697,
+      "accuracy": 0.73,
+      "scam_precision": 0.8947,
+      "scam_recall": 1.0,
+      "price_in_band": 0.6226,
+      "skip_reason_accuracy": 0.4286
+    },
+    "data_analyst": {
+      "jobs": 200,
+      "bid_f1": 0.749,
+      "skip_f1": 0.6115,
+      "bid_skip_macro_f1": 0.6802,
+      "accuracy": 0.695,
+      "scam_precision": 0.8636,
+      "scam_recall": 1.0,
+      "price_in_band": 0.6374,
+      "skip_reason_accuracy": 0.4375
+    }
+  }
+}
