@@ -44,10 +44,12 @@ GENERIC_OPENINGS = [
     "Hi there! I can do this job for you.",
     "Greetings, I am an experienced professional ready to start immediately.",
 ]
+# Past proposals answered DIFFERENT (past) jobs, so they must not reuse the dev-set job wording
+# (archetype job_need). Openings reference the past job's title and deliverables instead.
 PERSONAL_OPENINGS = [
-    "It sounds like {need_lc} - and that the current workaround is eating your team's time.",
-    "You need {need_lc}, ideally without disrupting how your team works today.",
-    "Reading your post, the real goal seems to be {need_lc}, done properly the first time.",
+    "Your {noun} needs {d0} and {d1} - and the current workaround is eating your team's time.",
+    "For {a_noun} like yours, the work is really {d0} plus {d1}, done without disrupting your team.",
+    "Reading your post, the goal is {d0} that your team trusts, with {d1} alongside it.",
 ]
 GENERIC_BODIES = [
     "I have many years of experience with {skills} and always deliver high quality work on time.",
@@ -100,13 +102,18 @@ def generate_for(pid: str, persona: dict, out_root: Path = PERSONAS) -> list[dic
         position = r.choices(
             sorted(PRICE_WEIGHTS), [PRICE_WEIGHTS[k] for k in sorted(PRICE_WEIGHTS)]
         )[0]
-        need = arch["job_need"]
+        noun = specs()["industries"][r.choice(sorted(specs()["industries"]))]["noun"]
+        a_noun = ("an " if noun[0] in "aeiou" else "a ") + noun
+        past_title = (
+            arch["title"].replace("an {noun}", "{x}").replace("a {noun}", "{x}").format(x=a_noun)
+        )
+        d0, d1 = (arch["deliverables"] + arch["deliverables"])[:2]
         cited = None
         if specific:
             same = [p for p in projects if p["archetype"] == arch["key"]]
             cited = r.choice(same)
             body = r.choice(SPECIFIC_BODIES).format(
-                client_desc=f"a {cited['industry_noun']}",
+                client_desc=("an " if cited['industry_noun'][0] in "aeiou" else "a ") + cited['industry_noun'],
                 approach=arch["approach"][0].format(client=cited["client"], noun=cited["industry_noun"],
                                                     **cited["numbers"]),
                 metric=cited["metric"],
@@ -114,7 +121,7 @@ def generate_for(pid: str, persona: dict, out_root: Path = PERSONAS) -> list[dic
         else:
             body = r.choice(GENERIC_BODIES).format(skills=", ".join(arch["skills"][:3]))
         opening = (
-            r.choice(PERSONAL_OPENINGS).format(need_lc=need[0].lower() + need[1:])
+            r.choice(PERSONAL_OPENINGS).format(noun=noun, a_noun=a_noun, d0=d0, d1=d1)
             if personal
             else r.choice(GENERIC_OPENINGS)
         )
@@ -133,7 +140,7 @@ def generate_for(pid: str, persona: dict, out_root: Path = PERSONAS) -> list[dic
                     "id": f"{pid}:proposal:{n:03d}",
                     "persona": pid,
                     "type": "proposal",
-                    "job_title": need[0].upper() + need[1:],
+                    "job_title": past_title,
                     "category": persona["category"],
                     "skills": list(arch["skills"]),
                     "pay_type": pay_type,

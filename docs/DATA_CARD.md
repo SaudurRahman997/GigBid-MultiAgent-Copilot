@@ -72,9 +72,9 @@ Raw files live in `data/raw/` (git-ignored); profiles are in `data/processed/pro
 
 | Persona | Case studies | Reviews | READMEs | Code files | Proposals won/replied/ignored | Dev jobs | Dev "bid" | Dev with injection |
 |---|---|---|---|---|---|---|---|---|
-| ai_ml | 18 | 25 | 5 | 5 | 24/41/85 | 200 | 108 | 12 |
-| data_analyst | 21 | 25 | 5 | 5 | 30/35/85 | 200 | 104 | 13 |
-| fullstack | 22 | 26 | 7 | 7 | 23/44/83 | 200 | 109 | 9 |
+| ai_ml | 18 | 25 | 5 | 5 | 31/35/84 | 200 | 108 | 12 |
+| data_analyst | 21 | 25 | 5 | 5 | 32/40/78 | 200 | 104 | 13 |
+| fullstack | 22 | 26 | 7 | 7 | 35/42/73 | 200 | 109 | 9 |
 
 **Wording:** all synthetic text comes from seeded templates combined with the hand-written facts in
 `persona_specs.yaml`; no LLM was used, so `make seed` is fully deterministic and needs no API keys.

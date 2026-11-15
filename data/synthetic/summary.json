@@ -24,9 +24,9 @@
         "review": 25
       },
       "proposals_by_outcome": {
-        "ignored": 85,
-        "replied": 41,
-        "won": 24
+        "ignored": 84,
+        "replied": 35,
+        "won": 31
       }
     },
     "data_analyst": {
@@ -47,9 +47,9 @@
         "review": 25
       },
       "proposals_by_outcome": {
-        "ignored": 85,
-        "replied": 35,
-        "won": 30
+        "ignored": 78,
+        "replied": 40,
+        "won": 32
       }
     },
     "fullstack": {
@@ -70,9 +70,9 @@
         "review": 26
       },
       "proposals_by_outcome": {
-        "ignored": 83,
-        "replied": 44,
-        "won": 23
+        "ignored": 73,
+        "replied": 42,
+        "won": 35
       }
     }
   },
