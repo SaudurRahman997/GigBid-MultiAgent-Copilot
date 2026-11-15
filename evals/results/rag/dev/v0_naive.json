@@ -1,0 +1,94 @@
+{
+  "runner": "evals/runners/rag_eval.py",
+  "variant": "v0_naive",
+  "description": "Dense, fixed chunks, top-k on the whole post",
+  "split": "dev",
+  "personas": [
+    "ai_ml"
+  ],
+  "limit": null,
+  "index": "memory",
+  "embedder": "nomic-ai/nomic-embed-text-v1.5",
+  "reranker": "BAAI/bge-reranker-v2-m3-int8",
+  "rag_config_sha": "460d40fbdaad",
+  "git_sha": "02872db",
+  "generated_at": "2026-11-15T07:58:24Z",
+  "overall": {
+    "jobs_with_gold": 153,
+    "recall@5": 0.1867,
+    "mrr": 0.358,
+    "ndcg@10": 0.2589,
+    "project_recall@5": 0.4477,
+    "refused_with_gold": 0.0,
+    "no_evidence_jobs": 47,
+    "correct_refusal_rate": 0.0,
+    "latency_ms_p50": 0.5,
+    "latency_ms_p95": 1.8,
+    "breakdowns": {
+      "has_implied_requirement": {
+        "n": 101,
+        "recall@5": 0.1919,
+        "project_recall@5": 0.4802,
+        "mrr": 0.3936
+      },
+      "has_synonym_requirement": {
+        "n": 67,
+        "recall@5": 0.1572,
+        "project_recall@5": 0.3731,
+        "mrr": 0.317
+      },
+      "names_every_skill": {
+        "n": 25,
+        "recall@5": 0.224,
+        "project_recall@5": 0.5,
+        "mrr": 0.3318
+      },
+      "two_anchor_projects": {
+        "n": 50,
+        "recall@5": 0.112,
+        "project_recall@5": 0.25,
+        "mrr": 0.3176
+      }
+    }
+  },
+  "per_persona": {
+    "ai_ml": {
+      "jobs_with_gold": 153,
+      "recall@5": 0.1867,
+      "mrr": 0.358,
+      "ndcg@10": 0.2589,
+      "project_recall@5": 0.4477,
+      "refused_with_gold": 0.0,
+      "no_evidence_jobs": 47,
+      "correct_refusal_rate": 0.0,
+      "latency_ms_p50": 0.5,
+      "latency_ms_p95": 1.8,
+      "breakdowns": {
+        "has_implied_requirement": {
+          "n": 101,
+          "recall@5": 0.1919,
+          "project_recall@5": 0.4802,
+          "mrr": 0.3936
+        },
+        "has_synonym_requirement": {
+          "n": 67,
+          "recall@5": 0.1572,
+          "project_recall@5": 0.3731,
+          "mrr": 0.317
+        },
+        "names_every_skill": {
+          "n": 25,
+          "recall@5": 0.224,
+          "project_recall@5": 0.5,
+          "mrr": 0.3318
+        },
+        "two_anchor_projects": {
+          "n": 50,
+          "recall@5": 0.112,
+          "project_recall@5": 0.25,
+          "mrr": 0.3176
+        }
+      }
+    }
+  }
+}
