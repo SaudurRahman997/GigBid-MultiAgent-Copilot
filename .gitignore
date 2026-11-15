@@ -39,3 +39,8 @@ Thumbs.db
 
 # Large derived data (rebuilt by `make seed`)
 data/processed/jobs_corpus.parquet
+
+# Local GigSim databases
+*.db
+*.db-wal
+*.db-shm
