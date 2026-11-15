@@ -64,6 +64,14 @@ class FakeMCP:
         return await getattr(self, f"t_{tool}")(args)
 
     # ------------------------------------------------------------------ reads
+    async def t_search_jobs(self, a):
+        q, cat = (a.get("query") or "").lower(), a.get("category")
+        hits = [j for j in self.jobs.values() if (not cat or j.get("category") == cat)
+                and (not q or q in f"{j['title']} {j['description']}".lower())]  # fmt: skip
+        keep = ("job_id", "title", "category", "pay_type", "budget_usd", "hourly_low", "hourly_high", "client_id",
+                "connects_required", "applicants", "posted_at", "skills")  # fmt: skip
+        return {"items": [{k: j.get(k) for k in keep} for j in hits[: a.get("limit") or 20]], "total": len(hits)}
+
     async def t_get_job(self, a):
         j = self.jobs[a["job_id"]]
         return {k: v for k, v in j.items() if not k.startswith("_") and k != "requirements"}
