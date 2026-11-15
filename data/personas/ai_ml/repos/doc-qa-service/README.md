@@ -23,4 +23,4 @@ Entry point: `app.py`.
 ## Results in production
 Cut average lookup time from 20 minutes to under 5 seconds.
 
-<!-- synthetic: true; provenance: personas@1f579ad2e496 -->
+<!-- synthetic: true; provenance: personas@228603469f77 -->

@@ -1,4 +1,4 @@
--- SYNTHETIC sample code for GigBid persona data_analyst. provenance: personas@1f579ad2e496
+-- SYNTHETIC sample code for GigBid persona data_analyst. provenance: personas@228603469f77
 -- Weekly pipeline by region and rep (star schema: fact_deals, dim_rep, dim_date)
 SELECT d.week_start,
        r.region,

@@ -3,7 +3,7 @@ client_industry: healthcare
 date: '2025-05-22'
 id: ai_ml:case:12
 project_id: ai_ml:p12
-provenance: personas@1f579ad2e496
+provenance: personas@228603469f77
 synthetic: true
 ---
 

@@ -23,4 +23,4 @@ Entry point: `analysis.py`.
 ## Results in production
 Found that 41% of past 'wins' were noise.
 
-<!-- synthetic: true; provenance: personas@1f579ad2e496 -->
+<!-- synthetic: true; provenance: personas@228603469f77 -->

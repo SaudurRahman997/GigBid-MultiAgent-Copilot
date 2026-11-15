@@ -3,7 +3,7 @@ client_industry: ecommerce
 date: '2024-08-16'
 id: ai_ml:case:06
 project_id: ai_ml:p06
-provenance: personas@1f579ad2e496
+provenance: personas@228603469f77
 synthetic: true
 ---
 

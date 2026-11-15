@@ -23,4 +23,4 @@ Entry point: `load_crm.py`.
 ## Results in production
 Removed 5 manual exports a week.
 
-<!-- synthetic: true; provenance: personas@1f579ad2e496 -->
+<!-- synthetic: true; provenance: personas@228603469f77 -->

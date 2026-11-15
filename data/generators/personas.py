@@ -481,7 +481,12 @@ def cv_pdf(md: str, path: Path) -> None:
     pdf.set_auto_page_break(True, margin=15)
     for line in md.splitlines():
         text = (
-            line.replace("**", "").replace("·", "-").encode("latin-1", "replace").decode("latin-1")
+            line.replace("**", "")
+            .replace("·", "-")
+            .replace("—", "-")  # em dash: not in latin-1 core fonts
+            .replace("–", "-")
+            .encode("latin-1", "replace")
+            .decode("latin-1")
         )
         if line.startswith("# "):
             pdf.set_font("Helvetica", "B", 18)

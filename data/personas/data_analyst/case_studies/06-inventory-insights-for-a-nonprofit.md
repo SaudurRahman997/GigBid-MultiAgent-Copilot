@@ -3,7 +3,7 @@ client_industry: nonprofit
 date: '2022-11-10'
 id: data_analyst:case:06
 project_id: data_analyst:p06
-provenance: personas@1f579ad2e496
+provenance: personas@228603469f77
 synthetic: true
 ---
 

@@ -23,4 +23,4 @@ Entry point: `UsageChart.tsx`.
 ## Results in production
 Cut support requests for reports by 12%.
 
-<!-- synthetic: true; provenance: personas@1f579ad2e496 -->
+<!-- synthetic: true; provenance: personas@228603469f77 -->

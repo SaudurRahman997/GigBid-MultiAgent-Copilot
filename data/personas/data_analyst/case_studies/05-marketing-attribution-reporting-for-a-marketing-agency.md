@@ -3,7 +3,7 @@ client_industry: marketing
 date: '2022-09-26'
 id: data_analyst:case:05
 project_id: data_analyst:p05
-provenance: personas@1f579ad2e496
+provenance: personas@228603469f77
 synthetic: true
 ---
 

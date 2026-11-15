@@ -3,7 +3,7 @@ client_industry: nonprofit
 date: '2026-03-17'
 id: fullstack:case:17
 project_id: fullstack:p17
-provenance: personas@1f579ad2e496
+provenance: personas@228603469f77
 synthetic: true
 ---
 

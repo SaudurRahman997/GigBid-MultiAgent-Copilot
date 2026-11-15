@@ -3,7 +3,7 @@ client_industry: fintech
 date: '2024-05-05'
 id: data_analyst:case:14
 project_id: data_analyst:p14
-provenance: personas@1f579ad2e496
+provenance: personas@228603469f77
 synthetic: true
 ---
 

@@ -3,7 +3,7 @@ client_industry: hospitality
 date: '2026-01-11'
 id: fullstack:case:14
 project_id: fullstack:p14
-provenance: personas@1f579ad2e496
+provenance: personas@228603469f77
 synthetic: true
 ---
 

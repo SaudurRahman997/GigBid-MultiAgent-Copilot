@@ -23,4 +23,4 @@ Entry point: `pipeline_by_region.sql`.
 ## Results in production
 Cut budget-planning time by 50%.
 
-<!-- synthetic: true; provenance: personas@1f579ad2e496 -->
+<!-- synthetic: true; provenance: personas@228603469f77 -->

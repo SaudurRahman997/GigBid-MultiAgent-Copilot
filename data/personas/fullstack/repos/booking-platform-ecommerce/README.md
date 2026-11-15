@@ -23,4 +23,4 @@ Entry point: `UsageChart.tsx`.
 ## Results in production
 Moved 40% of bookings online in three months.
 
-<!-- synthetic: true; provenance: personas@1f579ad2e496 -->
+<!-- synthetic: true; provenance: personas@228603469f77 -->

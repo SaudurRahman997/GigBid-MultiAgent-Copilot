@@ -3,7 +3,7 @@ client_industry: education
 date: '2026-11-05'
 id: data_analyst:case:21
 project_id: data_analyst:p21
-provenance: personas@1f579ad2e496
+provenance: personas@228603469f77
 synthetic: true
 ---
 

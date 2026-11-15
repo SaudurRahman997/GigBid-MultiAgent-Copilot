@@ -3,7 +3,7 @@ client_industry: logistics
 date: '2023-10-27'
 id: fullstack:case:07
 project_id: fullstack:p07
-provenance: personas@1f579ad2e496
+provenance: personas@228603469f77
 synthetic: true
 ---
 

@@ -3,7 +3,7 @@ client_industry: legal
 date: '2025-01-18'
 id: fullstack:case:09
 project_id: fullstack:p09
-provenance: personas@1f579ad2e496
+provenance: personas@228603469f77
 synthetic: true
 ---
 

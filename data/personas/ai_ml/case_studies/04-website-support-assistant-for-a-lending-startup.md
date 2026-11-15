@@ -3,7 +3,7 @@ client_industry: fintech
 date: '2024-03-19'
 id: ai_ml:case:04
 project_id: ai_ml:p04
-provenance: personas@1f579ad2e496
+provenance: personas@228603469f77
 synthetic: true
 ---
 

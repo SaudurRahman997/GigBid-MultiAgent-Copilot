@@ -23,4 +23,4 @@ Entry point: `functions.php`.
 ## Results in production
 Cut time to publish a page by 58%.
 
-<!-- synthetic: true; provenance: personas@1f579ad2e496 -->
+<!-- synthetic: true; provenance: personas@228603469f77 -->

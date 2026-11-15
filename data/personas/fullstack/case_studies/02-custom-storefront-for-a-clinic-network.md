@@ -3,7 +3,7 @@ client_industry: healthcare
 date: '2022-08-31'
 id: fullstack:case:02
 project_id: fullstack:p02
-provenance: personas@1f579ad2e496
+provenance: personas@228603469f77
 synthetic: true
 ---
 

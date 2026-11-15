@@ -23,4 +23,4 @@ Entry point: `train.py`.
 ## Results in production
 Lifted 90-day retention by 62%.
 
-<!-- synthetic: true; provenance: personas@1f579ad2e496 -->
+<!-- synthetic: true; provenance: personas@228603469f77 -->

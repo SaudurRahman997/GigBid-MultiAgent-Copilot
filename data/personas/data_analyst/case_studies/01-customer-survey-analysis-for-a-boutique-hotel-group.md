@@ -3,7 +3,7 @@ client_industry: hospitality
 date: '2022-02-17'
 id: data_analyst:case:01
 project_id: data_analyst:p01
-provenance: personas@1f579ad2e496
+provenance: personas@228603469f77
 synthetic: true
 ---
 

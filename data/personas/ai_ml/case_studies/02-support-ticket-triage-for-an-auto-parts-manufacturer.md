@@ -3,7 +3,7 @@ client_industry: manufacturing
 date: '2022-07-06'
 id: ai_ml:case:02
 project_id: ai_ml:p02
-provenance: personas@1f579ad2e496
+provenance: personas@228603469f77
 synthetic: true
 ---
 

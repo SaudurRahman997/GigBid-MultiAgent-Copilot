@@ -1,4 +1,4 @@
-// SYNTHETIC sample code for GigBid persona fullstack. provenance: personas@1f579ad2e496
+// SYNTHETIC sample code for GigBid persona fullstack. provenance: personas@228603469f77
 <?php
 // Register an editable "case study" block for the marketing team.
 add_action('init', function () {

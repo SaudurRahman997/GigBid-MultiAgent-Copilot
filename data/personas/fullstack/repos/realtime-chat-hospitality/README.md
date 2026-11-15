@@ -23,4 +23,4 @@ Entry point: `UsageChart.tsx`.
 ## Results in production
 28% of active users sent a message in week one.
 
-<!-- synthetic: true; provenance: personas@1f579ad2e496 -->
+<!-- synthetic: true; provenance: personas@228603469f77 -->
