@@ -1,35 +1,35 @@
 {
   "corpus": {
     "by_category": {
-      "admin_support": 3678,
+      "admin_support": 3677,
       "ai_ml": 3441,
       "data_analysis": 5246,
-      "design_creative": 16178,
-      "marketing_sales": 32515,
-      "mobile_dev": 4962,
+      "design_creative": 16180,
+      "marketing_sales": 32514,
+      "mobile_dev": 4961,
       "other": 5221,
       "web_dev": 34356,
       "writing_translation": 4852
     },
     "by_pay_type": {
-      "fixed": 42677,
+      "fixed": 42676,
       "hourly": 59708,
       "unknown": 8064
     },
     "by_source": {
       "ahmedmyalo_60k": 59566,
-      "asaniczka_50k": 50883
+      "asaniczka_50k": 50882
     },
-    "rows": 110449,
+    "rows": 110448,
     "share_with_any_skill": 0.9787,
     "share_with_price": 0.7779
   },
   "corpus_dedupe": {
-    "dropped_near_duplicate_text": 3931,
+    "dropped_near_duplicate_text": 3932,
     "dropped_no_id": 0,
     "dropped_repeat_id": 2625,
     "rows_in": 117005,
-    "rows_out": 110449
+    "rows_out": 110448
   },
   "loaded": {
     "ahmedmyalo_60k": 63950,
@@ -38,7 +38,7 @@
     "contracts": 1292791,
     "freelancers": 12000
   },
-  "pricing_rows_from_200k_not_in_corpus": 571269,
+  "pricing_rows_from_200k_not_in_corpus": 571270,
   "pricing_stats_rows": 2115,
   "taxonomy": {
     "learned_category_skills": 906,
@@ -48,8 +48,8 @@
     "vocab_size": 1566
   },
   "title_classifier": {
-    "holdout_accuracy": 0.859,
+    "holdout_accuracy": 0.858,
     "min_confidence": 0.6,
-    "reassigned_from_other": 222374
+    "reassigned_from_other": 222986
   }
 }

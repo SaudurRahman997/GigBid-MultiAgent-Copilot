@@ -1,0 +1,684 @@
+[
+  {
+    "archetype": "survey_analysis",
+    "client": "The Linden Collection",
+    "end": "2022-02-17T09:00:00Z",
+    "evidence": [
+      "data_analyst:case:01",
+      "data_analyst:review:01"
+    ],
+    "industry": "hospitality",
+    "industry_noun": "boutique hotel group",
+    "metric": "findings drove 120 product changes",
+    "numbers": {
+      "a": 120,
+      "b": 30,
+      "p": 36
+    },
+    "persona": "data_analyst",
+    "project_id": "data_analyst:p01",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": false,
+    "skills": [
+      "statistics",
+      "data analysis",
+      "python"
+    ],
+    "start": "2022-01-06T09:00:00Z",
+    "synthetic": true,
+    "title": "Customer survey analysis for a boutique hotel group",
+    "weeks": 6
+  },
+  {
+    "archetype": "etl_pipeline",
+    "client": "Brightwater Clinics",
+    "end": "2022-03-19T09:00:00Z",
+    "evidence": [
+      "data_analyst:case:02",
+      "data_analyst:review:02",
+      "data_analyst:readme:warehouse-loaders",
+      "data_analyst:code:warehouse-loaders"
+    ],
+    "industry": "healthcare",
+    "industry_noun": "clinic network",
+    "metric": "removed 5 manual exports a week",
+    "numbers": {
+      "a": 5,
+      "b": 2,
+      "p": 42
+    },
+    "persona": "data_analyst",
+    "project_id": "data_analyst:p02",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": false,
+    "repo": "warehouse-loaders",
+    "skills": [
+      "etl",
+      "sql",
+      "python",
+      "bigquery"
+    ],
+    "start": "2022-01-29T09:00:00Z",
+    "synthetic": true,
+    "title": "Data pipeline into a warehouse for a clinic network",
+    "weeks": 7
+  },
+  {
+    "archetype": "financial_model",
+    "client": "Castwell",
+    "end": "2022-06-24T09:00:00Z",
+    "evidence": [
+      "data_analyst:case:03",
+      "data_analyst:review:03",
+      "data_analyst:readme:financial-model-manufacturing",
+      "data_analyst:code:financial-model-manufacturing"
+    ],
+    "industry": "manufacturing",
+    "industry_noun": "auto-parts manufacturer",
+    "metric": "cut budget-planning time by 50%",
+    "numbers": {
+      "a": 8,
+      "b": 2,
+      "p": 50
+    },
+    "persona": "data_analyst",
+    "project_id": "data_analyst:p03",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": false,
+    "repo": "financial-model-manufacturing",
+    "skills": [
+      "financial modeling",
+      "microsoft excel",
+      "data analysis"
+    ],
+    "start": "2022-02-04T09:00:00Z",
+    "synthetic": true,
+    "title": "Budget and cash-flow model for an auto-parts manufacturer",
+    "weeks": 20
+  },
+  {
+    "archetype": "excel_automation",
+    "client": "Pinecrest Health",
+    "end": "2022-06-15T09:00:00Z",
+    "evidence": [
+      "data_analyst:case:04",
+      "data_analyst:review:04"
+    ],
+    "industry": "healthcare",
+    "industry_noun": "clinic network",
+    "metric": "saved about 15 hours a week",
+    "numbers": {
+      "a": 15,
+      "b": 3,
+      "p": 51
+    },
+    "persona": "data_analyst",
+    "project_id": "data_analyst:p04",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": true,
+    "skills": [
+      "microsoft excel",
+      "excel formula",
+      "data cleaning"
+    ],
+    "start": "2022-05-25T09:00:00Z",
+    "synthetic": true,
+    "title": "Spreadsheet automation for a clinic network",
+    "weeks": 3
+  },
+  {
+    "archetype": "marketing_attribution",
+    "client": "Northstar Digital",
+    "end": "2022-09-26T09:00:00Z",
+    "evidence": [
+      "data_analyst:case:05",
+      "data_analyst:review:05",
+      "data_analyst:review:06"
+    ],
+    "industry": "marketing",
+    "industry_noun": "marketing agency",
+    "metric": "reallocated budget that lowered cost per lead by 45%",
+    "numbers": {
+      "a": 6,
+      "b": 2,
+      "p": 45
+    },
+    "persona": "data_analyst",
+    "project_id": "data_analyst:p05",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.9,
+    "rehired": true,
+    "skills": [
+      "google analytics",
+      "sql",
+      "looker studio",
+      "data analysis"
+    ],
+    "start": "2022-06-06T09:00:00Z",
+    "synthetic": true,
+    "title": "Marketing attribution reporting for a marketing agency",
+    "weeks": 16
+  },
+  {
+    "archetype": "inventory_analysis",
+    "client": "Common Table",
+    "end": "2022-11-10T09:00:00Z",
+    "evidence": [
+      "data_analyst:case:06",
+      "data_analyst:review:07"
+    ],
+    "industry": "nonprofit",
+    "industry_noun": "nonprofit",
+    "metric": "cut dead stock by 24%",
+    "numbers": {
+      "a": 6,
+      "b": 2,
+      "p": 24
+    },
+    "persona": "data_analyst",
+    "project_id": "data_analyst:p06",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.6,
+    "rehired": false,
+    "skills": [
+      "sql",
+      "data visualization",
+      "tableau",
+      "data analysis"
+    ],
+    "start": "2022-07-14T09:00:00Z",
+    "synthetic": true,
+    "title": "Inventory insights for a nonprofit",
+    "weeks": 17
+  },
+  {
+    "archetype": "survey_analysis",
+    "client": "Corbel Law Group",
+    "end": "2023-06-06T09:00:00Z",
+    "evidence": [
+      "data_analyst:case:07",
+      "data_analyst:review:08"
+    ],
+    "industry": "legal",
+    "industry_noun": "law firm",
+    "metric": "findings drove 5 product changes",
+    "numbers": {
+      "a": 5,
+      "b": 15,
+      "p": 15
+    },
+    "persona": "data_analyst",
+    "project_id": "data_analyst:p07",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.3,
+    "rehired": true,
+    "skills": [
+      "statistics",
+      "data analysis",
+      "python"
+    ],
+    "start": "2023-03-07T09:00:00Z",
+    "synthetic": true,
+    "title": "Customer survey analysis for a law firm",
+    "weeks": 13
+  },
+  {
+    "archetype": "financial_model",
+    "client": "Keystone Lettings",
+    "end": "2023-06-21T09:00:00Z",
+    "evidence": [
+      "data_analyst:case:08",
+      "data_analyst:review:09"
+    ],
+    "industry": "real_estate",
+    "industry_noun": "property management firm",
+    "metric": "cut budget-planning time by 66%",
+    "numbers": {
+      "a": 120,
+      "b": 3,
+      "p": 66
+    },
+    "persona": "data_analyst",
+    "project_id": "data_analyst:p08",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": false,
+    "skills": [
+      "financial modeling",
+      "microsoft excel",
+      "data analysis"
+    ],
+    "start": "2023-03-08T09:00:00Z",
+    "synthetic": true,
+    "title": "Budget and cash-flow model for a property management firm",
+    "weeks": 15
+  },
+  {
+    "archetype": "excel_automation",
+    "client": "Ironbark Parts",
+    "end": "2023-05-19T09:00:00Z",
+    "evidence": [
+      "data_analyst:case:09",
+      "data_analyst:review:10"
+    ],
+    "industry": "manufacturing",
+    "industry_noun": "auto-parts manufacturer",
+    "metric": "saved about 8 hours a week",
+    "numbers": {
+      "a": 8,
+      "b": 10,
+      "p": 25
+    },
+    "persona": "data_analyst",
+    "project_id": "data_analyst:p09",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": false,
+    "skills": [
+      "microsoft excel",
+      "excel formula",
+      "data cleaning"
+    ],
+    "start": "2023-03-31T09:00:00Z",
+    "synthetic": true,
+    "title": "Spreadsheet automation for an auto-parts manufacturer",
+    "weeks": 7
+  },
+  {
+    "archetype": "marketing_attribution",
+    "client": "Riverkeep Trust",
+    "end": "2023-10-16T09:00:00Z",
+    "evidence": [
+      "data_analyst:case:10",
+      "data_analyst:review:11"
+    ],
+    "industry": "nonprofit",
+    "industry_noun": "nonprofit",
+    "metric": "tracked 31% of deals back to a channel",
+    "numbers": {
+      "a": 4,
+      "b": 5,
+      "p": 31
+    },
+    "persona": "data_analyst",
+    "project_id": "data_analyst:p10",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.9,
+    "rehired": false,
+    "skills": [
+      "google analytics",
+      "sql",
+      "looker studio",
+      "data analysis"
+    ],
+    "start": "2023-09-04T09:00:00Z",
+    "synthetic": true,
+    "title": "Marketing attribution reporting for a nonprofit",
+    "weeks": 6
+  },
+  {
+    "archetype": "inventory_analysis",
+    "client": "Orbitdesk",
+    "end": "2024-01-10T09:00:00Z",
+    "evidence": [
+      "data_analyst:case:11",
+      "data_analyst:review:12"
+    ],
+    "industry": "saas",
+    "industry_noun": "B2B SaaS company",
+    "metric": "cut dead stock by 60%",
+    "numbers": {
+      "a": 12,
+      "b": 5,
+      "p": 60
+    },
+    "persona": "data_analyst",
+    "project_id": "data_analyst:p11",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.8,
+    "rehired": false,
+    "skills": [
+      "sql",
+      "data visualization",
+      "tableau",
+      "data analysis"
+    ],
+    "start": "2023-10-18T09:00:00Z",
+    "synthetic": true,
+    "title": "Inventory insights for a B2B SaaS company",
+    "weeks": 12
+  },
+  {
+    "archetype": "financial_model",
+    "client": "Portline Logistics",
+    "end": "2024-02-21T09:00:00Z",
+    "evidence": [
+      "data_analyst:case:12",
+      "data_analyst:review:13",
+      "data_analyst:review:14"
+    ],
+    "industry": "logistics",
+    "industry_noun": "freight company",
+    "metric": "used in a fundraise of 12 hundred thousand",
+    "numbers": {
+      "a": 12,
+      "b": 15,
+      "p": 20
+    },
+    "persona": "data_analyst",
+    "project_id": "data_analyst:p12",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.6,
+    "rehired": true,
+    "skills": [
+      "financial modeling",
+      "microsoft excel",
+      "data analysis"
+    ],
+    "start": "2023-10-25T09:00:00Z",
+    "synthetic": true,
+    "title": "Budget and cash-flow model for a freight company",
+    "weeks": 17
+  },
+  {
+    "archetype": "tableau_kpis",
+    "client": "Urbanest",
+    "end": "2024-03-15T09:00:00Z",
+    "evidence": [
+      "data_analyst:case:13",
+      "data_analyst:review:15",
+      "data_analyst:review:16"
+    ],
+    "industry": "real_estate",
+    "industry_noun": "property management firm",
+    "metric": "cut monthly reporting prep by 55%",
+    "numbers": {
+      "a": 1200,
+      "b": 3,
+      "p": 55
+    },
+    "persona": "data_analyst",
+    "project_id": "data_analyst:p13",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": true,
+    "skills": [
+      "tableau",
+      "sql",
+      "data visualization"
+    ],
+    "start": "2023-12-08T09:00:00Z",
+    "synthetic": true,
+    "title": "Executive KPI views for a property management firm",
+    "weeks": 14
+  },
+  {
+    "archetype": "sales_dashboard",
+    "client": "Quillfund",
+    "end": "2024-05-05T09:00:00Z",
+    "evidence": [
+      "data_analyst:case:14",
+      "data_analyst:review:17",
+      "data_analyst:readme:sales-model-sql",
+      "data_analyst:code:sales-model-sql"
+    ],
+    "industry": "fintech",
+    "industry_noun": "lending startup",
+    "metric": "cut reporting time from 1200 hours to 15 minutes a week",
+    "numbers": {
+      "a": 1200,
+      "b": 15,
+      "p": 30
+    },
+    "persona": "data_analyst",
+    "project_id": "data_analyst:p14",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": false,
+    "repo": "sales-model-sql",
+    "skills": [
+      "microsoft power bi",
+      "sql",
+      "data visualization",
+      "microsoft excel"
+    ],
+    "start": "2024-02-25T09:00:00Z",
+    "synthetic": true,
+    "title": "Sales performance dashboard for a lending startup",
+    "weeks": 10
+  },
+  {
+    "archetype": "tableau_kpis",
+    "client": "Common Table",
+    "end": "2025-02-03T09:00:00Z",
+    "evidence": [
+      "data_analyst:case:15",
+      "data_analyst:review:18",
+      "data_analyst:readme:tableau-kpis-nonprofit",
+      "data_analyst:code:tableau-kpis-nonprofit"
+    ],
+    "industry": "nonprofit",
+    "industry_noun": "nonprofit",
+    "metric": "cut monthly reporting prep by 42%",
+    "numbers": {
+      "a": 1200,
+      "b": 2,
+      "p": 42
+    },
+    "persona": "data_analyst",
+    "project_id": "data_analyst:p15",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.6,
+    "rehired": false,
+    "repo": "tableau-kpis-nonprofit",
+    "skills": [
+      "tableau",
+      "sql",
+      "data visualization"
+    ],
+    "start": "2024-10-14T09:00:00Z",
+    "synthetic": true,
+    "title": "Executive KPI views for a nonprofit",
+    "weeks": 16
+  },
+  {
+    "archetype": "sales_dashboard",
+    "client": "Castwell",
+    "end": "2026-05-04T09:00:00Z",
+    "evidence": [
+      "data_analyst:case:16",
+      "data_analyst:review:19"
+    ],
+    "industry": "manufacturing",
+    "industry_noun": "auto-parts manufacturer",
+    "metric": "cut reporting time from 8 hours to 10 minutes a week",
+    "numbers": {
+      "a": 8,
+      "b": 10,
+      "p": 15
+    },
+    "persona": "data_analyst",
+    "project_id": "data_analyst:p16",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": false,
+    "skills": [
+      "microsoft power bi",
+      "sql",
+      "data visualization",
+      "microsoft excel"
+    ],
+    "start": "2026-01-19T09:00:00Z",
+    "synthetic": true,
+    "title": "Sales performance dashboard for an auto-parts manufacturer",
+    "weeks": 15
+  },
+  {
+    "archetype": "data_cleaning",
+    "client": "Brightloop Media",
+    "end": "2026-08-19T09:00:00Z",
+    "evidence": [
+      "data_analyst:case:17",
+      "data_analyst:review:20"
+    ],
+    "industry": "marketing",
+    "industry_noun": "marketing agency",
+    "metric": "removed 21% duplicate records",
+    "numbers": {
+      "a": 4,
+      "b": 5,
+      "p": 21
+    },
+    "persona": "data_analyst",
+    "project_id": "data_analyst:p17",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.9,
+    "rehired": true,
+    "skills": [
+      "data cleaning",
+      "python",
+      "pandas",
+      "google sheets"
+    ],
+    "start": "2026-04-08T09:00:00Z",
+    "synthetic": true,
+    "title": "CRM data cleanup for a marketing agency",
+    "weeks": 19
+  },
+  {
+    "archetype": "inventory_analysis",
+    "client": "Oakrow Properties",
+    "end": "2026-05-23T09:00:00Z",
+    "evidence": [
+      "data_analyst:case:18",
+      "data_analyst:review:21"
+    ],
+    "industry": "real_estate",
+    "industry_noun": "property management firm",
+    "metric": "freed about 12 thousand in tied-up stock",
+    "numbers": {
+      "a": 12,
+      "b": 15,
+      "p": 57
+    },
+    "persona": "data_analyst",
+    "project_id": "data_analyst:p18",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.8,
+    "rehired": false,
+    "skills": [
+      "sql",
+      "data visualization",
+      "tableau",
+      "data analysis"
+    ],
+    "start": "2026-05-02T09:00:00Z",
+    "synthetic": true,
+    "title": "Inventory insights for a property management firm",
+    "weeks": 3
+  },
+  {
+    "archetype": "marketing_attribution",
+    "client": "Ironbark Parts",
+    "end": "2026-08-10T09:00:00Z",
+    "evidence": [
+      "data_analyst:case:19",
+      "data_analyst:review:22"
+    ],
+    "industry": "manufacturing",
+    "industry_noun": "auto-parts manufacturer",
+    "metric": "reallocated budget that lowered cost per lead by 40%",
+    "numbers": {
+      "a": 1200,
+      "b": 2,
+      "p": 40
+    },
+    "persona": "data_analyst",
+    "project_id": "data_analyst:p19",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.6,
+    "rehired": false,
+    "skills": [
+      "google analytics",
+      "sql",
+      "looker studio",
+      "data analysis"
+    ],
+    "start": "2026-05-18T09:00:00Z",
+    "synthetic": true,
+    "title": "Marketing attribution reporting for an auto-parts manufacturer",
+    "weeks": 12
+  },
+  {
+    "archetype": "ab_test_analysis",
+    "client": "Velden Components",
+    "end": "2026-11-07T09:00:00Z",
+    "evidence": [
+      "data_analyst:case:20",
+      "data_analyst:review:23",
+      "data_analyst:review:24",
+      "data_analyst:readme:ab-test-analysis-manufacturing",
+      "data_analyst:code:ab-test-analysis-manufacturing"
+    ],
+    "industry": "manufacturing",
+    "industry_noun": "auto-parts manufacturer",
+    "metric": "found that 41% of past 'wins' were noise",
+    "numbers": {
+      "a": 15,
+      "b": 30,
+      "p": 41
+    },
+    "persona": "data_analyst",
+    "project_id": "data_analyst:p20",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.6,
+    "rehired": true,
+    "repo": "ab-test-analysis-manufacturing",
+    "skills": [
+      "statistics",
+      "python",
+      "pandas",
+      "data analysis"
+    ],
+    "start": "2026-06-20T09:00:00Z",
+    "synthetic": true,
+    "title": "Experiment analysis for an auto-parts manufacturer",
+    "weeks": 20
+  },
+  {
+    "archetype": "sales_dashboard",
+    "client": "Learnfield",
+    "end": "2026-11-05T09:00:00Z",
+    "evidence": [
+      "data_analyst:case:21",
+      "data_analyst:review:25"
+    ],
+    "industry": "education",
+    "industry_noun": "online course platform",
+    "metric": "adopted by 120 managers in month one",
+    "numbers": {
+      "a": 120,
+      "b": 15,
+      "p": 21
+    },
+    "persona": "data_analyst",
+    "project_id": "data_analyst:p21",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": false,
+    "skills": [
+      "microsoft power bi",
+      "sql",
+      "data visualization",
+      "microsoft excel"
+    ],
+    "start": "2026-08-13T09:00:00Z",
+    "synthetic": true,
+    "title": "Sales performance dashboard for an online course platform",
+    "weeks": 12
+  }
+]

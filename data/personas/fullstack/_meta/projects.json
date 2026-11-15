@@ -1,0 +1,738 @@
+[
+  {
+    "archetype": "rest_api",
+    "client": "Urbanest",
+    "end": "2022-06-09T09:00:00Z",
+    "evidence": [
+      "fullstack:case:01",
+      "fullstack:review:01",
+      "fullstack:readme:fieldops-api",
+      "fullstack:code:fieldops-api"
+    ],
+    "industry": "real_estate",
+    "industry_noun": "property management firm",
+    "metric": "cut API error rate to under 10%",
+    "numbers": {
+      "a": 300,
+      "b": 10,
+      "p": 35
+    },
+    "persona": "fullstack",
+    "project_id": "fullstack:p01",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": false,
+    "repo": "fieldops-api",
+    "skills": [
+      "node.js",
+      "express.js",
+      "mongodb",
+      "rest api",
+      "docker"
+    ],
+    "start": "2022-04-14T09:00:00Z",
+    "synthetic": true,
+    "title": "Mobile backend API for a property management firm",
+    "weeks": 8
+  },
+  {
+    "archetype": "ecommerce_store",
+    "client": "Brightwater Clinics",
+    "end": "2022-08-31T09:00:00Z",
+    "evidence": [
+      "fullstack:case:02",
+      "fullstack:review:02"
+    ],
+    "industry": "healthcare",
+    "industry_noun": "clinic network",
+    "metric": "cut page load time from 15 to 3 seconds",
+    "numbers": {
+      "a": 15,
+      "b": 3,
+      "p": 26
+    },
+    "persona": "fullstack",
+    "project_id": "fullstack:p02",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.6,
+    "rehired": false,
+    "skills": [
+      "shopify",
+      "javascript",
+      "css",
+      "api integration"
+    ],
+    "start": "2022-06-15T09:00:00Z",
+    "synthetic": true,
+    "title": "Custom storefront for a clinic network",
+    "weeks": 11
+  },
+  {
+    "archetype": "realtime_chat",
+    "client": "Saltmarsh Hotels",
+    "end": "2022-09-14T09:00:00Z",
+    "evidence": [
+      "fullstack:case:03",
+      "fullstack:review:03",
+      "fullstack:review:04",
+      "fullstack:readme:realtime-chat-hospitality",
+      "fullstack:code:realtime-chat-hospitality"
+    ],
+    "industry": "hospitality",
+    "industry_noun": "boutique hotel group",
+    "metric": "28% of active users sent a message in week one",
+    "numbers": {
+      "a": 20,
+      "b": 2,
+      "p": 28
+    },
+    "persona": "fullstack",
+    "project_id": "fullstack:p03",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.8,
+    "rehired": true,
+    "repo": "realtime-chat-hospitality",
+    "skills": [
+      "react",
+      "firebase",
+      "javascript",
+      "node.js"
+    ],
+    "start": "2022-07-06T09:00:00Z",
+    "synthetic": true,
+    "title": "Real-time messaging feature for a boutique hotel group",
+    "weeks": 10
+  },
+  {
+    "archetype": "wordpress_site",
+    "client": "Orbitdesk",
+    "end": "2022-11-12T09:00:00Z",
+    "evidence": [
+      "fullstack:case:04",
+      "fullstack:review:05",
+      "fullstack:review:06",
+      "fullstack:readme:wordpress-site-saas",
+      "fullstack:code:wordpress-site-saas"
+    ],
+    "industry": "saas",
+    "industry_noun": "B2B SaaS company",
+    "metric": "cut time to publish a page by 58%",
+    "numbers": {
+      "a": 40,
+      "b": 3,
+      "p": 58
+    },
+    "persona": "fullstack",
+    "project_id": "fullstack:p04",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.9,
+    "rehired": true,
+    "repo": "wordpress-site-saas",
+    "skills": [
+      "wordpress",
+      "php",
+      "css",
+      "web design"
+    ],
+    "start": "2022-08-20T09:00:00Z",
+    "synthetic": true,
+    "title": "Marketing site rebuild for a B2B SaaS company",
+    "weeks": 12
+  },
+  {
+    "archetype": "wordpress_site",
+    "client": "Learnfield",
+    "end": "2023-02-02T09:00:00Z",
+    "evidence": [
+      "fullstack:case:05",
+      "fullstack:review:07"
+    ],
+    "industry": "education",
+    "industry_noun": "online course platform",
+    "metric": "cut time to publish a page by 53%",
+    "numbers": {
+      "a": 20,
+      "b": 3,
+      "p": 53
+    },
+    "persona": "fullstack",
+    "project_id": "fullstack:p05",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": true,
+    "skills": [
+      "wordpress",
+      "php",
+      "css",
+      "web design"
+    ],
+    "start": "2022-12-29T09:00:00Z",
+    "synthetic": true,
+    "title": "Marketing site rebuild for an online course platform",
+    "weeks": 5
+  },
+  {
+    "archetype": "django_portal",
+    "client": "Fathom & Co",
+    "end": "2023-11-09T09:00:00Z",
+    "evidence": [
+      "fullstack:case:06",
+      "fullstack:review:08"
+    ],
+    "industry": "marketing",
+    "industry_noun": "marketing agency",
+    "metric": "onboarded 40 customers in the first quarter",
+    "numbers": {
+      "a": 40,
+      "b": 30,
+      "p": 51
+    },
+    "persona": "fullstack",
+    "project_id": "fullstack:p06",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": false,
+    "skills": [
+      "django",
+      "python",
+      "postgresql",
+      "html",
+      "css"
+    ],
+    "start": "2023-07-20T09:00:00Z",
+    "synthetic": true,
+    "title": "Customer portal for a marketing agency",
+    "weeks": 16
+  },
+  {
+    "archetype": "booking_platform",
+    "client": "Ridgeway Freight",
+    "end": "2023-10-27T09:00:00Z",
+    "evidence": [
+      "fullstack:case:07",
+      "fullstack:review:09",
+      "fullstack:readme:bookwell",
+      "fullstack:code:bookwell"
+    ],
+    "industry": "logistics",
+    "industry_noun": "freight company",
+    "metric": "moved 32% of bookings online in three months",
+    "numbers": {
+      "a": 6,
+      "b": 5,
+      "p": 32
+    },
+    "persona": "fullstack",
+    "project_id": "fullstack:p07",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": false,
+    "repo": "bookwell",
+    "skills": [
+      "next.js",
+      "typescript",
+      "postgresql",
+      "api integration"
+    ],
+    "start": "2023-09-29T09:00:00Z",
+    "synthetic": true,
+    "title": "Online booking platform for a freight company",
+    "weeks": 4
+  },
+  {
+    "archetype": "django_portal",
+    "client": "Meridian Care",
+    "end": "2024-02-21T09:00:00Z",
+    "evidence": [
+      "fullstack:case:08",
+      "fullstack:review:10"
+    ],
+    "industry": "healthcare",
+    "industry_noun": "clinic network",
+    "metric": "onboarded 20 customers in the first quarter",
+    "numbers": {
+      "a": 20,
+      "b": 3,
+      "p": 32
+    },
+    "persona": "fullstack",
+    "project_id": "fullstack:p08",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": false,
+    "skills": [
+      "django",
+      "python",
+      "postgresql",
+      "html",
+      "css"
+    ],
+    "start": "2024-01-03T09:00:00Z",
+    "synthetic": true,
+    "title": "Customer portal for a clinic network",
+    "weeks": 7
+  },
+  {
+    "archetype": "ecommerce_store",
+    "client": "Northgate Legal",
+    "end": "2025-01-18T09:00:00Z",
+    "evidence": [
+      "fullstack:case:09",
+      "fullstack:review:11"
+    ],
+    "industry": "legal",
+    "industry_noun": "law firm",
+    "metric": "raised mobile conversion by 13%",
+    "numbers": {
+      "a": 120,
+      "b": 3,
+      "p": 13
+    },
+    "persona": "fullstack",
+    "project_id": "fullstack:p09",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.8,
+    "rehired": false,
+    "skills": [
+      "shopify",
+      "javascript",
+      "css",
+      "api integration"
+    ],
+    "start": "2024-10-26T09:00:00Z",
+    "synthetic": true,
+    "title": "Custom storefront for a law firm",
+    "weeks": 12
+  },
+  {
+    "archetype": "laravel_app",
+    "client": "Keystone Lettings",
+    "end": "2025-08-12T09:00:00Z",
+    "evidence": [
+      "fullstack:case:10",
+      "fullstack:review:12"
+    ],
+    "industry": "real_estate",
+    "industry_noun": "property management firm",
+    "metric": "replaced 12 spreadsheets with one app",
+    "numbers": {
+      "a": 12,
+      "b": 30,
+      "p": 36
+    },
+    "persona": "fullstack",
+    "project_id": "fullstack:p10",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.9,
+    "rehired": false,
+    "skills": [
+      "laravel",
+      "php",
+      "mysql",
+      "vue.js"
+    ],
+    "start": "2025-04-01T09:00:00Z",
+    "synthetic": true,
+    "title": "Internal operations app for a property management firm",
+    "weeks": 19
+  },
+  {
+    "archetype": "saas_dashboard",
+    "client": "Tallyhq",
+    "end": "2025-12-07T09:00:00Z",
+    "evidence": [
+      "fullstack:case:11",
+      "fullstack:review:13",
+      "fullstack:readme:usage-dashboard",
+      "fullstack:code:usage-dashboard"
+    ],
+    "industry": "saas",
+    "industry_noun": "B2B SaaS company",
+    "metric": "cut support requests for reports by 12%",
+    "numbers": {
+      "a": 120,
+      "b": 3,
+      "p": 12
+    },
+    "persona": "fullstack",
+    "project_id": "fullstack:p11",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.6,
+    "rehired": false,
+    "repo": "usage-dashboard",
+    "skills": [
+      "react",
+      "typescript",
+      "node.js",
+      "postgresql",
+      "tailwind css"
+    ],
+    "start": "2025-08-31T09:00:00Z",
+    "synthetic": true,
+    "title": "Analytics dashboard for a B2B SaaS company",
+    "weeks": 14
+  },
+  {
+    "archetype": "cloud_migration",
+    "client": "Castwell",
+    "end": "2026-01-14T09:00:00Z",
+    "evidence": [
+      "fullstack:case:12",
+      "fullstack:review:14"
+    ],
+    "industry": "manufacturing",
+    "industry_noun": "auto-parts manufacturer",
+    "metric": "reduced hosting cost by 35%",
+    "numbers": {
+      "a": 12,
+      "b": 5,
+      "p": 35
+    },
+    "persona": "fullstack",
+    "project_id": "fullstack:p12",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": false,
+    "skills": [
+      "docker",
+      "aws",
+      "postgresql",
+      "github"
+    ],
+    "start": "2025-10-22T09:00:00Z",
+    "synthetic": true,
+    "title": "Cloud migration for an auto-parts manufacturer",
+    "weeks": 12
+  },
+  {
+    "archetype": "booking_platform",
+    "client": "Cedar & Salt",
+    "end": "2026-01-29T09:00:00Z",
+    "evidence": [
+      "fullstack:case:13",
+      "fullstack:review:15",
+      "fullstack:review:16",
+      "fullstack:readme:booking-platform-ecommerce",
+      "fullstack:code:booking-platform-ecommerce"
+    ],
+    "industry": "ecommerce",
+    "industry_noun": "online store",
+    "metric": "moved 40% of bookings online in three months",
+    "numbers": {
+      "a": 1200,
+      "b": 10,
+      "p": 40
+    },
+    "persona": "fullstack",
+    "project_id": "fullstack:p13",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.8,
+    "rehired": true,
+    "repo": "booking-platform-ecommerce",
+    "skills": [
+      "next.js",
+      "typescript",
+      "postgresql",
+      "api integration"
+    ],
+    "start": "2025-11-06T09:00:00Z",
+    "synthetic": true,
+    "title": "Online booking platform for an online store",
+    "weeks": 12
+  },
+  {
+    "archetype": "payments_integration",
+    "client": "Harbourline Stays",
+    "end": "2026-01-11T09:00:00Z",
+    "evidence": [
+      "fullstack:case:14",
+      "fullstack:review:17"
+    ],
+    "industry": "hospitality",
+    "industry_noun": "boutique hotel group",
+    "metric": "recovered 18% of failed payments automatically",
+    "numbers": {
+      "a": 40,
+      "b": 15,
+      "p": 18
+    },
+    "persona": "fullstack",
+    "project_id": "fullstack:p14",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.9,
+    "rehired": false,
+    "skills": [
+      "api integration",
+      "node.js",
+      "typescript",
+      "aws"
+    ],
+    "start": "2025-11-09T09:00:00Z",
+    "synthetic": true,
+    "title": "Subscription billing for a boutique hotel group",
+    "weeks": 9
+  },
+  {
+    "archetype": "booking_platform",
+    "client": "Ledgerly",
+    "end": "2026-05-03T09:00:00Z",
+    "evidence": [
+      "fullstack:case:15",
+      "fullstack:review:18",
+      "fullstack:review:19"
+    ],
+    "industry": "fintech",
+    "industry_noun": "lending startup",
+    "metric": "moved 68% of bookings online in three months",
+    "numbers": {
+      "a": 120,
+      "b": 30,
+      "p": 68
+    },
+    "persona": "fullstack",
+    "project_id": "fullstack:p15",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": true,
+    "skills": [
+      "next.js",
+      "typescript",
+      "postgresql",
+      "api integration"
+    ],
+    "start": "2025-12-28T09:00:00Z",
+    "synthetic": true,
+    "title": "Online booking platform for a lending startup",
+    "weeks": 18
+  },
+  {
+    "archetype": "wordpress_site",
+    "client": "Corbel Law Group",
+    "end": "2026-02-07T09:00:00Z",
+    "evidence": [
+      "fullstack:case:16",
+      "fullstack:review:20"
+    ],
+    "industry": "legal",
+    "industry_noun": "law firm",
+    "metric": "cut time to publish a page by 23%",
+    "numbers": {
+      "a": 12,
+      "b": 10,
+      "p": 23
+    },
+    "persona": "fullstack",
+    "project_id": "fullstack:p16",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.9,
+    "rehired": false,
+    "skills": [
+      "wordpress",
+      "php",
+      "css",
+      "web design"
+    ],
+    "start": "2026-01-03T09:00:00Z",
+    "synthetic": true,
+    "title": "Marketing site rebuild for a law firm",
+    "weeks": 5
+  },
+  {
+    "archetype": "cloud_migration",
+    "client": "Open Harvest",
+    "end": "2026-03-17T09:00:00Z",
+    "evidence": [
+      "fullstack:case:17",
+      "fullstack:review:21"
+    ],
+    "industry": "nonprofit",
+    "industry_noun": "nonprofit",
+    "metric": "reduced hosting cost by 24%",
+    "numbers": {
+      "a": 8,
+      "b": 30,
+      "p": 24
+    },
+    "persona": "fullstack",
+    "project_id": "fullstack:p17",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": false,
+    "skills": [
+      "docker",
+      "aws",
+      "postgresql",
+      "github"
+    ],
+    "start": "2026-01-13T09:00:00Z",
+    "synthetic": true,
+    "title": "Cloud migration for a nonprofit",
+    "weeks": 9
+  },
+  {
+    "archetype": "django_portal",
+    "client": "Haulwise",
+    "end": "2026-06-18T09:00:00Z",
+    "evidence": [
+      "fullstack:case:18",
+      "fullstack:review:22"
+    ],
+    "industry": "logistics",
+    "industry_noun": "freight company",
+    "metric": "cut status-update emails by 47%",
+    "numbers": {
+      "a": 15,
+      "b": 2,
+      "p": 47
+    },
+    "persona": "fullstack",
+    "project_id": "fullstack:p18",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": false,
+    "skills": [
+      "django",
+      "python",
+      "postgresql",
+      "html",
+      "css"
+    ],
+    "start": "2026-04-02T09:00:00Z",
+    "synthetic": true,
+    "title": "Customer portal for a freight company",
+    "weeks": 11
+  },
+  {
+    "archetype": "rest_api",
+    "client": "Brightwater Clinics",
+    "end": "2026-09-19T09:00:00Z",
+    "evidence": [
+      "fullstack:case:19",
+      "fullstack:review:23",
+      "fullstack:readme:rest-api-healthcare",
+      "fullstack:code:rest-api-healthcare"
+    ],
+    "industry": "healthcare",
+    "industry_noun": "clinic network",
+    "metric": "cut API error rate to under 10%",
+    "numbers": {
+      "a": 8,
+      "b": 10,
+      "p": 56
+    },
+    "persona": "fullstack",
+    "project_id": "fullstack:p19",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": false,
+    "repo": "rest-api-healthcare",
+    "skills": [
+      "node.js",
+      "express.js",
+      "mongodb",
+      "rest api",
+      "docker"
+    ],
+    "start": "2026-05-02T09:00:00Z",
+    "synthetic": true,
+    "title": "Mobile backend API for a clinic network",
+    "weeks": 20
+  },
+  {
+    "archetype": "cloud_migration",
+    "client": "Urbanest",
+    "end": "2026-09-22T09:00:00Z",
+    "evidence": [
+      "fullstack:case:20",
+      "fullstack:review:24"
+    ],
+    "industry": "real_estate",
+    "industry_noun": "property management firm",
+    "metric": "reduced hosting cost by 60%",
+    "numbers": {
+      "a": 8,
+      "b": 2,
+      "p": 60
+    },
+    "persona": "fullstack",
+    "project_id": "fullstack:p20",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": false,
+    "skills": [
+      "docker",
+      "aws",
+      "postgresql",
+      "github"
+    ],
+    "start": "2026-05-05T09:00:00Z",
+    "synthetic": true,
+    "title": "Cloud migration for a property management firm",
+    "weeks": 20
+  },
+  {
+    "archetype": "saas_dashboard",
+    "client": "Open Harvest",
+    "end": "2026-10-12T09:00:00Z",
+    "evidence": [
+      "fullstack:case:21",
+      "fullstack:review:25"
+    ],
+    "industry": "nonprofit",
+    "industry_noun": "nonprofit",
+    "metric": "cut support requests for reports by 14%",
+    "numbers": {
+      "a": 1200,
+      "b": 30,
+      "p": 14
+    },
+    "persona": "fullstack",
+    "project_id": "fullstack:p21",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.3,
+    "rehired": false,
+    "skills": [
+      "react",
+      "typescript",
+      "node.js",
+      "postgresql",
+      "tailwind css"
+    ],
+    "start": "2026-07-13T09:00:00Z",
+    "synthetic": true,
+    "title": "Analytics dashboard for a nonprofit",
+    "weeks": 13
+  },
+  {
+    "archetype": "payments_integration",
+    "client": "Haulwise",
+    "end": "2026-10-19T09:00:00Z",
+    "evidence": [
+      "fullstack:case:22",
+      "fullstack:review:26"
+    ],
+    "industry": "logistics",
+    "industry_noun": "freight company",
+    "metric": "recovered 12% of failed payments automatically",
+    "numbers": {
+      "a": 20,
+      "b": 2,
+      "p": 12
+    },
+    "persona": "fullstack",
+    "project_id": "fullstack:p22",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": false,
+    "skills": [
+      "api integration",
+      "node.js",
+      "typescript",
+      "aws"
+    ],
+    "start": "2026-07-27T09:00:00Z",
+    "synthetic": true,
+    "title": "Subscription billing for a freight company",
+    "weeks": 12
+  }
+]

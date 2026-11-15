@@ -1,0 +1,39 @@
+{
+  "category": "ai_ml",
+  "floors": {
+    "fixed": 250,
+    "hourly": 30
+  },
+  "headline": "Applied ML engineer — LLM apps, NLP and computer vision that ship",
+  "location": "Lisbon, Portugal (remote)",
+  "name": "Aiko Tanaka-Reyes",
+  "persona": "ai_ml",
+  "provenance": "personas@1f579ad2e496",
+  "skills": [
+    "ai agent development",
+    "aws",
+    "chatbot development",
+    "computer vision",
+    "docker",
+    "fastapi",
+    "git",
+    "hugging face",
+    "langchain",
+    "large language model",
+    "machine learning",
+    "natural language processing",
+    "openai api",
+    "opencv",
+    "pandas",
+    "postgresql",
+    "prompt engineering",
+    "python",
+    "pytorch",
+    "scikit-learn",
+    "sql",
+    "statistics"
+  ],
+  "synthetic": true,
+  "target_rate": 55,
+  "years_experience": 7
+}

@@ -1,0 +1,610 @@
+[
+  {
+    "archetype": "rag_assistant",
+    "client": "Orbitdesk",
+    "end": "2022-01-11T09:00:00Z",
+    "evidence": [
+      "ai_ml:case:01",
+      "ai_ml:review:01",
+      "ai_ml:readme:doc-qa-service",
+      "ai_ml:code:doc-qa-service"
+    ],
+    "industry": "saas",
+    "industry_noun": "B2B SaaS company",
+    "metric": "cut average lookup time from 20 minutes to under 5 seconds",
+    "numbers": {
+      "a": 20,
+      "b": 5,
+      "p": 48
+    },
+    "persona": "ai_ml",
+    "project_id": "ai_ml:p01",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": true,
+    "repo": "doc-qa-service",
+    "skills": [
+      "large language model",
+      "langchain",
+      "openai api",
+      "python",
+      "postgresql",
+      "fastapi"
+    ],
+    "start": "2021-12-14T09:00:00Z",
+    "synthetic": true,
+    "title": "Document Q&A assistant for a B2B SaaS company",
+    "weeks": 4
+  },
+  {
+    "archetype": "ticket_classifier",
+    "client": "Castwell",
+    "end": "2022-07-06T09:00:00Z",
+    "evidence": [
+      "ai_ml:case:02",
+      "ai_ml:review:02",
+      "ai_ml:readme:ticket-classifier-manufacturing",
+      "ai_ml:code:ticket-classifier-manufacturing"
+    ],
+    "industry": "manufacturing",
+    "industry_noun": "auto-parts manufacturer",
+    "metric": "routed 33% of tickets correctly without human review",
+    "numbers": {
+      "a": 15,
+      "b": 10,
+      "p": 33
+    },
+    "persona": "ai_ml",
+    "project_id": "ai_ml:p02",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.9,
+    "rehired": false,
+    "repo": "ticket-classifier-manufacturing",
+    "skills": [
+      "natural language processing",
+      "hugging face",
+      "pytorch",
+      "python"
+    ],
+    "start": "2022-06-01T09:00:00Z",
+    "synthetic": true,
+    "title": "Support ticket triage for an auto-parts manufacturer",
+    "weeks": 5
+  },
+  {
+    "archetype": "support_chatbot",
+    "client": "Portline Logistics",
+    "end": "2023-02-04T09:00:00Z",
+    "evidence": [
+      "ai_ml:case:03",
+      "ai_ml:review:03"
+    ],
+    "industry": "logistics",
+    "industry_noun": "freight company",
+    "metric": "resolved 41% of chats without an agent",
+    "numbers": {
+      "a": 300,
+      "b": 15,
+      "p": 41
+    },
+    "persona": "ai_ml",
+    "project_id": "ai_ml:p03",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.3,
+    "rehired": false,
+    "skills": [
+      "chatbot development",
+      "openai api",
+      "fastapi",
+      "python"
+    ],
+    "start": "2022-12-10T09:00:00Z",
+    "synthetic": true,
+    "title": "Website support assistant for a freight company",
+    "weeks": 8
+  },
+  {
+    "archetype": "support_chatbot",
+    "client": "Quillfund",
+    "end": "2024-03-19T09:00:00Z",
+    "evidence": [
+      "ai_ml:case:04",
+      "ai_ml:review:04"
+    ],
+    "industry": "fintech",
+    "industry_noun": "lending startup",
+    "metric": "cut after-hours tickets by 21%",
+    "numbers": {
+      "a": 8,
+      "b": 3,
+      "p": 21
+    },
+    "persona": "ai_ml",
+    "project_id": "ai_ml:p04",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": false,
+    "skills": [
+      "chatbot development",
+      "openai api",
+      "fastapi",
+      "python"
+    ],
+    "start": "2024-01-09T09:00:00Z",
+    "synthetic": true,
+    "title": "Website support assistant for a lending startup",
+    "weeks": 10
+  },
+  {
+    "archetype": "llm_finetune",
+    "client": "Ridgeway Freight",
+    "end": "2024-06-18T09:00:00Z",
+    "evidence": [
+      "ai_ml:case:05",
+      "ai_ml:review:05",
+      "ai_ml:review:06"
+    ],
+    "industry": "logistics",
+    "industry_noun": "freight company",
+    "metric": "editors accepted 16% of drafts with light edits",
+    "numbers": {
+      "a": 300,
+      "b": 30,
+      "p": 16
+    },
+    "persona": "ai_ml",
+    "project_id": "ai_ml:p05",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.8,
+    "rehired": true,
+    "skills": [
+      "large language model",
+      "hugging face",
+      "pytorch",
+      "prompt engineering"
+    ],
+    "start": "2024-02-20T09:00:00Z",
+    "synthetic": true,
+    "title": "House-style writing model for a freight company",
+    "weeks": 17
+  },
+  {
+    "archetype": "recommender",
+    "client": "Parcelbox Shop",
+    "end": "2024-08-16T09:00:00Z",
+    "evidence": [
+      "ai_ml:case:06",
+      "ai_ml:review:07",
+      "ai_ml:review:08"
+    ],
+    "industry": "ecommerce",
+    "industry_noun": "online store",
+    "metric": "raised average order value by 63%",
+    "numbers": {
+      "a": 120,
+      "b": 30,
+      "p": 63
+    },
+    "persona": "ai_ml",
+    "project_id": "ai_ml:p06",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.8,
+    "rehired": true,
+    "skills": [
+      "machine learning",
+      "python",
+      "pandas",
+      "postgresql"
+    ],
+    "start": "2024-05-03T09:00:00Z",
+    "synthetic": true,
+    "title": "Product recommendations for an online store",
+    "weeks": 15
+  },
+  {
+    "archetype": "churn_model",
+    "client": "Halden & Pryce LLP",
+    "end": "2024-08-28T09:00:00Z",
+    "evidence": [
+      "ai_ml:case:07",
+      "ai_ml:review:09",
+      "ai_ml:review:10",
+      "ai_ml:readme:churn-signals",
+      "ai_ml:code:churn-signals"
+    ],
+    "industry": "legal",
+    "industry_noun": "law firm",
+    "metric": "lifted 90-day retention by 62%",
+    "numbers": {
+      "a": 8,
+      "b": 10,
+      "p": 62
+    },
+    "persona": "ai_ml",
+    "project_id": "ai_ml:p07",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": true,
+    "repo": "churn-signals",
+    "skills": [
+      "machine learning",
+      "scikit-learn",
+      "python",
+      "pandas",
+      "sql"
+    ],
+    "start": "2024-06-12T09:00:00Z",
+    "synthetic": true,
+    "title": "Subscriber churn prediction for a law firm",
+    "weeks": 11
+  },
+  {
+    "archetype": "llm_agent",
+    "client": "Keystone Lettings",
+    "end": "2024-12-06T09:00:00Z",
+    "evidence": [
+      "ai_ml:case:08",
+      "ai_ml:review:11",
+      "ai_ml:readme:calendar-agent",
+      "ai_ml:code:calendar-agent"
+    ],
+    "industry": "real_estate",
+    "industry_noun": "property management firm",
+    "metric": "saved coordinators about 120 hours a week",
+    "numbers": {
+      "a": 120,
+      "b": 30,
+      "p": 67
+    },
+    "persona": "ai_ml",
+    "project_id": "ai_ml:p08",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": false,
+    "repo": "calendar-agent",
+    "skills": [
+      "ai agent development",
+      "langchain",
+      "openai api",
+      "python"
+    ],
+    "start": "2024-07-19T09:00:00Z",
+    "synthetic": true,
+    "title": "Scheduling assistant agent for a property management firm",
+    "weeks": 20
+  },
+  {
+    "archetype": "llm_finetune",
+    "client": "Loomly Goods",
+    "end": "2024-10-09T09:00:00Z",
+    "evidence": [
+      "ai_ml:case:09",
+      "ai_ml:review:12"
+    ],
+    "industry": "ecommerce",
+    "industry_noun": "online store",
+    "metric": "cut editing time per draft by 21%",
+    "numbers": {
+      "a": 4,
+      "b": 15,
+      "p": 21
+    },
+    "persona": "ai_ml",
+    "project_id": "ai_ml:p09",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.8,
+    "rehired": true,
+    "skills": [
+      "large language model",
+      "hugging face",
+      "pytorch",
+      "prompt engineering"
+    ],
+    "start": "2024-07-31T09:00:00Z",
+    "synthetic": true,
+    "title": "House-style writing model for an online store",
+    "weeks": 10
+  },
+  {
+    "archetype": "invoice_extraction",
+    "client": "Ridgeway Freight",
+    "end": "2024-11-07T09:00:00Z",
+    "evidence": [
+      "ai_ml:case:10",
+      "ai_ml:review:13",
+      "ai_ml:review:14"
+    ],
+    "industry": "logistics",
+    "industry_noun": "freight company",
+    "metric": "processed 5 invoices a day at 25% field accuracy",
+    "numbers": {
+      "a": 5,
+      "b": 15,
+      "p": 25
+    },
+    "persona": "ai_ml",
+    "project_id": "ai_ml:p10",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": true,
+    "skills": [
+      "computer vision",
+      "natural language processing",
+      "pytorch",
+      "python",
+      "aws"
+    ],
+    "start": "2024-09-12T09:00:00Z",
+    "synthetic": true,
+    "title": "Invoice and receipt extraction for a freight company",
+    "weeks": 8
+  },
+  {
+    "archetype": "forecasting",
+    "client": "Riverkeep Trust",
+    "end": "2025-05-08T09:00:00Z",
+    "evidence": [
+      "ai_ml:case:11",
+      "ai_ml:review:15"
+    ],
+    "industry": "nonprofit",
+    "industry_noun": "nonprofit",
+    "metric": "cut forecast error by 43%",
+    "numbers": {
+      "a": 120,
+      "b": 15,
+      "p": 43
+    },
+    "persona": "ai_ml",
+    "project_id": "ai_ml:p11",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": true,
+    "skills": [
+      "machine learning",
+      "python",
+      "pandas",
+      "statistics"
+    ],
+    "start": "2025-02-20T09:00:00Z",
+    "synthetic": true,
+    "title": "Demand forecasting for a nonprofit",
+    "weeks": 11
+  },
+  {
+    "archetype": "ticket_classifier",
+    "client": "Pinecrest Health",
+    "end": "2025-05-22T09:00:00Z",
+    "evidence": [
+      "ai_ml:case:12",
+      "ai_ml:review:16",
+      "ai_ml:review:17"
+    ],
+    "industry": "healthcare",
+    "industry_noun": "clinic network",
+    "metric": "routed 50% of tickets correctly without human review",
+    "numbers": {
+      "a": 1200,
+      "b": 5,
+      "p": 50
+    },
+    "persona": "ai_ml",
+    "project_id": "ai_ml:p12",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.6,
+    "rehired": true,
+    "skills": [
+      "natural language processing",
+      "hugging face",
+      "pytorch",
+      "python"
+    ],
+    "start": "2025-03-27T09:00:00Z",
+    "synthetic": true,
+    "title": "Support ticket triage for a clinic network",
+    "weeks": 8
+  },
+  {
+    "archetype": "churn_model",
+    "client": "Tallyhq",
+    "end": "2025-06-14T09:00:00Z",
+    "evidence": [
+      "ai_ml:case:13",
+      "ai_ml:review:18"
+    ],
+    "industry": "saas",
+    "industry_noun": "B2B SaaS company",
+    "metric": "lifted 90-day retention by 24%",
+    "numbers": {
+      "a": 5,
+      "b": 5,
+      "p": 24
+    },
+    "persona": "ai_ml",
+    "project_id": "ai_ml:p13",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": true,
+    "skills": [
+      "machine learning",
+      "scikit-learn",
+      "python",
+      "pandas",
+      "sql"
+    ],
+    "start": "2025-04-12T09:00:00Z",
+    "synthetic": true,
+    "title": "Subscriber churn prediction for a B2B SaaS company",
+    "weeks": 9
+  },
+  {
+    "archetype": "invoice_extraction",
+    "client": "Tallyhq",
+    "end": "2025-09-26T09:00:00Z",
+    "evidence": [
+      "ai_ml:case:14",
+      "ai_ml:review:19"
+    ],
+    "industry": "saas",
+    "industry_noun": "B2B SaaS company",
+    "metric": "processed 120 invoices a day at 19% field accuracy",
+    "numbers": {
+      "a": 120,
+      "b": 2,
+      "p": 19
+    },
+    "persona": "ai_ml",
+    "project_id": "ai_ml:p14",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.3,
+    "rehired": false,
+    "skills": [
+      "computer vision",
+      "natural language processing",
+      "pytorch",
+      "python",
+      "aws"
+    ],
+    "start": "2025-06-13T09:00:00Z",
+    "synthetic": true,
+    "title": "Invoice and receipt extraction for a B2B SaaS company",
+    "weeks": 15
+  },
+  {
+    "archetype": "rag_assistant",
+    "client": "Oakrow Properties",
+    "end": "2026-02-25T09:00:00Z",
+    "evidence": [
+      "ai_ml:case:15",
+      "ai_ml:review:20"
+    ],
+    "industry": "real_estate",
+    "industry_noun": "property management firm",
+    "metric": "answered 28% of internal questions without escalation",
+    "numbers": {
+      "a": 1200,
+      "b": 30,
+      "p": 28
+    },
+    "persona": "ai_ml",
+    "project_id": "ai_ml:p15",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.9,
+    "rehired": false,
+    "skills": [
+      "large language model",
+      "langchain",
+      "openai api",
+      "python",
+      "postgresql",
+      "fastapi"
+    ],
+    "start": "2026-01-28T09:00:00Z",
+    "synthetic": true,
+    "title": "Document Q&A assistant for a property management firm",
+    "weeks": 4
+  },
+  {
+    "archetype": "churn_model",
+    "client": "Velden Components",
+    "end": "2026-05-17T09:00:00Z",
+    "evidence": [
+      "ai_ml:case:16",
+      "ai_ml:review:21"
+    ],
+    "industry": "manufacturing",
+    "industry_noun": "auto-parts manufacturer",
+    "metric": "lifted 90-day retention by 45%",
+    "numbers": {
+      "a": 40,
+      "b": 3,
+      "p": 45
+    },
+    "persona": "ai_ml",
+    "project_id": "ai_ml:p16",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.9,
+    "rehired": true,
+    "skills": [
+      "machine learning",
+      "scikit-learn",
+      "python",
+      "pandas",
+      "sql"
+    ],
+    "start": "2026-03-15T09:00:00Z",
+    "synthetic": true,
+    "title": "Subscriber churn prediction for an auto-parts manufacturer",
+    "weeks": 9
+  },
+  {
+    "archetype": "support_chatbot",
+    "client": "Common Table",
+    "end": "2026-05-31T09:00:00Z",
+    "evidence": [
+      "ai_ml:case:17",
+      "ai_ml:review:22",
+      "ai_ml:review:23"
+    ],
+    "industry": "nonprofit",
+    "industry_noun": "nonprofit",
+    "metric": "resolved 47% of chats without an agent",
+    "numbers": {
+      "a": 40,
+      "b": 2,
+      "p": 47
+    },
+    "persona": "ai_ml",
+    "project_id": "ai_ml:p17",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 5.0,
+    "rehired": true,
+    "skills": [
+      "chatbot development",
+      "openai api",
+      "fastapi",
+      "python"
+    ],
+    "start": "2026-05-03T09:00:00Z",
+    "synthetic": true,
+    "title": "Website support assistant for a nonprofit",
+    "weeks": 4
+  },
+  {
+    "archetype": "defect_detection",
+    "client": "Oakrow Properties",
+    "end": "2026-11-14T09:00:00Z",
+    "evidence": [
+      "ai_ml:case:18",
+      "ai_ml:review:24",
+      "ai_ml:review:25",
+      "ai_ml:readme:line-inspector",
+      "ai_ml:code:line-inspector"
+    ],
+    "industry": "real_estate",
+    "industry_noun": "property management firm",
+    "metric": "caught 58% of defects at the line",
+    "numbers": {
+      "a": 5,
+      "b": 30,
+      "p": 58
+    },
+    "persona": "ai_ml",
+    "project_id": "ai_ml:p18",
+    "provenance": "personas@1f579ad2e496",
+    "rating": 4.8,
+    "rehired": true,
+    "repo": "line-inspector",
+    "skills": [
+      "computer vision",
+      "pytorch",
+      "opencv",
+      "python",
+      "docker"
+    ],
+    "start": "2026-08-01T09:00:00Z",
+    "synthetic": true,
+    "title": "Visual defect detection for a property management firm",
+    "weeks": 15
+  }
+]

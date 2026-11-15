@@ -1,0 +1,34 @@
+{
+  "category": "data_analysis",
+  "floors": {
+    "fixed": 150,
+    "hourly": 20
+  },
+  "headline": "Data analyst — dashboards, SQL and spreadsheet automation that teams actually use",
+  "location": "Manchester, UK (remote)",
+  "name": "Nadia Brennan-Osei",
+  "persona": "data_analyst",
+  "provenance": "personas@1f579ad2e496",
+  "skills": [
+    "bigquery",
+    "data analysis",
+    "data cleaning",
+    "data visualization",
+    "etl",
+    "excel formula",
+    "financial modeling",
+    "google analytics",
+    "google sheets",
+    "looker studio",
+    "microsoft excel",
+    "microsoft power bi",
+    "pandas",
+    "python",
+    "sql",
+    "statistics",
+    "tableau"
+  ],
+  "synthetic": true,
+  "target_rate": 38,
+  "years_experience": 6
+}

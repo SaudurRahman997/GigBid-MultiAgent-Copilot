@@ -1,0 +1,86 @@
+{
+  "clients": {
+    "good": 75,
+    "ok": 340,
+    "poor": 85
+  },
+  "conversations": 300,
+  "personas": {
+    "ai_ml": {
+      "dev_by_job_type": {
+        "bid": 108,
+        "low_budget": 23,
+        "missing_skill": 26,
+        "poor_client": 22,
+        "scam": 21
+      },
+      "dev_jobs": 200,
+      "dev_with_injection": 12,
+      "evidence_by_type": {
+        "case_study": 18,
+        "code": 5,
+        "cv": 1,
+        "readme": 5,
+        "review": 25
+      },
+      "proposals_by_outcome": {
+        "ignored": 85,
+        "replied": 41,
+        "won": 24
+      }
+    },
+    "data_analyst": {
+      "dev_by_job_type": {
+        "bid": 104,
+        "low_budget": 25,
+        "missing_skill": 25,
+        "poor_client": 27,
+        "scam": 19
+      },
+      "dev_jobs": 200,
+      "dev_with_injection": 13,
+      "evidence_by_type": {
+        "case_study": 21,
+        "code": 5,
+        "cv": 1,
+        "readme": 5,
+        "review": 25
+      },
+      "proposals_by_outcome": {
+        "ignored": 85,
+        "replied": 35,
+        "won": 30
+      }
+    },
+    "fullstack": {
+      "dev_by_job_type": {
+        "bid": 109,
+        "low_budget": 22,
+        "missing_skill": 27,
+        "poor_client": 25,
+        "scam": 17
+      },
+      "dev_jobs": 200,
+      "dev_with_injection": 9,
+      "evidence_by_type": {
+        "case_study": 22,
+        "code": 7,
+        "cv": 1,
+        "readme": 7,
+        "review": 26
+      },
+      "proposals_by_outcome": {
+        "ignored": 83,
+        "replied": 44,
+        "won": 23
+      }
+    }
+  },
+  "stream": {
+    "duplicate": 143,
+    "injection": 86,
+    "real": 2400,
+    "scam": 229,
+    "total": 2858
+  }
+}
