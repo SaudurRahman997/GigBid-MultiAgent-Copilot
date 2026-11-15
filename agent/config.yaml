@@ -24,7 +24,7 @@ nodes:                         # which model role each node uses
 embeddings: { model: BAAI/bge-m3, device: cpu }
 reranker:   { model: BAAI/bge-reranker-v2-m3, device: cpu }
 rag:
-  variant: v2_hybrid           # set by evaluation, not by default
+  variant: bm25_baseline       # INTERIM (Phase 3). Phase 4 sets this from evals/results/, not by default
   k: 5
 loops:   { critic_max_rounds: 2 }
 budgets:
@@ -36,3 +36,25 @@ autonomy:   { auto_skip_below_fit: 0.25, auto_send: false }
 scheduling: { gigsim_interval_min: 10, live_interval_min: 60 }
 ci_thresholds: { max_unsupported_claims_per_proposal: 0.3, min_bid_skip_f1: 0.75 }
 policy_version: v1
+mcp:
+  servers:                     # URL from env, default for local dev
+    portfolio:   { url_env: MCP_PORTFOLIO_URL,   default: "http://localhost:8201/mcp" }
+    marketplace: { url_env: MCP_MARKETPLACE_URL, default: "http://localhost:8202/mcp" }
+    workspace:   { url_env: MCP_WORKSPACE_URL,   default: "http://localhost:8203/mcp" }
+  timeout_s: 15
+  retries: { max_attempts: 3, backoff_base_s: 0.5, backoff_max_s: 8 }
+  transient_errors: [rate_limited, marketplace_unavailable, timeout, connection]
+  pending_queue_path: var/pending_mcp_calls.jsonl   # degraded mode: queued writes, resumed later
+  allowlists:                  # tools each agent role may call (by name); everything else is hidden
+    scout:         [search_jobs, get_job]
+    job_analyst:   [get_job]
+    risk_assessor: [get_job, get_client_history]
+    fit_matcher:   [search_evidence, get_case_study, list_skills]
+    pricing:       [get_job, get_connects_balance]
+    writer:        [search_evidence, get_case_study]
+    verifier:      [search_evidence, get_case_study]
+    critic:        []
+    compliance:    []
+    submitter:     [create_proposal_draft, submit_proposal, get_connects_balance]
+    liaison:       [list_messages, search_evidence, send_message, free_slots, create_tentative_hold]
+    single_agent:  [search_jobs, get_job, get_client_history, search_evidence, get_case_study, list_skills, create_proposal_draft]
