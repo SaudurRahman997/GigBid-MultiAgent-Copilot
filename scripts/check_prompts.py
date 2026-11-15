@@ -2,7 +2,8 @@
 
 Heuristic (AST based, so comments are ignored): a string literal is flagged when it
 is long and reads like an instruction to a model. Docstrings are skipped.
-Silence a deliberate exception with a trailing `# prompt-ok` comment on the line.
+Silence a deliberate exception with a trailing `# prompt-ok` comment on the line, or exempt a
+whole file with `# prompt-ok-file: <reason>` (the reason is required).
 """
 
 from __future__ import annotations
@@ -15,6 +16,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SCAN_DIRS = ["agent", "mcp_servers", "rag", "gigsim", "apps/api", "evals", "data/generators"]
 MIN_LEN = 120
+FILE_EXEMPT = re.compile(r"^# prompt-ok-file: \S.{5,}$", re.MULTILINE)
 PROMPT_MARKERS = re.compile(
     r"\b(you are (an?|the)\b|your task is|respond (only )?(with|in) json|"
     r"as an ai|system prompt|ignore (all )?previous instructions|step by step)",
@@ -39,6 +41,8 @@ def scan_file(path: Path) -> list[str]:
     except SyntaxError as exc:
         return [f"{path}: cannot parse ({exc})"]
     lines = src.splitlines()
+    if FILE_EXEMPT.search(src):  # e.g. attack strings used as test data, with a stated reason
+        return []
     skip = _docstring_nodes(tree)
     problems = []
     for node in ast.walk(tree):

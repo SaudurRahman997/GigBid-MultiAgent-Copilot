@@ -3,7 +3,7 @@
 UV      ?= uv
 COMPOSE := docker compose -f infra/docker-compose.yml $(if $(wildcard .env),--env-file .env,)
 
-.PHONY: help data dev up down logs ps test test-integration lint fmt typecheck eval seed demo openapi check-prompts web-dev
+.PHONY: help data validate-data dev up down logs ps test test-integration lint fmt typecheck eval seed demo openapi check-prompts web-dev
 
 help: ## list targets
 	@grep -E '^[a-zA-Z_-]+:.*## ' Makefile | awk 'BEGIN{FS=":.*## "}{printf "  %-14s %s\n", $$1, $$2}'
@@ -51,7 +51,13 @@ data: ## download Kaggle datasets (needs KAGGLE_API_TOKEN in .env) and profile t
 	$(UV) run python -m data.generators.profile_datasets
 
 seed: ## regenerate processed + synthetic data deterministically (needs `make data` once)
-	$(UV) run python -m data.generators.preprocess
+	@if [ -d data/raw/asaniczka__upwork-job-postings-dataset-2024-50k-records ]; then \
+		$(UV) run python -m data.generators.preprocess; \
+	else echo "data/raw missing: skipping preprocess (run 'make data' first)"; fi
+	$(UV) run python -m data.generators.seed
+
+validate-data: ## check synthetic/provenance on every record, dev-set gold fields, planted rates
+	$(UV) run python -m data.generators.validate
 
 demo: ## end-to-end demo (Phase 7+)
 	@echo "demo: not implemented yet (Phase 7)"
