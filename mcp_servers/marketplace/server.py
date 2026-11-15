@@ -87,6 +87,46 @@ class SubmitToolResult(BaseModel):
     replayed: bool = False
 
 
+class MarketRates(BaseModel):
+    pay_type: str
+    low: float = Field(description="25th percentile of real prices (fair band low)")
+    high: float = Field(description="75th percentile (fair band high)")
+    median: float
+    p90: float
+    n: int = Field(description="number of real job posts behind the band")
+    source: str = Field(description="skill:<name> or category:<name>")
+
+
+def market_band(
+    data_dir, category: str, skills: list[str], pay_type: str, min_n: int = 100
+) -> MarketRates:
+    """p25..p75 of real Kaggle prices: first skill with n >= min_n, else the category, else all."""
+    import pandas as pd
+
+    df = pd.read_parquet(data_dir / "processed" / "pricing_stats.parquet")
+    df = df[df["pay_type"] == pay_type]
+    pick = None
+    for sk in skills:
+        row = df[(df["group_type"] == "skill") & (df["group"] == sk.lower()) & (df["n"] >= min_n)]
+        if not row.empty:
+            pick, source = row.iloc[0], f"skill:{sk.lower()}"
+            break
+    if pick is None:
+        row = df[(df["group_type"] == "category") & (df["group"] == category)]
+        if row.empty:
+            row, category = df[df["group_type"] == "all"], "all"
+        pick, source = row.iloc[0], f"category:{category}"
+    return MarketRates(
+        pay_type=pay_type,
+        low=float(pick["p25"]),
+        high=float(pick["p75"]),
+        median=float(pick["p50"]),
+        p90=float(pick["p90"]),
+        n=int(pick["n"]),
+        source=source,
+    )
+
+
 class SendToolResult(BaseModel):
     dry_run: bool
     thread_id: str
@@ -362,6 +402,26 @@ def build_server(
 
         return await run(
             "send_message", args, ctx, fn, lambda r: f"message {r.message_id} in {r.thread_id}"
+        )
+
+    @mcp.tool(annotations=READ, title="Get market rates")
+    async def get_market_rates(
+        category: Annotated[
+            str, Field(min_length=2, max_length=40, description="e.g. ai_ml, web_dev")
+        ],
+        pay_type: Annotated[str, Field(pattern="^(fixed|hourly)$")],
+        skills: Annotated[list[Annotated[str, Field(max_length=60)]], Field(max_length=10)]
+        | None = None,
+        ctx: Context | None = None,
+    ) -> MarketRates:
+        """Fair price band from real job-post prices (p25-p75) for a skill set or category."""
+        args = {"category": category, "pay_type": pay_type, "skills": skills or []}
+
+        async def fn(_u: str) -> MarketRates:
+            return market_band(s.data_dir, category, skills or [], pay_type)
+
+        return await run(
+            "get_market_rates", args, ctx, fn, lambda r: f"{r.source} {r.low}-{r.high}"
         )
 
     @mcp.custom_route("/health", methods=["GET"])

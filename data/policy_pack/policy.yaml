@@ -58,3 +58,29 @@ connects:
 screening:
   max_cover_letter_chars: 5000
   max_screening_answer_chars: 1500
+
+# Risk signals (Risk Assessor). Patterns are case-insensitive regexes over the job text.
+scam_signals:
+  off_platform: 'whats\s?app|telegram|outside the platform|off[- ]platform|bank transfer|your (email|phone|number)|contact me (directly|on)'
+  upfront_fee: 'deposit|registration fee|starter kit|training materials|refundable|one-time .{0,20}fee'
+  crypto: 'usdt|bitcoin|\bbtc\b|crypto|wallet address'
+  free_work: 'unpaid|sample (project|task)|trial task|pay the winner|send a finished'
+  vague_high_budget: 'budget is not a problem|details will be shared|simple work, high pay|confidential project|paid very well'
+injection_patterns:
+  - '(?i)ignore (all )?(previous|prior|your) (instructions|rules|guidance)'
+  - '(?i)(note|instruction)s? (for|to) (any )?ai'
+  - '(?i)\b(system|assistant)\s*[:\]]'
+  - '(?i)if you are an ai'
+  - '(?i)reveal (your )?(system prompt|api keys?)'
+  - '(?i)disregard (the|your|all)'
+  - '(?i)system override'
+client_score:                  # weights for the public client-history score in [0, 1]
+  payment_verified: 0.25
+  rating: 0.35                 # (rating - 3) / 2, missing rating -> 0.5
+  hire_rate: 0.25
+  spend: 0.15                  # min(1, log10(1 + spend) / 4)
+client_red_flags:              # any one -> poor client history (Risk Assessor -> caution, Decide -> skip)
+  min_rating: 4.0              # rating below this
+  low_hire_rate: 0.2           # hire rate below this ...
+  low_hire_min_posts: 5        # ... with at least this many jobs posted
+  unverified_ghost_posts: 10   # payment unverified, $0 spent and at least this many posts

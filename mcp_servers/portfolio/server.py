@@ -78,6 +78,30 @@ class SkillsResult(BaseModel):
     skills: list[SkillCount]
 
 
+class Profile(BaseModel):
+    persona: str
+    name: str
+    headline: str
+    category: str
+    skills: list[str]
+    floors: dict[str, float] = Field(description="minimum acceptable fixed budget and hourly rate")
+    target_rate: float
+
+
+class ClaimCheckOut(BaseModel):
+    text: str
+    status: str
+    evidence: list[str]
+    cited: list[str]
+    reason: str
+
+
+class VerifyResult(BaseModel):
+    checks: list[ClaimCheckOut]
+    unsupported_rate: float
+    judge: str
+
+
 class NotFoundError(LookupError):
     code = "not_found"
 
@@ -180,6 +204,70 @@ def build_server(settings: MCPSettings | None = None, store: Store | None = None
             )
 
         return await runner.run("list_skills", {}, ctx, fn, lambda r: f"{len(r.skills)} skills")
+
+    @mcp.tool(annotations=READ, title="Get freelancer profile")
+    async def get_profile(ctx: Context | None = None) -> Profile:
+        """The freelancer's profile: headline, evidenced skills, minimum budget/rate, target rate."""
+
+        async def fn(user: str) -> Profile:
+            import json as _json
+
+            path = s.data_dir / "personas" / s.persona_for(user) / "profile.json"
+            if not path.exists():
+                raise NotFoundError(f"no profile for user {user!r}")
+            p = _json.loads(path.read_text(encoding="utf-8"))
+            return Profile(
+                persona=p["persona"],
+                name=p["name"],
+                headline=p["headline"],
+                category=p["category"],
+                skills=p["skills"],
+                floors=p["floors"],
+                target_rate=p["target_rate"],
+            )
+
+        return await runner.run("get_profile", {}, ctx, fn, lambda r: r.persona)
+
+    @mcp.tool(annotations=READ, title="Verify claims in a draft")
+    async def verify_claims(
+        draft: Annotated[
+            str, Field(min_length=20, max_length=6000, description="Proposal or message text")
+        ],
+        ctx: Context | None = None,
+    ) -> VerifyResult:
+        """Split a draft into factual claims and check each against the portfolio:
+        supported | partial | unsupported, with the evidence ids that back it."""
+
+        async def fn(user: str) -> VerifyResult:
+            from rag.verify import config as verify_config
+            from rag.verify import default_judge, unsupported_rate, verify
+
+            cfg = verify_config()
+            retriever = get_retriever(s.persona_for(user), cfg["retrieval_variant"], data_dir)
+            judge = default_judge()
+            checks = verify(draft, retriever, judge, cfg["k"])
+            return VerifyResult(
+                checks=[
+                    ClaimCheckOut(
+                        text=c.text,
+                        status=c.status,
+                        evidence=c.evidence,
+                        cited=c.cited,
+                        reason=c.reason,
+                    )
+                    for c in checks
+                ],
+                unsupported_rate=round(unsupported_rate(checks), 4),
+                judge=judge.name,
+            )
+
+        return await runner.run(
+            "verify_claims",
+            {"draft": draft},
+            ctx,
+            fn,
+            lambda r: f"{len(r.checks)} claims, unsupported {r.unsupported_rate}",
+        )
 
     # ------------------------------------------------------------------ resources
     def resource_doc(doc_id: str, types: set[str]) -> Document:
