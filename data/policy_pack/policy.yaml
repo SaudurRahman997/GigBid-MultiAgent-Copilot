@@ -1,0 +1,60 @@
+# Machine-readable GigBid policy pack (mirrors policy.md). Read by the Compliance node,
+# the output filter and the generators. Edit here, never in Python.
+version: v1
+synthetic: true
+provenance: hand-written@policy-pack-v1
+
+rules:
+  - id: no_off_platform_contact
+    severity: block
+    description: Never share or ask for contact details or move the conversation off-platform.
+    patterns:
+      email: '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}'
+      phone: '(?<!\d)(?:\+?\d[\s().-]?){9,14}\d(?!\d)'
+      messenger: '(?i)\b(whats\s?app|telegram|signal app|skype|wechat|discord|viber)\b'
+  - id: no_off_platform_payment
+    severity: block
+    description: Never accept or propose payment outside the platform (bank transfer, crypto, gift cards, PayPal).
+    patterns:
+      payment: '(?i)\b(paypal|western union|wire transfer|bank transfer|gift ?cards?|bitcoin|btc|usdt|crypto(currency)?|zelle|cash ?app)\b'
+  - id: no_fabricated_experience
+    severity: block
+    description: Every claim about experience, results or clients must be supported by portfolio evidence.
+  - id: no_guarantees
+    severity: block
+    description: No guarantees of outcomes (rankings, revenue, 100% accuracy, approval).
+    patterns:
+      guarantee: '(?i)\b(guarantee[ds]?|100\s?% (accurate|accuracy|success)|risk[- ]free|promise you (will|\d))'
+  - id: no_external_links
+    severity: warn            # v2 of the platform policy turns this into "block"
+    description: Avoid links to external sites in proposals; describe work instead.
+    patterns:
+      link: '(?i)\b((https?://|www\.)\S+)'
+  - id: fair_automation_use
+    severity: block
+    description: A human approves every proposal, message and Connects spend; nothing is auto-sent.
+  - id: no_free_work
+    severity: warn
+    description: Do not do unpaid test work beyond a short screening answer.
+
+connects:
+  default: 8
+  max_per_proposal: 16
+  # Connects needed to submit, by fixed budget (USD) or hourly max rate (USD/h).
+  tiers:
+    fixed:
+      - {below: 50, connects: 4}
+      - {below: 200, connects: 8}
+      - {below: 1000, connects: 12}
+      - {below: .inf, connects: 16}
+    hourly:
+      - {below: 20, connects: 4}
+      - {below: 40, connects: 8}
+      - {below: 70, connects: 12}
+      - {below: .inf, connects: 16}
+  monthly_free: 10
+  starting_balance: 120
+
+screening:
+  max_cover_letter_chars: 5000
+  max_screening_answer_chars: 1500
