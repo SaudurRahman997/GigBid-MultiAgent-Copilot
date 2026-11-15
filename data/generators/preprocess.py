@@ -23,6 +23,7 @@ Usage: uv run python -m data.generators.preprocess
 from __future__ import annotations
 
 import hashlib
+import html
 import json
 import re
 import sys
@@ -392,6 +393,9 @@ def build_corpus(tax: Taxonomy, report: dict) -> pd.DataFrame:
     report["loaded"] = {"asaniczka_50k": len(j50), "ahmedmyalo_60k": len(j60)}
     df = pd.concat([j60, j50], ignore_index=True)  # 60k first: richer rows win ties
     df = df[df["description"].notna() & df["title"].notna()]
+    # Scraped text carries HTML entities (&quot; &amp; ...); decode them once here.
+    df["title"] = df["title"].astype(str).map(html.unescape).str.strip()
+    df["description"] = df["description"].astype(str).map(html.unescape).str.strip()
     df = dedupe(df, report, "corpus_dedupe")
     df = clean_prices(df)
     # Jobs without a stated price stay (common for real hourly posts); stats skip them.
