@@ -1,0 +1,68 @@
+{
+  "runner": "evals/runners/verify_eval.py",
+  "generated_at": "2026-11-15T17:01:19Z",
+  "claims": 162,
+  "label_counts": {
+    "supported": 72,
+    "partial": 36,
+    "unsupported": 54
+  },
+  "retrieval_variant": "v2_hybrid",
+  "judges": {
+    "rerank": {
+      "accuracy": 0.9877,
+      "macro_f1": 0.9847,
+      "confusion": {
+        "supported": {
+          "supported": 72,
+          "partial": 0,
+          "unsupported": 0
+        },
+        "partial": {
+          "supported": 0,
+          "partial": 36,
+          "unsupported": 0
+        },
+        "unsupported": {
+          "supported": 0,
+          "partial": 2,
+          "unsupported": 52
+        }
+      },
+      "unsupported_rate_before": 0.325,
+      "unsupported_rate_after": 0.0139,
+      "drafts": 36,
+      "thresholds": {
+        "support_logit": 0.0,
+        "partial_logit": -3.0
+      },
+      "threshold_sweep_top5": [
+        {
+          "support_logit": 0.0,
+          "partial_logit": -1.0,
+          "macro_f1": 1.0
+        },
+        {
+          "support_logit": 1.0,
+          "partial_logit": -1.0,
+          "macro_f1": 1.0
+        },
+        {
+          "support_logit": 2.0,
+          "partial_logit": -1.0,
+          "macro_f1": 1.0
+        },
+        {
+          "support_logit": 3.0,
+          "partial_logit": -1.0,
+          "macro_f1": 1.0
+        },
+        {
+          "support_logit": -1.0,
+          "partial_logit": -3.0,
+          "macro_f1": 0.9847
+        }
+      ]
+    }
+  }
+}

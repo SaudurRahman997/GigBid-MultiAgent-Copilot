@@ -1,0 +1,152 @@
+{
+  "runner": "evals/runners/ablation.py",
+  "split": "dev",
+  "personas": [
+    "ai_ml",
+    "fullstack",
+    "data_analyst"
+  ],
+  "git_sha": "aa9fc27",
+  "generated_at": "2026-11-15T17:01:01Z",
+  "base": "no_rerank_outcome",
+  "overall": {
+    "no_rerank_outcome": {
+      "recall@5": 0.2162,
+      "project_recall@5": 0.4815,
+      "mrr": 0.4018,
+      "ndcg@10": 0.2965
+    },
+    "no_decompose_rerank_outcome": {
+      "recall@5": 0.2821,
+      "project_recall@5": 0.6288,
+      "mrr": 0.4879,
+      "ndcg@10": 0.374
+    },
+    "no_bm25_rerank_outcome": {
+      "recall@5": 0.1888,
+      "project_recall@5": 0.429,
+      "mrr": 0.331,
+      "ndcg@10": 0.2464
+    },
+    "no_rerank_outcome_structured": {
+      "recall@5": 0.2303,
+      "project_recall@5": 0.5125,
+      "mrr": 0.4093,
+      "ndcg@10": 0.3048
+    }
+  },
+  "delta_vs_full": {
+    "no_decompose_rerank_outcome": {
+      "recall@5": 0.0659,
+      "project_recall@5": 0.1473,
+      "mrr": 0.0861,
+      "ndcg@10": 0.0775
+    },
+    "no_bm25_rerank_outcome": {
+      "recall@5": -0.0274,
+      "project_recall@5": -0.0525,
+      "mrr": -0.0708,
+      "ndcg@10": -0.0501
+    },
+    "no_rerank_outcome_structured": {
+      "recall@5": 0.0141,
+      "project_recall@5": 0.031,
+      "mrr": 0.0075,
+      "ndcg@10": 0.0083
+    }
+  },
+  "per_persona": {
+    "no_rerank_outcome": {
+      "ai_ml": {
+        "recall@5": 0.1923,
+        "project_recall@5": 0.4444,
+        "mrr": 0.3988,
+        "ndcg@10": 0.2747,
+        "jobs": 153
+      },
+      "fullstack": {
+        "recall@5": 0.2506,
+        "project_recall@5": 0.5385,
+        "mrr": 0.4407,
+        "ndcg@10": 0.351,
+        "jobs": 156
+      },
+      "data_analyst": {
+        "recall@5": 0.2056,
+        "project_recall@5": 0.4615,
+        "mrr": 0.3659,
+        "ndcg@10": 0.2638,
+        "jobs": 156
+      }
+    },
+    "no_decompose_rerank_outcome": {
+      "ai_ml": {
+        "recall@5": 0.2617,
+        "project_recall@5": 0.5948,
+        "mrr": 0.4715,
+        "ndcg@10": 0.3275,
+        "jobs": 153
+      },
+      "fullstack": {
+        "recall@5": 0.3002,
+        "project_recall@5": 0.6667,
+        "mrr": 0.5024,
+        "ndcg@10": 0.4087,
+        "jobs": 156
+      },
+      "data_analyst": {
+        "recall@5": 0.2843,
+        "project_recall@5": 0.625,
+        "mrr": 0.4899,
+        "ndcg@10": 0.3857,
+        "jobs": 156
+      }
+    },
+    "no_bm25_rerank_outcome": {
+      "ai_ml": {
+        "recall@5": 0.1827,
+        "project_recall@5": 0.4216,
+        "mrr": 0.3304,
+        "ndcg@10": 0.244,
+        "jobs": 153
+      },
+      "fullstack": {
+        "recall@5": 0.2066,
+        "project_recall@5": 0.4615,
+        "mrr": 0.3448,
+        "ndcg@10": 0.2787,
+        "jobs": 156
+      },
+      "data_analyst": {
+        "recall@5": 0.1771,
+        "project_recall@5": 0.4038,
+        "mrr": 0.3178,
+        "ndcg@10": 0.2164,
+        "jobs": 156
+      }
+    },
+    "no_rerank_outcome_structured": {
+      "ai_ml": {
+        "recall@5": 0.2021,
+        "project_recall@5": 0.4444,
+        "mrr": 0.3714,
+        "ndcg@10": 0.2693,
+        "jobs": 153
+      },
+      "fullstack": {
+        "recall@5": 0.2656,
+        "project_recall@5": 0.609,
+        "mrr": 0.4722,
+        "ndcg@10": 0.3599,
+        "jobs": 156
+      },
+      "data_analyst": {
+        "recall@5": 0.2231,
+        "project_recall@5": 0.484,
+        "mrr": 0.3844,
+        "ndcg@10": 0.2853,
+        "jobs": 156
+      }
+    }
+  }
+}

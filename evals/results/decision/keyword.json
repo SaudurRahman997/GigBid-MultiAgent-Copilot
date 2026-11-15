@@ -2,8 +2,8 @@
   "runner": "evals/runners/decision_eval.py",
   "decider": "keyword",
   "split": "dev",
-  "git_sha": "c5965fd",
-  "generated_at": "2026-11-15T08:03:54Z",
+  "git_sha": "4f78409",
+  "generated_at": "2026-11-15T17:10:13Z",
   "overall": {
     "jobs": 600,
     "bid_f1": 0.7751,

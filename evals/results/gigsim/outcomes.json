@@ -1,0 +1,242 @@
+{
+  "runner": "evals/runners/gigsim_outcomes.py",
+  "jobs_per_persona": 30,
+  "git_sha": "4f78409",
+  "generated_at": "2026-11-15T17:08:55Z",
+  "writer": "deterministic template (top-3 evidence)",
+  "overall": {
+    "generic": {
+      "reply_rate": 0.1111,
+      "interview_rate": 0.0,
+      "hire_rate": 0.0,
+      "mean_p": 0.1083,
+      "mean_must_have_coverage": 0.0
+    },
+    "v0_naive": {
+      "reply_rate": 0.3889,
+      "interview_rate": 0.2,
+      "hire_rate": 0.0667,
+      "mean_p": 0.4635,
+      "mean_must_have_coverage": 0.6222
+    },
+    "v1_decompose": {
+      "reply_rate": 0.3333,
+      "interview_rate": 0.1111,
+      "hire_rate": 0.0444,
+      "mean_p": 0.4425,
+      "mean_must_have_coverage": 0.5944
+    },
+    "v2_hybrid": {
+      "reply_rate": 0.4222,
+      "interview_rate": 0.1556,
+      "hire_rate": 0.0222,
+      "mean_p": 0.4433,
+      "mean_must_have_coverage": 0.6111
+    },
+    "v3_rerank": {
+      "reply_rate": 0.3889,
+      "interview_rate": 0.2,
+      "hire_rate": 0.0444,
+      "mean_p": 0.4144,
+      "mean_must_have_coverage": 0.6445
+    },
+    "v4_outcome": {
+      "reply_rate": 0.4222,
+      "interview_rate": 0.2,
+      "hire_rate": 0.0556,
+      "mean_p": 0.446,
+      "mean_must_have_coverage": 0.6445
+    },
+    "v8_corrective": {
+      "reply_rate": 0.3667,
+      "interview_rate": 0.2,
+      "hire_rate": 0.0333,
+      "mean_p": 0.3821,
+      "mean_must_have_coverage": 0.55
+    }
+  },
+  "per_persona": {
+    "generic": {
+      "ai_ml": {
+        "proposals": 30,
+        "reply_rate": 0.1333,
+        "interview_rate": 0.0,
+        "hire_rate": 0.0,
+        "mean_p": 0.1171,
+        "mean_must_have_coverage": 0.0
+      },
+      "fullstack": {
+        "proposals": 30,
+        "reply_rate": 0.1,
+        "interview_rate": 0.0,
+        "hire_rate": 0.0,
+        "mean_p": 0.0987,
+        "mean_must_have_coverage": 0.0
+      },
+      "data_analyst": {
+        "proposals": 30,
+        "reply_rate": 0.1,
+        "interview_rate": 0.0,
+        "hire_rate": 0.0,
+        "mean_p": 0.1092,
+        "mean_must_have_coverage": 0.0
+      }
+    },
+    "v0_naive": {
+      "ai_ml": {
+        "proposals": 30,
+        "reply_rate": 0.2667,
+        "interview_rate": 0.1,
+        "hire_rate": 0.0333,
+        "mean_p": 0.4212,
+        "mean_must_have_coverage": 0.5
+      },
+      "fullstack": {
+        "proposals": 30,
+        "reply_rate": 0.4,
+        "interview_rate": 0.2333,
+        "hire_rate": 0.0667,
+        "mean_p": 0.5268,
+        "mean_must_have_coverage": 0.8
+      },
+      "data_analyst": {
+        "proposals": 30,
+        "reply_rate": 0.5,
+        "interview_rate": 0.2667,
+        "hire_rate": 0.1,
+        "mean_p": 0.4425,
+        "mean_must_have_coverage": 0.5667
+      }
+    },
+    "v1_decompose": {
+      "ai_ml": {
+        "proposals": 30,
+        "reply_rate": 0.2333,
+        "interview_rate": 0.0333,
+        "hire_rate": 0.0,
+        "mean_p": 0.3744,
+        "mean_must_have_coverage": 0.4833
+      },
+      "fullstack": {
+        "proposals": 30,
+        "reply_rate": 0.4,
+        "interview_rate": 0.1667,
+        "hire_rate": 0.1,
+        "mean_p": 0.4928,
+        "mean_must_have_coverage": 0.6833
+      },
+      "data_analyst": {
+        "proposals": 30,
+        "reply_rate": 0.3667,
+        "interview_rate": 0.1333,
+        "hire_rate": 0.0333,
+        "mean_p": 0.4602,
+        "mean_must_have_coverage": 0.6167
+      }
+    },
+    "v2_hybrid": {
+      "ai_ml": {
+        "proposals": 30,
+        "reply_rate": 0.4333,
+        "interview_rate": 0.0667,
+        "hire_rate": 0.0,
+        "mean_p": 0.3734,
+        "mean_must_have_coverage": 0.4667
+      },
+      "fullstack": {
+        "proposals": 30,
+        "reply_rate": 0.5,
+        "interview_rate": 0.2333,
+        "hire_rate": 0.0667,
+        "mean_p": 0.5069,
+        "mean_must_have_coverage": 0.7833
+      },
+      "data_analyst": {
+        "proposals": 30,
+        "reply_rate": 0.3333,
+        "interview_rate": 0.1667,
+        "hire_rate": 0.0,
+        "mean_p": 0.4497,
+        "mean_must_have_coverage": 0.5833
+      }
+    },
+    "v3_rerank": {
+      "ai_ml": {
+        "proposals": 30,
+        "reply_rate": 0.3333,
+        "interview_rate": 0.2,
+        "hire_rate": 0.0333,
+        "mean_p": 0.3774,
+        "mean_must_have_coverage": 0.5
+      },
+      "fullstack": {
+        "proposals": 30,
+        "reply_rate": 0.5333,
+        "interview_rate": 0.2,
+        "hire_rate": 0.1,
+        "mean_p": 0.442,
+        "mean_must_have_coverage": 0.8167
+      },
+      "data_analyst": {
+        "proposals": 30,
+        "reply_rate": 0.3,
+        "interview_rate": 0.2,
+        "hire_rate": 0.0,
+        "mean_p": 0.4238,
+        "mean_must_have_coverage": 0.6167
+      }
+    },
+    "v4_outcome": {
+      "ai_ml": {
+        "proposals": 30,
+        "reply_rate": 0.4667,
+        "interview_rate": 0.2333,
+        "hire_rate": 0.0667,
+        "mean_p": 0.421,
+        "mean_must_have_coverage": 0.5
+      },
+      "fullstack": {
+        "proposals": 30,
+        "reply_rate": 0.4333,
+        "interview_rate": 0.2667,
+        "hire_rate": 0.1,
+        "mean_p": 0.4733,
+        "mean_must_have_coverage": 0.8167
+      },
+      "data_analyst": {
+        "proposals": 30,
+        "reply_rate": 0.3667,
+        "interview_rate": 0.1,
+        "hire_rate": 0.0,
+        "mean_p": 0.4438,
+        "mean_must_have_coverage": 0.6167
+      }
+    },
+    "v8_corrective": {
+      "ai_ml": {
+        "proposals": 30,
+        "reply_rate": 0.3,
+        "interview_rate": 0.1667,
+        "hire_rate": 0.0,
+        "mean_p": 0.3253,
+        "mean_must_have_coverage": 0.3833
+      },
+      "fullstack": {
+        "proposals": 30,
+        "reply_rate": 0.5333,
+        "interview_rate": 0.2333,
+        "hire_rate": 0.1,
+        "mean_p": 0.4475,
+        "mean_must_have_coverage": 0.7333
+      },
+      "data_analyst": {
+        "proposals": 30,
+        "reply_rate": 0.2667,
+        "interview_rate": 0.2,
+        "hire_rate": 0.0,
+        "mean_p": 0.3735,
+        "mean_must_have_coverage": 0.5333
+      }
+    }
+  }
+}
