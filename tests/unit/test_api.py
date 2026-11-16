@@ -215,3 +215,22 @@ def test_demo_mode_serves_the_full_stack_in_one_process(tmp_path, monkeypatch):
 
 
 ROOT_DATA = Path(__file__).resolve().parents[2] / "data" / "devset"
+
+
+def test_inline_runs_finish_inside_the_request(tmp_path, monkeypatch):
+    """GIGBID_INLINE_RUNS=1 (serverless): analyze/approve return only after the graph reached its next stop."""
+    monkeypatch.setenv("GIGBID_MCP_MODE", "inprocess")
+    monkeypatch.setenv("GIGBID_INLINE_RUNS", "1")
+    monkeypatch.setenv("API_DATABASE_URL", f"sqlite:///{(tmp_path / 'inline.db').as_posix()}")
+    monkeypatch.setenv("REVIEWER_EMAIL", "reviewer@example.com")
+    monkeypatch.setenv("REVIEWER_PASSWORD", "demo-pass-123")
+    with TestClient(create_app()) as c:
+        tok = c.post("/auth/login", json={"email": "reviewer@example.com", "password": "demo-pass-123"}).json()["token"]
+        h = {"Authorization": f"Bearer {tok}"}
+        job = json.loads(next(x for x in (ROOT_DATA / "ai_ml.jsonl").read_text(encoding="utf-8").splitlines()
+                              if json.loads(x)["_gold"]["bid"] == "bid"))  # fmt: skip
+        tid = c.post(f"/jobs/{job['job_id']}/analyze", headers=h).json()["thread_id"]
+        assert c.get(f"/runs/{tid}", headers=h).json()["status"] == "awaiting_approval"  # no polling needed
+        assert c.post(f"/approvals/{tid}", headers=h, json={"action": "approve"}).status_code == 202
+        assert c.get(f"/runs/{tid}", headers=h).json()["status"] == "submitted"
+        assert c.post(f"/approvals/{tid}", headers=h, json={"action": "approve"}).status_code == 409

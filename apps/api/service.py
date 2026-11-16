@@ -48,8 +48,10 @@ def summarize(kind: str, values: dict, interrupts: list) -> dict:
 
 class GraphService:
     def __init__(self, engine: Engine, config: dict, mcp_factory: Callable[[str, str], Any],
-                 llm: Callable[[str], Any] | None = None, checkpointer=None, store=None):  # fmt: skip
+                 llm: Callable[[str], Any] | None = None, checkpointer=None, store=None,
+                 inline: bool = False):  # fmt: skip
         self.engine = engine
+        self.inline = inline  # serverless hosting: drive the graph to its next stop inside the request
         self.config = config
         self.mcp_factory = mcp_factory  # (persona, trace_id) -> object with async call(agent, tool, args)
         self.llm = llm
@@ -81,6 +83,12 @@ class GraphService:
         with self.engine.begin() as c:
             c.execute(update(db.runs).where(db.runs.c.thread_id == thread_id).values(**fields))
 
+    async def _launch(self, coro) -> None:
+        if self.inline:  # no background work survives a serverless response; finish (to approval/end) first
+            await coro
+        else:
+            self._spawn(coro)
+
     def _spawn(self, coro) -> None:
         task = asyncio.create_task(coro)
         self.tasks.add(task)
@@ -96,7 +104,7 @@ class GraphService:
             payload: Any = {"job_id": subject, "thread_id": thread_id, "user": user["id"]}
         else:
             payload = {"thread_id": subject, "user": user["id"]}
-        self._spawn(self._drive(user, thread_id, kind, payload))
+        await self._launch(self._drive(user, thread_id, kind, payload))
         return thread_id
 
     async def resume(self, user: dict, thread_id: str, decision: dict) -> None:
@@ -105,7 +113,7 @@ class GraphService:
         if not state.interrupts:
             raise NotAwaitingApproval(thread_id)
         self._set(thread_id, status="resuming")
-        self._spawn(self._drive(user, thread_id, row["kind"], Command(resume=decision)))
+        await self._launch(self._drive(user, thread_id, row["kind"], Command(resume=decision)))
 
     async def _drive(self, user: dict, thread_id: str, kind: str, payload: Any) -> None:
         graph = self.graphs[kind]

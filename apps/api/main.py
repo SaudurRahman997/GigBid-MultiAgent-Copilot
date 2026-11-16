@@ -113,7 +113,8 @@ def create_app(service_factory: Callable[[], GraphService] | None = None) -> Fas
         engine = db.make_engine(url)
         config = load_config()
         async with _durable(url) as (saver, store):
-            svc = GraphService(engine, config, real_mcp_factory(config), llm=llm_factory(), checkpointer=saver, store=store)
+            svc = GraphService(engine, config, real_mcp_factory(config), llm=llm_factory(), checkpointer=saver, store=store,
+                               inline=os.environ.get("GIGBID_INLINE_RUNS") == "1")  # fmt: skip
             app.state.service = svc
             seed_reviewer(engine)
             if url.startswith("postgres"):  # resume runs that were mid-flight when the API stopped
