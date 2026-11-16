@@ -81,19 +81,37 @@ def make_tools(raw_mcp):
     @tool
     async def search_evidence(requirement: str, k: int = 3) -> dict:
         """Search the freelancer's portfolio for evidence for one requirement."""
-        return await mcp.call("eval", "search_evidence", {"requirement": requirement[:500], "k": min(k, 5)})
+        return await mcp.call(
+            "eval", "search_evidence", {"requirement": requirement[:500], "k": min(k, 5)}
+        )
 
     @tool
-    async def get_market_rates(category: str, pay_type: str, skills: list[str] | None = None) -> dict:
+    async def get_market_rates(
+        category: str, pay_type: str, skills: list[str] | None = None
+    ) -> dict:
         """Market price band for a job category; pay_type is 'fixed' or 'hourly'."""
-        return await mcp.call("eval", "get_market_rates", {"category": category, "pay_type": pay_type, "skills": skills or []})
+        return await mcp.call(
+            "eval",
+            "get_market_rates",
+            {"category": category, "pay_type": pay_type, "skills": skills or []},
+        )
 
     @tool
     async def verify_claims(draft: str) -> dict:
         """Check each claim in a draft letter against the portfolio evidence."""
         return await mcp.call("eval", "verify_claims", {"draft": draft[:6000]})
 
-    return {t.name: t for t in (get_job, get_client_history, get_profile, search_evidence, get_market_rates, verify_claims)}
+    return {
+        t.name: t
+        for t in (
+            get_job,
+            get_client_history,
+            get_profile,
+            search_evidence,
+            get_market_rates,
+            verify_claims,
+        )
+    }
 
 
 def parse_final(text: str) -> dict:
@@ -102,7 +120,13 @@ def parse_final(text: str) -> dict:
     try:
         d = parse_json(strip_think(text))
     except Exception:  # noqa: BLE001 - an unparseable answer counts as a skip with a parse error
-        return {"decision": "skip", "is_scam": False, "price": None, "cover_letter": "", "parse_error": True}
+        return {
+            "decision": "skip",
+            "is_scam": False,
+            "price": None,
+            "cover_letter": "",
+            "parse_error": True,
+        }
     return {"decision": "bid" if str(d.get("decision", "")).lower() == "bid" else "skip",
             "is_scam": bool(d.get("is_scam")), "price": _num(d.get("price")),
             "cover_letter": str(d.get("cover_letter") or ""), "parse_error": False}  # fmt: skip
@@ -120,8 +144,12 @@ async def run_react(job: dict, model, mcp) -> dict:
 
     from agent.prompt_loader import render
 
-    agent = create_react_agent(model, list(make_tools(mcp).values()), prompt=render("react_agent", job_id=job["job_id"]))
-    out = await agent.ainvoke({"messages": [("user", f"Handle job {job['job_id']}.")]}, {"recursion_limit": 30})
+    agent = create_react_agent(
+        model, list(make_tools(mcp).values()), prompt=render("react_agent", job_id=job["job_id"])
+    )
+    out = await agent.ainvoke(
+        {"messages": [("user", f"Handle job {job['job_id']}.")]}, {"recursion_limit": 30}
+    )
     return parse_final(out["messages"][-1].content)
 
 
@@ -137,8 +165,12 @@ async def run_supervisor(job: dict, model, mcp) -> dict:
     workers = [create_react_agent(model, [t[n] for n in names], name=role,
                                   prompt=render("sup_worker", role=role, job_id=job["job_id"]))
                for role, names in roles.items()]  # fmt: skip
-    app = create_supervisor(workers, model=model, prompt=render("supervisor", job_id=job["job_id"])).compile()
-    out = await app.ainvoke({"messages": [("user", f"Handle job {job['job_id']}.")]}, {"recursion_limit": 40})
+    app = create_supervisor(
+        workers, model=model, prompt=render("supervisor", job_id=job["job_id"])
+    ).compile()
+    out = await app.ainvoke(
+        {"messages": [("user", f"Handle job {job['job_id']}.")]}, {"recursion_limit": 40}
+    )
     return parse_final(out["messages"][-1].content)
 
 
@@ -158,7 +190,9 @@ async def run_graph(job: dict, model, mcp, _cache={}) -> dict:  # noqa: B006 - p
     out = await graph.ainvoke({"job_id": job["job_id"], "thread_id": tid, "user": job["_persona"]},
                               {"configurable": {"thread_id": tid}}, context=deps)  # fmt: skip
     d, risk = out.get("decision"), out.get("risk")
-    letter = out["__interrupt__"][0].value["draft"]["cover_letter"] if out.get("__interrupt__") else ""
+    letter = (
+        out["__interrupt__"][0].value["draft"]["cover_letter"] if out.get("__interrupt__") else ""
+    )
     return {"decision": "bid" if d and d.action == "bid" else "skip", "is_scam": bool(risk and risk.verdict == "block"),
             "price": out["price"].amount if out.get("price") else None, "cover_letter": letter, "parse_error": False,
             "compliance_blocked": out.get("status") == "blocked", "status": out.get("status")}  # fmt: skip
@@ -190,7 +224,13 @@ async def run_system(name: str, jobs: list[dict], model, timeout_s: float) -> li
                 res = await asyncio.wait_for(SYSTEMS[name](job, model, mcp), timeout_s)
                 err = None
             except Exception as exc:  # noqa: BLE001 - record and continue
-                res = {"decision": "skip", "is_scam": False, "price": None, "cover_letter": "", "parse_error": False}
+                res = {
+                    "decision": "skip",
+                    "is_scam": False,
+                    "price": None,
+                    "cover_letter": "",
+                    "parse_error": False,
+                }
                 err = f"{type(exc).__name__}: {str(exc)[:200]}"
         latency = time.perf_counter() - t0
         tokens = sum(v.get("total_tokens", 0) for v in cb.usage_metadata.values())
@@ -199,7 +239,9 @@ async def run_system(name: str, jobs: list[dict], model, timeout_s: float) -> li
         if letter:
             checks = (await mcp.call("eval", "verify_claims", {"draft": letter[:6000]}))["checks"]
             claims = len(checks)
-            unsupported = sum(c["status"] == "unsupported" for c in checks) / claims if claims else 0.0
+            unsupported = (
+                sum(c["status"] == "unsupported" for c in checks) / claims if claims else 0.0
+            )
         violations = check_compliance(letter, policy, []).violations if letter else []
         g = job["_gold"]
         row = {"job_id": job["job_id"], "persona": job["_persona"], "gold_bid": g["bid"], "pred_bid": res["decision"],
@@ -242,15 +284,26 @@ def reply_rate(rows: list[dict]) -> tuple[float | None, int]:
             j = r["job"]
             h = {"Authorization": f"Bearer {TOKENS[r['persona']]}"}
             bid = r["price"] or float(j.get("budget_usd") or j.get("hourly_low") or 30)
-            p = c.post("/proposals", headers=h, json={"job_id": j["job_id"], "cover_letter": r["letter"][:5000], "bid_amount": bid}).json()
+            p = c.post(
+                "/proposals",
+                headers=h,
+                json={"job_id": j["job_id"], "cover_letter": r["letter"][:5000], "bid_amount": bid},
+            ).json()
             if "proposal_id" not in p:
                 continue
-            c.post(f"/proposals/{p['proposal_id']}/submit", headers={**h, "Idempotency-Key": f"rdc:{j['job_id']}"})
+            c.post(
+                f"/proposals/{p['proposal_id']}/submit",
+                headers={**h, "Idempotency-Key": f"rdc:{j['job_id']}"},
+            )
             ids.append(p["proposal_id"])
         c.post("/admin/tick", headers=ADMIN, params={"minutes": 60 * 24 * 30})
-        decisions = {d["proposal_id"]: d for d in c.get("/admin/decisions", headers=ADMIN).json()["items"]}
+        decisions = {
+            d["proposal_id"]: d for d in c.get("/admin/decisions", headers=ADMIN).json()["items"]
+        }
     outcomes = [decisions[i]["outcome"] for i in ids if i in decisions]
-    return (round(mean([float(o in ANSWERED) for o in outcomes]), 4) if outcomes else None), len(outcomes)
+    return (round(mean([float(o in ANSWERED) for o in outcomes]), 4) if outcomes else None), len(
+        outcomes
+    )
 
 
 def summarize(name: str, rows: list[dict], model_desc: str) -> dict:
@@ -285,18 +338,28 @@ def write_summary() -> None:
         if f.name != "summary.json":
             d = json.loads(f.read_text(encoding="utf-8"))
             systems[d["system"]] = d
-    (OUT / "summary.json").write_text(json.dumps({"runner": "evals/runners/multiagent_eval.py", "systems": systems}, indent=2) + "\n", encoding="utf-8")
+    (OUT / "summary.json").write_text(
+        json.dumps({"runner": "evals/runners/multiagent_eval.py", "systems": systems}, indent=2)
+        + "\n",
+        encoding="utf-8",
+    )
 
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--systems", nargs="+", choices=sorted(SYSTEMS), default=["graph", "react", "supervisor"])
+    ap.add_argument(
+        "--systems", nargs="+", choices=sorted(SYSTEMS), default=["graph", "react", "supervisor"]
+    )
     ap.add_argument("--jobs", type=int, default=50)
     ap.add_argument("--provider", default="ollama")
     ap.add_argument("--model", default="llama3.2:3b")
     ap.add_argument("--timeout", type=float, default=600)
     a = ap.parse_args(argv)
-    for role in ("STRONG", "SMALL", "FALLBACK_SMALL"):  # one model for every role: a fair comparison
+    for role in (
+        "STRONG",
+        "SMALL",
+        "FALLBACK_SMALL",
+    ):  # one model for every role: a fair comparison
         os.environ[f"GIGBID_{role}_PROVIDER"] = a.provider
         os.environ[f"GIGBID_{role}_MODEL"] = a.model
     from agent.llm import chat_model
@@ -312,7 +375,22 @@ def main(argv: list[str] | None = None) -> int:
     for name, rows in results.items():
         s = summarize(name, rows, f"{a.provider}:{a.model}")
         (OUT / f"{name}.json").write_text(json.dumps(s, indent=2) + "\n", encoding="utf-8")
-        print(json.dumps({k: s[k] for k in ("system", "letters", "unsupported_claim_rate", "reply_rate", "tokens_per_job", "latency_mean_s")}), flush=True)
+        print(
+            json.dumps(
+                {
+                    k: s[k]
+                    for k in (
+                        "system",
+                        "letters",
+                        "unsupported_claim_rate",
+                        "reply_rate",
+                        "tokens_per_job",
+                        "latency_mean_s",
+                    )
+                }
+            ),
+            flush=True,
+        )
         print(f"   decisions: {s['decisions']}", flush=True)
     write_summary()
     return 0

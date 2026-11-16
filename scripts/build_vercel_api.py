@@ -23,8 +23,20 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "var" / "vercel-api"
 
 PACKAGES = ("agent", "rag", "mcp_servers", "apps/api")
-FILES = ("apps/__init__.py", "evals/__init__.py", "evals/inprocess_mcp.py", "evals/metrics.py", ".python-version")
-DATA = ("data/devset", "data/personas", "data/policy_pack", "data/synthetic", "evals/results/decision")
+FILES = (
+    "apps/__init__.py",
+    "evals/__init__.py",
+    "evals/inprocess_mcp.py",
+    "evals/metrics.py",
+    ".python-version",
+)
+DATA = (
+    "data/devset",
+    "data/personas",
+    "data/policy_pack",
+    "data/synthetic",
+    "evals/results/decision",
+)
 DATA_FILES = ("data/processed/pricing_stats.parquet", "data/processed/skill_taxonomy.json")
 REQUIREMENTS = ("fastapi", "langgraph", "langgraph-checkpoint-postgres", "psycopg", "psycopg-binary", "langchain-mcp-adapters", "mcp",
                 "pandas", "numpy", "rank-bm25", "pypdf", "sqlalchemy", "sse-starlette", "pyjwt", "cryptography",
