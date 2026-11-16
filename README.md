@@ -12,7 +12,7 @@ AI-4016 R&D Assignment II.
 | All results | [`evals/results/RESULTS.md`](evals/results/RESULTS.md) — generated from `evals/results/*.json` |
 | Portfolio MCP server | [`mcp_servers/portfolio/`](mcp_servers/portfolio/README.md) — Docker / uv run instructions |
 | Tool catalogue | [`docs/TOOLS.md`](docs/TOOLS.md) |
-| Live demo | _see the submission page_ |
+| Live demo | https://gigbid-beta.vercel.app (web on Vercel; API in single-process demo mode, see docs/DEPLOY.md) |
 
 ## Headline results (dev set, synthetic data)
 
@@ -81,8 +81,9 @@ Exact pins: `pyproject.toml` + `uv.lock`, `apps/web/package-lock.json`.
 ## Status
 
 Done: data and GigSim, three MCP servers, RAG study (6 variants + ablation), claim verification,
-bid and conversation graphs with exactly-once submit, memory, API, web UI.
-In progress: judge calibration (kappa), R&D A (tool granularity) and C (single agent vs supervisor
-vs graph), worker scheduling, Upwork live adapter, Playwright specs, deployment hardening.
+bid and conversation graphs with exactly-once submit, memory, API, web UI, R&D C (single agent vs
+supervisor vs graph: the graph wins macro-F1 0.760 vs 0.548 / 0.517 with 59% fewer tokens than the
+single agent; `evals/results/multiagent/`), deployment (Vercel + single-process API, `docs/DEPLOY.md`).
+In progress: judge calibration (kappa), R&D A (tool granularity), worker scheduling, Upwork live adapter, Playwright specs, deployment hardening.
 
 AI assistance is disclosed in [`docs/AI_USAGE.md`](docs/AI_USAGE.md).

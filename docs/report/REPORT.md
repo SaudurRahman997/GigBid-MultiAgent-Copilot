@@ -6,7 +6,7 @@ AI-4016 R&D Assignment II - technical report
 
 | Deliverable | Link |
 |---|---|
-| Deployed web application | https://penguin-exhibitions-kelly-cited.trycloudflare.com |
+| Deployed web application | https://gigbid-beta.vercel.app |
 | Public GitHub repository | https://github.com/SaudurRahman997/GigBid-MultiAgent-Copilot |
 | Portfolio MCP server | https://github.com/SaudurRahman997/GigBid-MultiAgent-Copilot/tree/main/mcp_servers/portfolio |
 | Technical write-up | https://github.com/SaudurRahman997/GigBid-MultiAgent-Copilot/blob/main/docs/WRITEUP.md |
