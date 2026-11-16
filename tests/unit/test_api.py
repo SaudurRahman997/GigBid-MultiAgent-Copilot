@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import time
 from pathlib import Path
 
 import pytest
@@ -190,3 +191,27 @@ def test_memory_viewer_lists_and_deletes(world):
     assert c.delete(f"/memory/style/{style[0]['key']}", headers=h).status_code == 204
     assert len([i for i in c.get("/memory", headers=h).json() if i["namespace"] == "style"]) == len(style) - 1
     assert c.get("/analytics", headers=h).json()["runs"] == 0
+
+
+def test_demo_mode_serves_the_full_stack_in_one_process(tmp_path, monkeypatch):
+    """GIGBID_MCP_MODE=inprocess (single-process hosting): the real lifespan, no MCP servers."""
+    monkeypatch.setenv("GIGBID_MCP_MODE", "inprocess")
+    monkeypatch.setenv("API_DATABASE_URL", f"sqlite:///{(tmp_path / 'demo.db').as_posix()}")
+    monkeypatch.setenv("REVIEWER_EMAIL", "reviewer@example.com")
+    monkeypatch.setenv("REVIEWER_PASSWORD", "demo-pass-123")
+    with TestClient(create_app()) as c:
+        assert c.get("/health").json()["ok"]
+        tok = c.post("/auth/login", json={"email": "reviewer@example.com", "password": "demo-pass-123"}).json()["token"]
+        h = {"Authorization": f"Bearer {tok}"}
+        job = json.loads(next(x for x in (ROOT_DATA / "ai_ml.jsonl").read_text(encoding="utf-8").splitlines()
+                              if json.loads(x)["_gold"]["bid"] == "bid"))  # fmt: skip
+        tid = c.post(f"/jobs/{job['job_id']}/analyze", headers=h).json()["thread_id"]
+        for _ in range(200):  # the run is driven in the background; poll until it settles
+            if c.get(f"/runs/{tid}", headers=h).json()["status"] != "running":
+                break
+            time.sleep(0.1)
+        assert c.get(f"/runs/{tid}", headers=h).json()["status"] == "awaiting_approval"
+        assert c.get("/approvals", headers=h).json()[0]["thread_id"] == tid
+
+
+ROOT_DATA = Path(__file__).resolve().parents[2] / "data" / "devset"

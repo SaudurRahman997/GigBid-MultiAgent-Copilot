@@ -1,0 +1,21 @@
+# Render blueprint: the GigBid API in single-process demo mode (see apps/api/Dockerfile.demo).
+# The web UI is deployed separately on Vercel and proxies /api/* to this service (docs/DEPLOY.md).
+services:
+  - type: web
+    name: gigbid-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./apps/api/Dockerfile.demo
+    dockerContext: .
+    healthCheckPath: /health
+    envVars:
+      - key: JWT_SECRET
+        generateValue: true
+      - key: REVIEWER_EMAIL
+        sync: false # entered in the Render dashboard, never committed
+      - key: REVIEWER_PASSWORD
+        sync: false
+      - key: REVIEWER_PERSONA
+        value: ai_ml
+      - key: WEB_ORIGINS
+        sync: false # e.g. https://gigbid.vercel.app

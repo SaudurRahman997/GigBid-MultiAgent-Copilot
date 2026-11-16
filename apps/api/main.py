@@ -39,13 +39,25 @@ def mcp_tokens() -> dict[str, str]:
 
 
 def real_mcp_factory(config: dict) -> Callable[[str, str], Any]:
+    if os.environ.get("GIGBID_MCP_MODE", "servers") == "inprocess":
+        return inprocess_mcp_factory()
     from agent.mcp_client import GigBidMCPClient
 
     tokens = mcp_tokens()
     return lambda persona, trace_id: GigBidMCPClient(tokens[persona], config=config, trace_id=trace_id)
 
 
-def llm_factory() -> Callable[[str], Any] | None:
+def inprocess_mcp_factory() -> Callable[[str, str], Any]:
+    """Single-process demo hosting (GIGBID_MCP_MODE=inprocess): the same tool names and result shapes
+    as the MCP servers, served in-process from the synthetic data (no Docker, Postgres or MCP servers).
+    One tool layer per persona, so drafts, submissions and Connects persist for the life of the process."""
+    from evals.inprocess_mcp import FakeMCP
+
+    layers: dict[str, FakeMCP] = {}
+    return lambda persona, trace_id: layers.setdefault(persona, FakeMCP(persona))
+
+
+def llm_factory() ->Callable[[str], Any] | None:
     """GIGBID_AGENT_MODE=llm uses the configured models (falls back to rules per node on error)."""
     if os.environ.get("GIGBID_AGENT_MODE", "rules") != "llm":
         return None
