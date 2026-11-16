@@ -74,6 +74,7 @@ dev = [
 "tests/unit/test_rag.py" = ["E501"]  # fixture texts
 "scripts/gen_tools_doc.py" = ["E501"]
 "scripts/render_report.py" = ["E501"]  # PDF layout calls  # markdown table rows inside the doc template
+"scripts/build_vercel_api.py" = ["E501"]  # file lists and the generated entrypoint template
 "evals/runners/*" = ["E501"]  # report/table formatting strings
 # Graph nodes/routers keep state dicts and MCP calls on one line (marked `# fmt: skip`).
 "agent/**/*.py" = ["E501"]
