@@ -96,7 +96,19 @@ The bid graph's decisions are evaluated on all 600 dev jobs in deterministic rul
 
 The graph improves bid/skip macro-F1 by 0.174 because the Risk Assessor uses client history (rating, hire rate, unverified "ghost" clients) and the Fit Matcher weighs must-have skills, which keywords cannot see. Both catch every scam. The keyword baseline prices slightly better, a known weakness of the graph's pricing node. Skip-reason accuracy for the graph is 0.817.
 
-R&D C (one ReAct agent with all tools vs `langgraph-supervisor` vs our graph on 50 dev jobs) is in progress; the single-agent tool allowlist and prompt are already in the repository.
+**R&D C: is multi-agent worth it?** We ran three systems on the same 50 dev jobs (seeded and stratified by persona), all with the same local model (`ollama:llama3.2:3b` in every role) and the same in-process tools. The systems were: (a) one ReAct agent with every tool (`create_react_agent`), (b) `langgraph-supervisor` with three ReAct workers (analyst, researcher, writer), and (c) our hand-written graph run up to the approval interrupt. Letters that would be sent were submitted to a fresh GigSim (chaos off, 30 simulated days). Source: `multiagent/{graph,react,supervisor}.json`, with per-job rows in `*.jobs.jsonl`.
+
+| System | bid/skip macro-F1 | Accuracy | Scam P / R | Price in band | Letters | Reply rate | Tokens/job | Latency mean / p95 s | Parse errors |
+|---|---|---|---|---|---|---|---|---|---|
+| Graph (ours) | 0.760 | 0.76 | 1.00 / 1.00 | 0.632 | 22 | 0.455 | 1188.5 | 29.7 / 79.0 | 0 |
+| Single ReAct agent | 0.548 | 0.56 | 0.00 / 0.00 | 0.824 | 27 | 0.296 | 2924.9 | 41.1 / 70.2 | 4 |
+| Supervisor + 3 workers | 0.517 | 0.52 | 0.00 / 0.00 | 0.571 | 18 | 0.167 | 1188.4 | 27.8 / 44.5 | 14 |
+
+- **The explicit graph won on decisions and outcomes.** Macro-F1 was +0.21 over the single agent and +0.24 over the supervisor, and the reply rate was 0.455 against 0.296 and 0.167. The graph's decision is made by deterministic code over structured analyst outputs, and its letters are retrieval-grounded. The ReAct and supervisor agents leave the bid/skip judgement to a 3B model that tends to bid.
+- **It used 59% fewer tokens than the single agent** (1,188 vs 2,925 per job) because each node sees only its own inputs instead of a growing tool transcript. The supervisor used the same number of tokens but often stopped early. 14 of its 50 final answers were not valid JSON and were counted as skips, which is a real cost of free-form hand-offs between agents.
+- **Safety:** the sample contains only 2 scam jobs. The graph skipped both; the ReAct agent and the supervisor each bid on one. None of the sent letters broke the compliance filter. With 2 scam jobs and 2 injection jobs these safety numbers are indicative only.
+- **Where the baseline wins:** the single agent's prices landed in the market band more often (0.824 vs 0.632) because it reads `get_market_rates` directly. This matches the pricing weakness seen above.
+- **Caveat:** unsupported-claim rates are near 0 for every system because this run used the lenient token-overlap judge of the in-process tools, not the cross-encoder judge from section 5, so they do not separate the systems.
 
 ## 7. Safety and guardrails
 
@@ -110,13 +122,14 @@ R&D C (one ReAct agent with all tools vs `langgraph-supervisor` vs our graph on 
 
 ## 8. Testing
 
-`make test` runs 183 unit and contract tests (GigSim, MCP servers, RAG, graphs, API). Graph tests cover the approval payload, parallel fan-in order, exactly-once submit under a lost response and a crash, skips for scam / missing skill / low budget, injection flagging, reject, edit -> v2, edits that break policy, step budgets, the bounded critic loop, conversation flows and memory promotion. API tests cover auth, tenant isolation, approval resume and SSE replay.
+`make test` runs 184 unit and contract tests (GigSim, MCP servers, RAG, graphs, API). Graph tests cover the approval payload, parallel fan-in order, exactly-once submit under a lost response and a crash, skips for scam / missing skill / low budget, injection flagging, reject, edit -> v2, edits that break policy, step budgets, the bounded critic loop, conversation flows and memory promotion. API tests cover auth, tenant isolation, approval resume and SSE replay.
 
 ## 9. Limitations
 
 - Retrieval quality is modest in absolute terms (Recall@5 about 0.2) because gold evidence includes many short client reviews that dense and lexical retrieval rank below long proposals.
 - Evaluations use synthetic data and a simulated client; reply rates measure GigSim's behaviour, not real clients.
-- Judge calibration against human labels, the multi-agent comparison (R&D C), tool-granularity study (R&D A), the live Upwork adapter and the deployment were not finished at submission time.
+- Judge calibration against human labels, the tool-granularity study (R&D A) and the live Upwork adapter were not finished at submission time. R&D C used one small local model (3B) on 50 jobs; a stronger model may narrow the gap between the systems.
+- The public demo runs the API in single-process mode (`GIGBID_MCP_MODE=inprocess`): the agents call the in-process tool layer that has the same tool names and result shapes as the MCP servers, and state lasts only for the life of the process. The full stack (three MCP servers, Postgres checkpoints) runs with `docker compose`.
 - Pricing lands inside the market band only 61% of the time.
 
 ## 10. AI usage and reproducibility
