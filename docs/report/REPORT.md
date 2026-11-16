@@ -122,14 +122,14 @@ The graph improves bid/skip macro-F1 by 0.174 because the Risk Assessor uses cli
 
 ## 8. Testing
 
-`make test` runs 184 unit and contract tests (GigSim, MCP servers, RAG, graphs, API). Graph tests cover the approval payload, parallel fan-in order, exactly-once submit under a lost response and a crash, skips for scam / missing skill / low budget, injection flagging, reject, edit -> v2, edits that break policy, step budgets, the bounded critic loop, conversation flows and memory promotion. API tests cover auth, tenant isolation, approval resume and SSE replay.
+`make test` runs 185 unit and contract tests (GigSim, MCP servers, RAG, graphs, API). Graph tests cover the approval payload, parallel fan-in order, exactly-once submit under a lost response and a crash, skips for scam / missing skill / low budget, injection flagging, reject, edit -> v2, edits that break policy, step budgets, the bounded critic loop, conversation flows and memory promotion. API tests cover auth, tenant isolation, approval resume and SSE replay.
 
 ## 9. Limitations
 
 - Retrieval quality is modest in absolute terms (Recall@5 about 0.2) because gold evidence includes many short client reviews that dense and lexical retrieval rank below long proposals.
 - Evaluations use synthetic data and a simulated client; reply rates measure GigSim's behaviour, not real clients.
 - Judge calibration against human labels, the tool-granularity study (R&D A) and the live Upwork adapter were not finished at submission time. R&D C used one small local model (3B) on 50 jobs; a stronger model may narrow the gap between the systems.
-- The public demo runs the API in single-process mode (`GIGBID_MCP_MODE=inprocess`): the agents call the in-process tool layer that has the same tool names and result shapes as the MCP servers, and state lasts only for the life of the process. The full stack (three MCP servers, Postgres checkpoints) runs with `docker compose`.
+- The public demo (web and API both on Vercel, `docs/DEPLOY.md`) runs the API as a serverless function in single-process mode (`GIGBID_MCP_MODE=inprocess`): the agents call the in-process tool layer that has the same tool names and result shapes as the MCP servers, each request drives the graph to its next stop (the approval interrupt or the end), and runs last only as long as a function instance. The full stack (three MCP servers, Postgres checkpoints) runs with `docker compose`.
 - Pricing lands inside the market band only 61% of the time.
 
 ## 10. AI usage and reproducibility
