@@ -3,7 +3,7 @@
 UV      ?= uv
 COMPOSE := docker compose -f infra/docker-compose.yml $(if $(wildcard .env),--env-file .env,)
 
-.PHONY: help data validate-data local-stack snapshots tools-doc proposal-demo gigsim gigsim-check gigsim-freeze dev up down logs ps test test-integration lint fmt typecheck eval seed demo openapi check-prompts web-dev api worker
+.PHONY: help data validate-data local-stack snapshots tools-doc proposal-demo gigsim gigsim-check gigsim-freeze dev up down logs ps test test-integration lint fmt typecheck eval seed demo openapi check-prompts web-dev api worker e2e
 
 help: ## list targets
 	@grep -E '^[a-zA-Z_-]+:.*## ' Makefile | awk 'BEGIN{FS=":.*## "}{printf "  %-14s %s\n", $$1, $$2}'
@@ -92,6 +92,9 @@ tools-doc: ## regenerate docs/TOOLS.md from the snapshots
 
 proposal-demo: ## one agent drafts one grounded proposal via MCP (needs make up or make local-stack)
 	$(UV) run python scripts/single_agent_proposal.py --persona ai_ml
+
+e2e: ## Playwright specs (starts an isolated API + web; BASE_URL=... to target compose or the live site)
+	cd apps/web && npx playwright test
 
 web-dev: ## run the Next.js dev server
 	cd apps/web && npm run dev
