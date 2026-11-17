@@ -3,7 +3,7 @@
 UV      ?= uv
 COMPOSE := docker compose -f infra/docker-compose.yml $(if $(wildcard .env),--env-file .env,)
 
-.PHONY: help data validate-data local-stack snapshots tools-doc proposal-demo gigsim gigsim-check gigsim-freeze dev up down logs ps test test-integration lint fmt typecheck eval seed demo openapi check-prompts web-dev api
+.PHONY: help data validate-data local-stack snapshots tools-doc proposal-demo gigsim gigsim-check gigsim-freeze dev up down logs ps test test-integration lint fmt typecheck eval seed demo openapi check-prompts web-dev api worker
 
 help: ## list targets
 	@grep -E '^[a-zA-Z_-]+:.*## ' Makefile | awk 'BEGIN{FS=":.*## "}{printf "  %-14s %s\n", $$1, $$2}'
@@ -68,6 +68,9 @@ openapi: ## export FastAPI schema and regenerate the TS client (Phase 6)
 
 api: ## run the API with auto-reload (http://localhost:8000/docs)
 	$(UV) run uvicorn apps.api.main:app --reload --port 8000
+
+worker: ## run the Arq worker (saved searches, graph runs, message polling; needs REDIS_URL)
+	$(UV) run arq apps.worker.main.WorkerSettings
 
 gigsim: ## run GigSim locally on SQLite with auto-reload (http://localhost:8100/docs)
 	GIGSIM_DATABASE_URL=sqlite:///./gigsim-dev.db $(UV) run uvicorn gigsim.app:create_app --factory --reload --port 8100

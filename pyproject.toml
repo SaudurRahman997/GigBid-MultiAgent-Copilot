@@ -5,6 +5,7 @@ description = "GigBid: multi-agent freelancer copilot (AI-4016 R&D Assignment II
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 dependencies = [
+    "arq==0.28.0",
     "cryptography==50.0.2",
     "fastapi==0.163.0",
     "fastembed==0.9.1",
@@ -83,5 +84,7 @@ dev = [
 "tests/unit/test_api.py" = ["E501"]
 "tests/unit/test_extension.py" = ["E501"]  # fixtures and parametrize tables
 "tests/unit/test_policy_alignment.py" = ["E501"]
+"tests/unit/test_worker.py" = ["E501"]
+"apps/worker/*.py" = ["E501"]  # Arq enqueue calls with job ids kept on one line
 "apps/api/**/*.py" = ["E501"]  # FastAPI signatures with Query()/Depends() defaults
 "mcp_servers/portfolio/server.py" = ["E501"]

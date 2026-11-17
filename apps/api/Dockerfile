@@ -18,6 +18,7 @@ COPY agent ./agent
 COPY rag ./rag
 COPY apps/__init__.py ./apps/__init__.py
 COPY apps/api ./apps/api
+COPY apps/worker ./apps/worker
 COPY mcp_servers ./mcp_servers
 ENV PATH="/app/.venv/bin:$PATH"
 
