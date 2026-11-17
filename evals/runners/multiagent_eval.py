@@ -204,7 +204,9 @@ SYSTEMS = {"react": run_react, "supervisor": run_supervisor, "graph": run_graph}
 # ----------------------------------------------------------------------------- scoring
 
 
-async def run_system(name: str, jobs: list[dict], model, timeout_s: float) -> list[dict]:
+async def run_system(
+    name: str, jobs: list[dict], model, timeout_s: float, out_dir: Path = OUT
+) -> list[dict]:
     from langchain_core.callbacks import get_usage_metadata_callback
 
     from agent.nodes.proposal import check_compliance
@@ -214,7 +216,7 @@ async def run_system(name: str, jobs: list[dict], model, timeout_s: float) -> li
     policy = Deps(mcp=None, config={}, user="").policy
     fakes = {p: FakeMCP(p) for p in PERSONAS}
     rows = []
-    path = OUT / f"{name}.jobs.jsonl"
+    path = out_dir / f"{name}.jobs.jsonl"
     path.write_text("", encoding="utf-8")
     for i, job in enumerate(jobs, 1):
         mcp = fakes[job["_persona"]]
