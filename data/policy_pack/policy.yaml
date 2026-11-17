@@ -40,6 +40,8 @@ rules:
 connects:
   default: 8
   max_per_proposal: 16
+  busy_applicants: ["20 to 50", "50+"]   # applicant buckets the platform treats as busy jobs
+  busy_multiplier: 1                     # Connects multiplier on busy jobs
   # Connects needed to submit, by fixed budget (USD) or hourly max rate (USD/h).
   tiers:
     fixed:
