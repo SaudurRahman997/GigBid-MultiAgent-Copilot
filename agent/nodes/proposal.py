@@ -58,6 +58,15 @@ async def decide(state: dict, deps: Deps) -> dict:
 # ----------------------------------------------------------------------------- pricing
 
 
+def connects_cost(spec, rules: dict) -> int:
+    """Connects needed to submit, under the platform rules in data/policy_pack/policy.yaml `connects`
+    (busy jobs can cost a multiple; the platform caps a single proposal)."""
+    cost = int(spec.connects_required or rules.get("default", 8))
+    if spec.applicants in rules.get("busy_applicants", []):
+        cost *= int(rules.get("busy_multiplier", 1))
+    return min(cost, int(rules.get("max_per_proposal", cost)))
+
+
 @node("pricing")
 async def pricing(state: dict, deps: Deps) -> dict:
     spec, profile = state["spec"], state["profile"]
@@ -77,7 +86,7 @@ async def pricing(state: dict, deps: Deps) -> dict:
         if b.amount:
             amount = min(max(amount, b.amount * 0.9), b.amount * cfg["fixed_cap_over_budget"])
         amount = float(round(amount, -1 if amount > 100 else 0))
-    cost = int(spec.connects_required or 8)
+    cost = connects_cost(spec, deps.policy.get("connects", {}))
     worth = cost <= deps.config["decision"]["max_connects"] and state["fit"].score >= deps.config["decision"]["min_fit_to_bid"]
     in_band = "inside" if lo <= amount <= hi else ("below" if amount < lo else "above")
     quote = PriceQuote(amount=amount, kind=b.pay_type, band=(lo, hi), connects_cost=cost, worth_it=worth,
@@ -98,8 +107,21 @@ def evidence_list(fit: FitReport, limit: int = 8) -> list[dict]:
     return out[:limit]
 
 
-def template_letter(spec, evidence: list[dict], price: PriceQuote) -> str:
-    """Rules-mode writer: restated need, cited evidence sentences, must-have skills, price."""
+QUANTIFIED = re.compile(r"(?<![\d.])(?!(?:19|20)\d\d\b)\d+(?:[.,]\d+)?")  # a number that is not a year
+
+
+def _sentence(e: dict) -> str:
+    return e["snippet"].replace("\n", " ").split(". ")[0].rstrip(".")
+
+
+def template_letter(spec, evidence: list[dict], price: PriceQuote, strategy: str = "evidence_first") -> str:
+    """Rules-mode writer. Strategies (agent/config.yaml writer.strategy; A/B test in docs/EXTENSION.md):
+    evidence_first  restated need, cited evidence sentences, must-have skills, price
+    outcome_first   opens with the most relevant quantified past result, then the need and evidence,
+                    and closes with one scoping question about the client's first priority
+    """
+    if strategy == "outcome_first":
+        return _outcome_first(spec, evidence, price)
     need = next((r.text for r in spec.requirements if r.kind != "constraint"), spec.title)
     lines = [f"You need {need[0].lower() + need[1:]} for {spec.title.lower()}." if need else spec.title]
     for e in [e for e in evidence if e["id"].split(":")[1] != "proposal"][:3]:
@@ -113,6 +135,26 @@ def template_letter(spec, evidence: list[dict], price: PriceQuote) -> str:
     return "\n\n".join(lines)
 
 
+def _outcome_first(spec, evidence: list[dict], price: PriceQuote) -> str:
+    usable = [e for e in evidence if e["id"].split(":")[1] != "proposal"]
+    lead = next((e for e in usable if QUANTIFIED.search(_sentence(e))), usable[0] if usable else None)
+    rest = [e for e in usable if e is not lead][:2]
+    needs = [r.text.rstrip(".") for r in spec.requirements if r.kind != "constraint"]
+    need = needs[0] if needs else spec.title
+    lines = [f"{_sentence(lead)}. [{lead['id']}]"] if lead else []
+    lines.append(f"Your post asks for {need[0].lower() + need[1:]}; that is the same kind of work.")
+    lines += [f"{_sentence(e)}. [{e['id']}]" for e in rest]
+    musts = [r.skill for r in spec.requirements if r.must_have and r.skill]
+    if musts:
+        lines.append(f"I work hands-on with {', '.join(musts)}.")
+    unit = "/hour" if price.kind == "hourly" else " fixed"
+    lines.append(f"My price for this is ${price.amount:,.0f}{unit}, with a first milestone agreed here on the platform.")
+    if len(needs) > 1:
+        a, b = needs[0], needs[1]
+        lines.append(f"Which matters most to you first: {a[0].lower() + a[1:]}, or {b[0].lower() + b[1:]}?")
+    return "\n\n".join(lines)
+
+
 @node("writer")
 async def writer(state: dict, deps: Deps) -> dict:
     spec, price = state["spec"], state["price"]
@@ -121,7 +163,7 @@ async def writer(state: dict, deps: Deps) -> dict:
     issues = state["critique"].issues if state.get("critique") and not state["critique"].approve else []
     rules = style_rules(deps.store, deps.user)
     if deps.mode("writer") != "llm":
-        letter = template_letter(spec, evidence, price)
+        letter = template_letter(spec, evidence, price, deps.config["writer"].get("strategy", "evidence_first"))
         return {"draft": ProposalDraft(version=version, cover_letter=letter), "evidence": evidence, "_note": f"template v{version}"}
     prompt = render(
         "writer", max_words=str(deps.config["writer"]["max_words"]),
@@ -139,7 +181,7 @@ async def writer(state: dict, deps: Deps) -> dict:
     except Exception as exc:  # noqa: BLE001
         if not deps.config.get("agents", {}).get("fallback_to_rules_on_llm_error", True):
             raise
-        letter = template_letter(spec, evidence, price)
+        letter = template_letter(spec, evidence, price, deps.config["writer"].get("strategy", "evidence_first"))
         return {"draft": ProposalDraft(version=version, cover_letter=letter), "evidence": evidence,
                 "errors": [f"writer llm fallback: {exc}"], "_note": f"template v{version} (llm failed)"}  # fmt: skip
 
