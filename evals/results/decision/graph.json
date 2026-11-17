@@ -2,8 +2,8 @@
   "runner": "evals/runners/decision_eval.py",
   "decider": "graph",
   "split": "dev",
-  "git_sha": "1107aff",
-  "generated_at": "2026-11-15T16:52:45Z",
+  "git_sha": "4c44b3f",
+  "generated_at": "2026-11-17T14:39:54Z",
   "overall": {
     "jobs": 600,
     "bid_f1": 0.8673,
@@ -12,7 +12,7 @@
     "accuracy": 0.87,
     "scam_precision": 0.9048,
     "scam_recall": 1.0,
-    "price_in_band": 0.6078,
+    "price_in_band": 0.902,
     "skip_reason_accuracy": 0.8172
   },
   "per_persona": {
@@ -24,7 +24,7 @@
       "accuracy": 0.815,
       "scam_precision": 0.9545,
       "scam_recall": 1.0,
-      "price_in_band": 0.5,
+      "price_in_band": 0.9,
       "skip_reason_accuracy": 0.7174
     },
     "fullstack": {
@@ -35,7 +35,7 @@
       "accuracy": 0.93,
       "scam_precision": 0.8947,
       "scam_recall": 1.0,
-      "price_in_band": 0.6122,
+      "price_in_band": 0.9184,
       "skip_reason_accuracy": 0.9011
     },
     "data_analyst": {
@@ -46,7 +46,7 @@
       "accuracy": 0.865,
       "scam_precision": 0.8636,
       "scam_recall": 1.0,
-      "price_in_band": 0.7143,
+      "price_in_band": 0.8831,
       "skip_reason_accuracy": 0.8333
     }
   }

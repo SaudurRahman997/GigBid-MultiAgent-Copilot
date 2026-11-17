@@ -104,7 +104,7 @@ decision:
 pricing:
   fixed_cap_over_budget: 1.10  # never quote more than 110% of a fixed budget
   hourly_target_weight: 0.5    # blend of persona target rate and market median
-  clamp_to_band: false         # failure-analysis fix candidate (docs/FAILURES.md)
+  clamp_to_band: true          # quote inside the market band (failure analysis: price in band 0.608 -> 0.902; docs/FAILURES.md)
 writer:
   max_words: 220
   strategy: evidence_first     # evidence_first | outcome_first (rules-mode letter shape; A/B test in docs/EXTENSION.md)
