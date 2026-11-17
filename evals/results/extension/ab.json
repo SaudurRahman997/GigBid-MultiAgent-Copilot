@@ -1,0 +1,46 @@
+{
+  "runner": "evals/runners/extension_ab.py",
+  "git_sha": "e4461fd",
+  "split": "dev",
+  "generated_at": "2026-11-17T12:36:51Z",
+  "arms": {
+    "A": "evidence_first",
+    "B": "outcome_first"
+  },
+  "design": "paired: same jobs and clients in two identical GigSim worlds; 30 simulated days",
+  "jobs_considered": 600,
+  "pairs": 267,
+  "reply_rate_A": 0.4457,
+  "reply_rate_B": 0.5131,
+  "difference_B_minus_A": 0.0674,
+  "difference_ci95": [
+    -0.0093,
+    0.1441
+  ],
+  "discordant": {
+    "A_only": 46,
+    "B_only": 64
+  },
+  "mcnemar_exact_p": 0.104613,
+  "two_proportion_z": 1.559,
+  "two_proportion_p": 0.11895,
+  "interview_rate_A": 0.236,
+  "interview_rate_B": 0.2921,
+  "per_persona": {
+    "ai_ml": {
+      "pairs": 89,
+      "reply_rate_A": 0.4831,
+      "reply_rate_B": 0.5056
+    },
+    "fullstack": {
+      "pairs": 101,
+      "reply_rate_A": 0.3861,
+      "reply_rate_B": 0.5446
+    },
+    "data_analyst": {
+      "pairs": 77,
+      "reply_rate_A": 0.4805,
+      "reply_rate_B": 0.4805
+    }
+  }
+}
