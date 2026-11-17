@@ -104,10 +104,12 @@ decision:
 pricing:
   fixed_cap_over_budget: 1.10  # never quote more than 110% of a fixed budget
   hourly_target_weight: 0.5    # blend of persona target rate and market median
+  clamp_to_band: false         # failure-analysis fix candidate (docs/FAILURES.md)
 writer:
   max_words: 220
   strategy: evidence_first     # evidence_first | outcome_first (rules-mode letter shape; A/B test in docs/EXTENSION.md)
   min_evidence: 2
+  letter_evidence: 3           # evidence sentences in a rules-mode letter
 memory:
   style_min_drafts: 3          # an edit pattern becomes a style rule after >= 3 approved drafts
   style_max_phrase_words: 8
