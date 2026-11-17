@@ -1,8 +1,8 @@
 # Machine-readable GigBid policy pack (mirrors policy.md). Read by the Compliance node,
 # the output filter and the generators. Edit here, never in Python.
-version: v1
+version: v2
 synthetic: true
-provenance: hand-written@policy-pack-v1
+provenance: hand-written@policy-pack-v2
 
 rules:
   - id: no_off_platform_contact
@@ -26,7 +26,7 @@ rules:
     patterns:
       guarantee: '(?i)\b(guarantee[ds]?|100\s?% (accurate|accuracy|success)|risk[- ]free|promise you (will|\d))'
   - id: no_external_links
-    severity: warn            # v2 of the platform policy turns this into "block"
+    severity: block           # platform policy v2: proposals may not include external links
     description: Avoid links to external sites in proposals; describe work instead.
     patterns:
       link: '(?i)\b((https?://|www\.)\S+)'
@@ -39,9 +39,9 @@ rules:
 
 connects:
   default: 8
-  max_per_proposal: 16
+  max_per_proposal: 32
   busy_applicants: ["20 to 50", "50+"]   # applicant buckets the platform treats as busy jobs
-  busy_multiplier: 1                     # Connects multiplier on busy jobs
+  busy_multiplier: 2                     # Connects multiplier on busy jobs (platform policy v2: doubles)
   # Connects needed to submit, by fixed budget (USD) or hourly max rate (USD/h).
   tiers:
     fixed:

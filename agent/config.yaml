@@ -54,7 +54,7 @@ budgets:
 autonomy:   { auto_skip_below_fit: 0.25, auto_send: false }
 scheduling: { gigsim_interval_min: 10, live_interval_min: 60 }
 ci_thresholds: { max_unsupported_claims_per_proposal: 0.3, min_bid_skip_f1: 0.75 }
-policy_version: v1
+policy_version: v2
 mcp:
   servers:                     # URL from env, default for local dev
     portfolio:   { url_env: MCP_PORTFOLIO_URL,   default: "http://localhost:8201/mcp" }

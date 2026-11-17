@@ -14,7 +14,7 @@ and shows the reason; `warn` rules are surfaced to the approver.
 | `no_off_platform_payment` | block | No payment outside the platform: bank or wire transfer, PayPal, crypto, gift cards. |
 | `no_fabricated_experience` | block | Every claim about experience, results, clients or numbers must be backed by a portfolio evidence item. Unsupported claims are removed or rewritten. |
 | `no_guarantees` | block | No guaranteed outcomes ("guaranteed #1 ranking", "100% accuracy", "risk-free"). |
-| `no_external_links` | warn | Prefer describing work to linking out. (Policy **v2** makes this a block.) |
+| `no_external_links` | block | Proposals may not include external links (platform policy **v2**); describe the work instead. |
 | `fair_automation_use` | block | Automation drafts; humans decide. No auto-send, no mass bidding. |
 | `no_free_work` | warn | Decline unpaid test tasks beyond a short screening answer. |
 
