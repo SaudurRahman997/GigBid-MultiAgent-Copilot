@@ -18,7 +18,7 @@ AI-4016 R&D Assignment II.
 
 | What | Result | Source |
 |---|---|---|
-| Bid/skip macro-F1, LangGraph multi-agent vs keyword baseline | **0.870** vs 0.696 | `evals/results/decision/*.json` |
+| Bid/skip macro-F1, LangGraph multi-agent vs keyword baseline (price in market band 0.902 vs 0.652) | **0.870** vs 0.696 | `evals/results/decision/*.json` |
 | Scam recall / precision (graph) | 1.000 / 0.905 | `evals/results/decision/graph.json` |
 | Unsupported claims in drafts, before → after verification + repair | 0.325 → **0.014** | `evals/results/verify/verify_eval.json` |
 | Best retrieval variant (V2 hybrid BM25 + dense): Recall@5 / MRR | 0.216 / 0.402 | `evals/results/rag/dev/v2_hybrid.json` |

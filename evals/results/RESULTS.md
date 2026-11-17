@@ -61,7 +61,7 @@ Source: `rag/dev/ablation.json`
 
 | Decider | bid/skip macro-F1 | accuracy | scam precision | scam recall | price in band | Source |
 |---|---|---|---|---|---|---|
-| graph | 0.870 | 0.870 | 0.905 | 1.000 | 0.608 | `decision/graph.json` |
+| graph | 0.870 | 0.870 | 0.905 | 1.000 | 0.902 | `decision/graph.json` |
 | keyword | 0.696 | 0.717 | 0.905 | 1.000 | 0.652 | `decision/keyword.json` |
 
 ## GigSim outcomes on a fixed job set
@@ -99,6 +99,16 @@ Source: `multiagent/*.json`
 | best | 17 | 0.950 | 0.950 | 1.000 | 2 | 2116.4 |
 
 Source: `tools/granularity.json`
+
+## Model comparison (bid graph, 50 dev jobs; hardware: Intel(R) Core(TM) i7-6820HQ CPU @ 2.70GHz; NVIDIA Quadro M2200; Intel(R) HD Graphics 530; 16 GB RAM)
+
+| Model | bid/skip macro-F1 | Price in band | Reply rate | Tokens/job | Tokens/s | Latency mean / p95 s | USD/job |
+|---|---|---|---|---|---|---|---|
+| ollama:llama3.2:3b | 0.760 | 0.632 | 0.455 | 1188.5 | 40.0 | 29.71 / 78.97 | 0.0 |
+| ollama:qwen2.5:1.5b | 0.643 | 0.750 | 0.429 | 789.9 | 24.0 | 32.96 / 277.31 | 0.0 |
+| ollama:qwen2.5:3b | 0.480 | 0.600 | 0.400 | 756.5 | 38.6 | 19.62 / 63.74 | 0.0 |
+
+Source: `models/summary.json`
 
 ## Injection attack success rate (34 planted-injection dev jobs, ollama:llama3.2:3b)
 
@@ -138,6 +148,24 @@ Source: `budgets/budgets.json`
 Difference B - A 0.067 (95% CI -0.009 to 0.144); exact McNemar p = 0.104613.
 
 Source: `extension/ab.json`
+
+## Failure analysis (600 dev jobs, rules mode; injection and tool errors from the LLM runs)
+
+| Category | Failed jobs |
+|---|---|
+| mispriced | 100 |
+| missed_evidence | 81 |
+| wrong_skip | 78 |
+| injection | 1 |
+| tool_error | 0 |
+
+| Fix (config override) | Target | Before | After | bid/skip F1 | Price in band | Worked |
+|---|---|---|---|---|---|---|
+| clamp_price_to_band | mispriced | 100 | 25 | 0.870 -> 0.870 | 0.608 -> 0.902 | yes |
+| lower_client_floor | wrong_skip | 78 | 78 | 0.870 -> 0.870 | 0.608 -> 0.608 | no |
+| more_evidence | missed_evidence | 81 | 68 | 0.870 -> 0.870 | 0.608 -> 0.608 | yes |
+
+Source: `failures/failures.json`
 
 ## CI smoke eval gate
 

@@ -93,10 +93,10 @@ The bid graph's decisions are evaluated on all 600 dev jobs in deterministic rul
 
 | Decider | bid/skip macro-F1 | Accuracy | Scam precision | Scam recall | Price in band |
 |---|---|---|---|---|---|
-| Graph (parallel analysts) | 0.870 | 0.870 | 0.905 | 1.000 | 0.608 |
+| Graph (parallel analysts) | 0.870 | 0.870 | 0.905 | 1.000 | 0.902 |
 | Keyword baseline | 0.696 | 0.717 | 0.905 | 1.000 | 0.652 |
 
-The graph improves bid/skip macro-F1 by 0.174 because the Risk Assessor uses client history (rating, hire rate, unverified "ghost" clients) and the Fit Matcher weighs must-have skills, which keywords cannot see. Both catch every scam. The keyword baseline prices slightly better, a known weakness of the graph's pricing node. Skip-reason accuracy for the graph is 0.817.
+The graph improves bid/skip macro-F1 by 0.174 because the Risk Assessor uses client history (rating, hire rate, unverified "ghost" clients) and the Fit Matcher weighs must-have skills, which keywords cannot see. Both catch every scam. Skip-reason accuracy for the graph is 0.817. Price in band was 0.608 (below the keyword baseline's 0.652) until the failure analysis below; clamping the quote into the market band raised it to 0.902 with the same macro-F1, and that is now the default.
 
 **R&D C: is multi-agent worth it?** We ran three systems on the same 50 dev jobs (seeded and stratified by persona), all with the same local model (`ollama:llama3.2:3b` in every role) and the same in-process tools. The systems were: (a) one ReAct agent with every tool (`create_react_agent`), (b) `langgraph-supervisor` with three ReAct workers (analyst, researcher, writer), and (c) our hand-written graph run up to the approval interrupt. Letters that would be sent were submitted to a fresh GigSim (chaos off, 30 simulated days). Source: `multiagent/{graph,react,supervisor}.json`, with per-job rows in `*.jobs.jsonl`.
 
@@ -121,6 +121,28 @@ The graph improves bid/skip macro-F1 by 0.174 because the Risk Assessor uses cli
 | Fine, rewritten descriptions | 17 | **0.950** | **0.950** | **1.000** | 2 | 2116.4 |
 
 Coarse tools halve the prompt, but the small model often does not call them at all (18/40) and fills the nested `args` object badly. Rewriting the descriptions raised argument accuracy from 0.85 to 0.95 for +14% tokens: the gain is in argument formats (ids, ISO times, `dry_run`), not in tool choice. The next step is to move the rewritten descriptions into the MCP servers (a schema-snapshot change).
+
+**Model comparison** (source `models/summary.json`; same graph, same 50 jobs as R&D C, every node on one local model; hardware i7-6820HQ, Quadro M2200, 16 GB; no API cost, so cost is tokens and throughput):
+
+| Model | bid/skip macro-F1 | Scam P / R | Letters | Reply rate | Tokens/job | Tokens/s | Latency mean / p95 s |
+|---|---|---|---|---|---|---|---|
+| llama3.2:3b | **0.760** | 1.00 / 1.00 | 22 | 0.455 | 1188.5 | 40.0 | 29.7 / 79.0 |
+| qwen2.5:1.5b | 0.643 | 1.00 / 1.00 | 7 | 0.429 | 789.9 | 24.0 | 33.0 / 277.3 |
+| qwen2.5:3b | 0.480 | 1.00 / 1.00 | 5 | 0.400 | 756.5 | 38.6 | 19.6 / 63.7 |
+
+llama3.2:3b is the best configuration: both Qwen models are cheaper per job but rarely bid (5 and 7 letters on 22 bid-worthy jobs), which is where their F1 is lost; every model caught both scams. Model size did not predict quality here (the 1.5B Qwen beat the 3B Qwen), so the choice has to be measured per task. These runs used the pricing defaults before the clamp fix below.
+
+**Failure analysis** (`docs/FAILURES.md`, source `failures/failures.json`). All 600 dev jobs in rules mode, plus the LLM runs for injection and tool errors, sorted into the taxonomy; every fix is a config override re-run on the same jobs:
+
+| Category | Failed jobs | Fix tried | After | Worked |
+|---|---|---|---|---|
+| mispriced (all above the band) | 100 | clamp the quote into the market band | 25; price in band 0.608 -> 0.902, F1 unchanged | yes (now default) |
+| missed evidence | 81 | 4 evidence sentences instead of 3 | 68 | partly (not default: it changes every letter) |
+| wrong skip | 78 (66 bid-worthy skipped) | lower the client-score floor 0.35 -> 0.30 | 78 | **no**: 63 of 66 were skipped for "missing must-have skills" such as `chatgpt`, `torch`, `saas` |
+| injection | 1 | (output filter) | blocked | yes |
+| unsupported claim, generic opening, compliance miss, tool error | 0 | | | |
+
+The failed fix was the most useful finding: the wrong skips are a skill-naming problem (the Job Analyst treats tool names as hard must-haves that the persona's evidence names differently), so the next fix is a synonym map in the skill taxonomy, not a threshold.
 
 **Extension X2: proposal experiments** (`docs/EXTENSION.md`, source `extension/ab.json`). Two writer strategies, switchable in `agent/config.yaml`: A `evidence_first` (current) and B `outcome_first` (lead with the most relevant quantified result, close with one scoping question). Paired design: the 267 dev jobs the graph bids on, each arm's letters sent to its own identical GigSim world (same clients and hidden preferences), 30 simulated days. B replied more often, **0.513 vs 0.446 (+0.067, 95% CI [-0.009, +0.144])**, with 64 vs 46 discordant pairs, but the difference is **not significant (exact McNemar p = 0.105)**. The gain is in the fullstack persona (0.545 vs 0.386); data_analyst shows none. The default stays A; B remains a config option until a larger sample confirms it.
 
@@ -154,7 +176,8 @@ Without defences the guarantee (6/6), fabricated-experience (5/5), off-platform 
 - Judge calibration against human labels (kappa) and the live Upwork adapter were not finished at submission time. R&D A and C used one small local model (3B) on 40 tasks and 50 jobs; a stronger model may narrow the gaps.
 - With every node on a local 3B model the graph misses its latency budget (p95 79 s vs 20 s), and the A/B extension result is not significant at the 5% level.
 - The public demo (web and API both on Vercel, `docs/DEPLOY.md`) runs the API as a serverless function in single-process mode (`GIGBID_MCP_MODE=inprocess`): the agents call the in-process tool layer that has the same tool names and result shapes as the MCP servers, each request drives the graph to its next stop (the approval interrupt or the end), and runs last only as long as a function instance. The full stack (three MCP servers, Postgres checkpoints) runs with `docker compose`.
-- Pricing lands inside the market band only 61% of the time.
+- Pricing now lands inside the market band 90% of the time, partly by construction (the gold band and the quote use the same market data). R&D C, the model comparison and the A/B extension were measured before this pricing change.
+- 66 bid-worthy dev jobs are still skipped because tool names are treated as hard must-have skills (failure analysis).
 
 ## 10. AI usage and reproducibility
 
