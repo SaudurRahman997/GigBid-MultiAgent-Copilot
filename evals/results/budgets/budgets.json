@@ -1,0 +1,67 @@
+{
+  "runner": "evals/runners/budgets.py",
+  "git_sha": "2082a71",
+  "generated_at": "2026-11-17T12:26:48Z",
+  "declared": {
+    "max_steps_per_thread": 40,
+    "max_tokens_per_thread": 60000,
+    "p95_latency_s": {
+      "job": 20,
+      "proposal": 60
+    },
+    "usd": {
+      "job": 0.002,
+      "proposal": 0.01
+    }
+  },
+  "hardware": "Intel(R) Core(TM) i7-6820HQ CPU @ 2.70GHz; NVIDIA Quadro M2200; Intel(R) HD Graphics 530; 16 GB RAM",
+  "configurations": {
+    "rules": {
+      "jobs": 600,
+      "proposals": 267,
+      "p95_latency_s": {
+        "job": 2.393,
+        "proposal": 2.393
+      },
+      "mean_tokens": {
+        "job": 0.0,
+        "proposal": 0.0
+      },
+      "usd": {
+        "job": 0.0,
+        "proposal": 0.0
+      },
+      "within_budget": {
+        "latency_job": true,
+        "latency_proposal": true,
+        "usd_job": true,
+        "usd_proposal": true
+      }
+    },
+    "llm_local": {
+      "jobs": 50,
+      "proposals": 22,
+      "p95_latency_s": {
+        "job": 78.97,
+        "proposal": 85.52
+      },
+      "mean_tokens": {
+        "job": 1188.5,
+        "proposal": 2081.4
+      },
+      "usd": {
+        "job": 0.0,
+        "proposal": 0.0
+      },
+      "within_budget": {
+        "latency_job": false,
+        "latency_proposal": false,
+        "usd_job": true,
+        "usd_proposal": true
+      },
+      "tokens_per_s": 40.0,
+      "model": "ollama:llama3.2:3b",
+      "source": "evals/results/multiagent/graph.jobs.jsonl"
+    }
+  }
+}
