@@ -1,0 +1,30 @@
+name: eval
+
+# 30-job smoke eval on every PR: fails if bid/skip macro-F1 drops below, or unsupported claims per
+# proposal rise above, the thresholds in agent/config.yaml `ci_thresholds` (evals/runners/smoke_eval.py).
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  smoke-eval:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.12.0"
+      - run: uv sync --locked
+      - name: Smoke eval gate (30 dev jobs, rules mode, in-process tools)
+        run: uv run python -m evals.runners.smoke_eval --jobs 30
+      - name: Upload result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-eval
+          path: evals/results/smoke/smoke.json

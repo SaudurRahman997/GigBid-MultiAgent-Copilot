@@ -1,0 +1,21 @@
+{
+  "runner": "evals/runners/smoke_eval.py",
+  "git_sha": "6622a0e",
+  "seed": 20261115,
+  "jobs": 30,
+  "proposals": 13,
+  "generated_at": "2026-11-17T12:29:37Z",
+  "gates": {
+    "bid_skip_macro_f1": {
+      "value": 0.8,
+      "min": 0.75,
+      "ok": true
+    },
+    "unsupported_claims_per_proposal": {
+      "value": 0.0,
+      "max": 0.3,
+      "ok": true
+    }
+  },
+  "passed": true
+}
