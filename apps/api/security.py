@@ -37,7 +37,11 @@ def jwt_secret() -> str:
 
 
 def issue_token(user_id: str, hours: int = 12) -> str:
-    payload = {"sub": user_id, "exp": datetime.now(UTC) + timedelta(hours=hours), "iat": datetime.now(UTC)}
+    payload = {
+        "sub": user_id,
+        "exp": datetime.now(UTC) + timedelta(hours=hours),
+        "iat": datetime.now(UTC),
+    }
     return jwt.encode(payload, jwt_secret(), algorithm="HS256")
 
 

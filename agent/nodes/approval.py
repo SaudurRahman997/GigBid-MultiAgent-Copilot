@@ -37,7 +37,11 @@ async def prepare_approval(state: dict, deps: Deps) -> dict:
     })  # fmt: skip
     balance = await deps.mcp.call("submitter_preview", "get_connects_balance", {})
     preview["connects_balance"] = balance["balance"]
-    return {"dry_run_preview": preview, "status": "awaiting_approval", "_note": f"cost {preview['connects_cost']}"}
+    return {
+        "dry_run_preview": preview,
+        "status": "awaiting_approval",
+        "_note": f"cost {preview['connects_cost']}",
+    }
 
 
 @node("approval")
@@ -75,10 +79,18 @@ async def submit(state: dict, deps: Deps) -> dict:
         "job_id": state["job_id"], "cover_letter": draft.cover_letter.ljust(50), "bid_amount": float(price.amount),
         "screening_answers": draft.screening_answers or None, "idempotency_key": draft_key,
     })  # fmt: skip
-    r = await deps.mcp.call("submitter", "submit_proposal", {"proposal_id": d["proposal_id"], "idempotency_key": submit_key})
+    r = await deps.mcp.call(
+        "submitter",
+        "submit_proposal",
+        {"proposal_id": d["proposal_id"], "idempotency_key": submit_key},
+    )
     sub = SubmissionResult(proposal_id=r["proposal_id"], status=r["status"], connects_cost=r["connects_cost"],
                            idempotency_key=submit_key, replayed=bool(r.get("replayed")))  # fmt: skip
-    return {"submission": sub, "status": "submitted", "_note": f"{sub.proposal_id} replayed={sub.replayed}"}
+    return {
+        "submission": sub,
+        "status": "submitted",
+        "_note": f"{sub.proposal_id} replayed={sub.replayed}",
+    }
 
 
 @node("record_outcome")

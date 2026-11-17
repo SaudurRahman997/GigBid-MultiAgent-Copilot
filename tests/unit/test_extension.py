@@ -19,22 +19,36 @@ SPEC = JobSpec(job_id="j1", title="Churn model for a SaaS company", budget=Budge
                              Requirement(text="Weekly risk report", kind="deliverable")])  # fmt: skip
 EVIDENCE = [
     {"id": "ai_ml:readme:x", "snippet": "Open-sourced version of a project (2022). More text."},
-    {"id": "ai_ml:case:13", "snippet": "Cut monthly churn by 18% with a gradient-boosted model. Details."},
-    {"id": "ai_ml:review:04", "snippet": "Great communication and fast delivery. Would hire again."},
+    {
+        "id": "ai_ml:case:13",
+        "snippet": "Cut monthly churn by 18% with a gradient-boosted model. Details.",
+    },
+    {
+        "id": "ai_ml:review:04",
+        "snippet": "Great communication and fast delivery. Would hire again.",
+    },
 ]
-PRICE = PriceQuote(amount=900, kind="fixed", band=(500, 1500), connects_cost=12, worth_it=True, rationale="in band")
+PRICE = PriceQuote(
+    amount=900, kind="fixed", band=(500, 1500), connects_cost=12, worth_it=True, rationale="in band"
+)
 
 
 def test_default_strategy_is_unchanged_and_configured():
     assert load_config()["writer"]["strategy"] == "evidence_first"
-    assert template_letter(SPEC, EVIDENCE, PRICE) == template_letter(SPEC, EVIDENCE, PRICE, "evidence_first")
-    assert template_letter(SPEC, EVIDENCE, PRICE).startswith("You need predict which customers will cancel")
+    assert template_letter(SPEC, EVIDENCE, PRICE) == template_letter(
+        SPEC, EVIDENCE, PRICE, "evidence_first"
+    )
+    assert template_letter(SPEC, EVIDENCE, PRICE).startswith(
+        "You need predict which customers will cancel"
+    )
 
 
 def test_outcome_first_leads_with_a_quantified_result_and_asks_one_question():
     text = template_letter(SPEC, EVIDENCE, PRICE, "outcome_first")
     first, last = text.split("\n\n")[0], text.split("\n\n")[-1]
-    assert first == "Cut monthly churn by 18% with a gradient-boosted model. [ai_ml:case:13]"  # not the 2022 readme
+    assert (
+        first == "Cut monthly churn by 18% with a gradient-boosted model. [ai_ml:case:13]"
+    )  # not the 2022 readme
     assert last.endswith("?") and last.count("?") == 1
     assert "$900 fixed" in text
     # every evidence sentence keeps its citation, and the letter passes the policy pack

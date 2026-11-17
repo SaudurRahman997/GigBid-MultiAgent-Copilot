@@ -44,11 +44,21 @@ def build_conversation_graph(config: dict, checkpointer=None, store=None):
                update_pipeline):  # fmt: skip
         g.add_node(fn.node_name, fn)
     g.add_edge(START, "new_message")
-    g.add_conditional_edges("new_message", guard("classify_intent"), ["classify_intent", "update_pipeline"])
-    g.add_conditional_edges("classify_intent", after_classify, ["propose_slots", "draft_reply", "update_pipeline"])
-    g.add_conditional_edges("propose_slots", guard("draft_reply"), ["draft_reply", "update_pipeline"])
-    g.add_conditional_edges("draft_reply", guard("message_compliance"), ["message_compliance", "update_pipeline"])
-    g.add_conditional_edges("message_compliance", guard("message_approval"), ["message_approval", "update_pipeline"])
+    g.add_conditional_edges(
+        "new_message", guard("classify_intent"), ["classify_intent", "update_pipeline"]
+    )
+    g.add_conditional_edges(
+        "classify_intent", after_classify, ["propose_slots", "draft_reply", "update_pipeline"]
+    )
+    g.add_conditional_edges(
+        "propose_slots", guard("draft_reply"), ["draft_reply", "update_pipeline"]
+    )
+    g.add_conditional_edges(
+        "draft_reply", guard("message_compliance"), ["message_compliance", "update_pipeline"]
+    )
+    g.add_conditional_edges(
+        "message_compliance", guard("message_approval"), ["message_approval", "update_pipeline"]
+    )
     g.add_conditional_edges("message_approval", guard("send"), ["send", "update_pipeline"])
     g.add_edge("send", "update_pipeline")
     g.add_edge("update_pipeline", END)

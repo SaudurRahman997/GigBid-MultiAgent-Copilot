@@ -78,7 +78,11 @@ oauth_tokens = Table(
 
 
 def make_engine(url: str) -> Engine:
-    url = url.replace("postgresql://", "postgresql+psycopg://", 1) if url.startswith("postgresql://") else url
+    url = (
+        url.replace("postgresql://", "postgresql+psycopg://", 1)
+        if url.startswith("postgresql://")
+        else url
+    )
     if url.startswith("sqlite"):
         kwargs: dict = {"connect_args": {"check_same_thread": False}}
         if url in ("sqlite://", "sqlite:///:memory:"):

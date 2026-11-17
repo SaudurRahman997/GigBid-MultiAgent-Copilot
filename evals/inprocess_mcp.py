@@ -21,6 +21,8 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class SimulatedCrash(BaseException):  # noqa: N818 - models a process dying (not an Exception: no retry)
     """The process dies mid-node (like SIGKILL); BaseException so no handler can swallow it."""
+
+
 DATA = ROOT / "data"
 
 
@@ -42,9 +44,15 @@ class _RetrieverShim:
 class FakeMCP:
     def __init__(self, persona: str = "ai_ml", connects: int = 500):
         self.persona = persona
-        self.jobs = {j["job_id"]: j for p in ("ai_ml", "fullstack", "data_analyst") for j in _jsonl(DATA / "devset" / f"{p}.jsonl")}
+        self.jobs = {
+            j["job_id"]: j
+            for p in ("ai_ml", "fullstack", "data_analyst")
+            for j in _jsonl(DATA / "devset" / f"{p}.jsonl")
+        }
         self.clients = {c["client_id"]: c for c in _jsonl(DATA / "synthetic" / "clients.jsonl")}
-        self.profile = json.loads((DATA / "personas" / persona / "profile.json").read_text(encoding="utf-8"))
+        self.profile = json.loads(
+            (DATA / "personas" / persona / "profile.json").read_text(encoding="utf-8")
+        )
         self.retriever = BM25Retriever(load_corpus(persona))
         self.shim = _RetrieverShim(persona)
         self.balance = connects
@@ -70,7 +78,10 @@ class FakeMCP:
                 and (not q or q in f"{j['title']} {j['description']}".lower())]  # fmt: skip
         keep = ("job_id", "title", "category", "pay_type", "budget_usd", "hourly_low", "hourly_high", "client_id",
                 "connects_required", "applicants", "posted_at", "skills")  # fmt: skip
-        return {"items": [{k: j.get(k) for k in keep} for j in hits[: a.get("limit") or 20]], "total": len(hits)}
+        return {
+            "items": [{k: j.get(k) for k in keep} for j in hits[: a.get("limit") or 20]],
+            "total": len(hits),
+        }
 
     async def t_get_job(self, a):
         j = self.jobs[a["job_id"]]
@@ -100,10 +111,19 @@ class FakeMCP:
         return {"balance": self.balance}
 
     async def t_list_messages(self, a):
-        return {"messages": self.threads[a["thread_id"]]} if a.get("thread_id") else {"threads": list(self.threads)}
+        return (
+            {"messages": self.threads[a["thread_id"]]}
+            if a.get("thread_id")
+            else {"threads": list(self.threads)}
+        )
 
     async def t_free_slots(self, a):
-        return {"slots": [{"start": f"2026-11-0{d}T10:00:00Z", "end": f"2026-11-0{d}T10:30:00Z"} for d in (3, 4, 5, 6)]}
+        return {
+            "slots": [
+                {"start": f"2026-11-0{d}T10:00:00Z", "end": f"2026-11-0{d}T10:30:00Z"}
+                for d in (3, 4, 5, 6)
+            ]
+        }
 
     # ------------------------------------------------------------------ writes (idempotent)
     def _replay(self, tool, key):
@@ -119,8 +139,19 @@ class FakeMCP:
         if r := self._replay("draft", a["idempotency_key"]):
             return r
         pid = f"pr_{len(self.drafts) + 1:06d}"
-        self.drafts[pid] = {"job_id": a["job_id"], "cover_letter": a["cover_letter"], "cost": cost, "status": "draft"}
-        res = {"dry_run": False, "proposal_id": pid, "job_id": a["job_id"], "connects_cost": cost, "replayed": False}
+        self.drafts[pid] = {
+            "job_id": a["job_id"],
+            "cover_letter": a["cover_letter"],
+            "cost": cost,
+            "status": "draft",
+        }
+        res = {
+            "dry_run": False,
+            "proposal_id": pid,
+            "job_id": a["job_id"],
+            "connects_cost": cost,
+            "replayed": False,
+        }
         self.idem[("draft", a["idempotency_key"])] = res
         return res
 
@@ -145,7 +176,12 @@ class FakeMCP:
     async def t_send_message(self, a):
         if r := self._replay("msg", a["idempotency_key"]):
             return r
-        res = {"dry_run": False, "thread_id": a["thread_id"], "message_id": f"m{len(self.sent) + 10}", "replayed": False}
+        res = {
+            "dry_run": False,
+            "thread_id": a["thread_id"],
+            "message_id": f"m{len(self.sent) + 10}",
+            "replayed": False,
+        }
         self.sent.append({"text": a["text"], **res})
         self.idem[("msg", a["idempotency_key"])] = res
         return res
@@ -153,7 +189,12 @@ class FakeMCP:
     async def t_create_tentative_hold(self, a):
         if r := self._replay("hold", a["idempotency_key"]):
             return r
-        res = {"dry_run": False, "hold_id": f"hold_{len(self.holds)}", "start": a["start"], "replayed": False}
+        res = {
+            "dry_run": False,
+            "hold_id": f"hold_{len(self.holds)}",
+            "start": a["start"],
+            "replayed": False,
+        }
         self.holds.append(res)
         self.idem[("hold", a["idempotency_key"])] = res
         return res

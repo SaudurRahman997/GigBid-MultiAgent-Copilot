@@ -17,7 +17,9 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 def _session(response: Response, user: dict) -> Session:
     token = issue_token(user["id"])
     response.set_cookie(COOKIE, token, httponly=True, samesite="lax", max_age=12 * 3600)
-    return Session(user=Me(id=user["id"], email=user["email"], persona=user["persona"]), token=token)
+    return Session(
+        user=Me(id=user["id"], email=user["email"], persona=user["persona"]), token=token
+    )
 
 
 def create_user(engine, email: str, password: str, persona: str) -> dict:
@@ -30,7 +32,9 @@ def create_user(engine, email: str, password: str, persona: str) -> dict:
 @router.post("/register", response_model=Session, status_code=201)
 def register(body: Register, request: Request, response: Response) -> Session:
     try:
-        user = create_user(request.app.state.service.engine, body.email, body.password, body.persona)
+        user = create_user(
+            request.app.state.service.engine, body.email, body.password, body.persona
+        )
     except IntegrityError:
         raise HTTPException(status.HTTP_409_CONFLICT, "email already registered") from None
     return _session(response, user)
@@ -39,7 +43,11 @@ def register(body: Register, request: Request, response: Response) -> Session:
 @router.post("/login", response_model=Session)
 def login(body: Credentials, request: Request, response: Response) -> Session:
     with request.app.state.service.engine.connect() as c:
-        row = c.execute(select(db.users).where(db.users.c.email == body.email.lower())).mappings().first()
+        row = (
+            c.execute(select(db.users).where(db.users.c.email == body.email.lower()))
+            .mappings()
+            .first()
+        )
     if row is None or not verify_password(body.password, row["password_hash"]):
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "wrong email or password")
     return _session(response, dict(row))

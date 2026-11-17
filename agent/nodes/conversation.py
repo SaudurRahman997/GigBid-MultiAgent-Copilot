@@ -25,7 +25,12 @@ INTENT_RULES = [
     ("interview_request", r"\b(call|interview|meeting|meet|video|zoom|available|availability|time slots?|schedule)\b"),
     ("negotiation", r"\b(price|budget|rate|discount|cheaper|lower|afford|\$\d+)\b"),
 ]  # fmt: skip
-STAGE = {"question": "replied", "negotiation": "replied", "interview_request": "interview", "scam_signal": "flagged"}
+STAGE = {
+    "question": "replied",
+    "negotiation": "replied",
+    "interview_request": "interview",
+    "scam_signal": "flagged",
+}
 
 
 @node("new_message")
@@ -53,15 +58,27 @@ async def classify_intent(state: dict, deps: Deps) -> dict:
     tokens = 0
     if deps.mode("classify_intent") == "llm":
         try:
-            out_text, tokens = await ask(deps, "classify_intent", render("classify_intent", message=untrusted("CLIENT MESSAGE", text)))
+            out_text, tokens = await ask(
+                deps,
+                "classify_intent",
+                render("classify_intent", message=untrusted("CLIENT MESSAGE", text)),
+            )
             out = parse_json(out_text)
-            result = IntentResult(intent=out["intent"], confidence=float(out.get("confidence", 0.7)))
+            result = IntentResult(
+                intent=out["intent"], confidence=float(out.get("confidence", 0.7))
+            )
         except Exception:  # noqa: BLE001 - keep the rules result
             pass
     if result.intent != "scam_signal" and rules_intent(text).intent == "scam_signal":
-        result = IntentResult(intent="scam_signal", confidence=max(result.confidence, 0.7))  # safety override
+        result = IntentResult(
+            intent="scam_signal", confidence=max(result.confidence, 0.7)
+        )  # safety override
     result.injection_spans = spans
-    return {"intent": result, "tokens": tokens, "_note": f"{result.intent} ({result.confidence:.2f})"}
+    return {
+        "intent": result,
+        "tokens": tokens,
+        "_note": f"{result.intent} ({result.confidence:.2f})",
+    }
 
 
 @node("propose_slots")
@@ -97,7 +114,11 @@ async def draft_reply(state: dict, deps: Deps) -> dict:
     slots = state.get("slots") or []
     evidence = []
     if intent in ("question", "negotiation"):
-        res = await deps.mcp.call("liaison", "search_evidence", {"requirement": state["last_client_message"][:500], "k": 3})
+        res = await deps.mcp.call(
+            "liaison",
+            "search_evidence",
+            {"requirement": state["last_client_message"][:500], "k": 3},
+        )
         evidence = res["items"]
     text, tokens = rules_reply(intent, slots, profile), 0
     if deps.mode("liaison") == "llm":
@@ -117,9 +138,15 @@ async def draft_reply(state: dict, deps: Deps) -> dict:
 @node("message_compliance")
 async def message_compliance(state: dict, deps: Deps) -> dict:
     verdict = check_compliance(state["draft"].text, deps.policy, [])
-    out: dict = {"compliance": verdict, "_note": "allowed" if verdict.allowed else f"blocked {verdict.violations}"}
+    out: dict = {
+        "compliance": verdict,
+        "_note": "allowed" if verdict.allowed else f"blocked {verdict.violations}",
+    }
     if not verdict.allowed:
-        out |= {"status": "blocked", "attention_reason": f"compliance: {', '.join(verdict.violations)}"}
+        out |= {
+            "status": "blocked",
+            "attention_reason": f"compliance: {', '.join(verdict.violations)}",
+        }
     return out
 
 
@@ -132,9 +159,14 @@ async def message_approval(state: dict, deps: Deps) -> dict:
     decision = ApprovalDecision.model_validate(interrupt(req.model_dump(mode="json")))
     out: dict = {"approval": decision, "_note": decision.action}
     if decision.action == "reject":
-        out |= {"status": "rejected", "attention_reason": f"rejected by human: {decision.reason or 'no reason'}"}
+        out |= {
+            "status": "rejected",
+            "attention_reason": f"rejected by human: {decision.reason or 'no reason'}",
+        }
     elif decision.action == "edit" and decision.edited_text:
-        out["draft"] = d.model_copy(update={"text": decision.edited_text.strip(), "version": d.version + 1})
+        out["draft"] = d.model_copy(
+            update={"text": decision.edited_text.strip(), "version": d.version + 1}
+        )
     return out
 
 
@@ -143,14 +175,26 @@ async def send(state: dict, deps: Deps) -> dict:
     d = state["draft"]
     verdict = check_compliance(d.text, deps.policy, [])  # edited text is re-checked before sending
     if not verdict.allowed:
-        return {"compliance": verdict, "status": "blocked", "attention_reason": f"compliance after edit: {verdict.violations}"}
+        return {
+            "compliance": verdict,
+            "status": "blocked",
+            "attention_reason": f"compliance after edit: {verdict.violations}",
+        }
     key = f"{state['thread_id']}:msg:v{d.version}"
-    res = await deps.mcp.call("liaison", "send_message", {"thread_id": state["thread_id"], "text": d.text, "idempotency_key": key})
+    res = await deps.mcp.call(
+        "liaison",
+        "send_message",
+        {"thread_id": state["thread_id"], "text": d.text, "idempotency_key": key},
+    )
     for i, slot in enumerate(d.proposed_slots):
         await deps.mcp.call("liaison", "create_tentative_hold", {"start": slot["start"], "duration_min": 30,
                                                                  "title": f"Client call ({state['thread_id']})",
                                                                  "idempotency_key": f"{key}:hold{i}"})  # fmt: skip
-    return {"sent_message_id": res["message_id"], "status": "sent", "_note": f"sent {res['message_id']}"}
+    return {
+        "sent_message_id": res["message_id"],
+        "status": "sent",
+        "_note": f"sent {res['message_id']}",
+    }
 
 
 @node("update_pipeline")

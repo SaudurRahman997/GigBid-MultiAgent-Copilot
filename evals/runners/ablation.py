@@ -55,7 +55,12 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--personas", nargs="+", default=["ai_ml", "fullstack", "data_analyst"])
     ap.add_argument("--split", default="dev")
-    ap.add_argument("--off-in-base", nargs="*", default=["rerank", "outcome"], help="components absent from the best pipeline")
+    ap.add_argument(
+        "--off-in-base",
+        nargs="*",
+        default=["rerank", "outcome"],
+        help="components absent from the best pipeline",
+    )
     args = ap.parse_args(argv)
     cfg = rag_config()
     # Ablate the BEST pipeline from the variant table: V2 hybrid (decompose + bm25 + structured;
@@ -98,7 +103,8 @@ def main(argv: list[str] | None = None) -> int:
         "personas": args.personas,
         "git_sha": git_sha(),
         "generated_at": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "base": full_name, "overall": overall,
+        "base": full_name,
+        "overall": overall,
         "delta_vs_full": delta,
         "per_persona": results,
     }

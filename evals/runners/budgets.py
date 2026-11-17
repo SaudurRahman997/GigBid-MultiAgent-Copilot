@@ -100,9 +100,21 @@ def main(argv: list[str] | None = None) -> int:
 
     budgets = load_config()["budgets"]
     rules = summarize(asyncio.run(rules_runs()), budgets)
-    llm_rows = [json.loads(x) for x in (ROOT / "evals/results/multiagent/graph.jobs.jsonl").read_text(encoding="utf-8").splitlines() if x]
+    llm_rows = [
+        json.loads(x)
+        for x in (ROOT / "evals/results/multiagent/graph.jobs.jsonl")
+        .read_text(encoding="utf-8")
+        .splitlines()
+        if x
+    ]
     llm_src = json.loads((ROOT / "evals/results/multiagent/graph.json").read_text(encoding="utf-8"))
-    llm = summarize([{"latency_s": r["latency_s"], "proposal": bool(r["letter"]), "tokens": r["tokens"]} for r in llm_rows], budgets)
+    llm = summarize(
+        [
+            {"latency_s": r["latency_s"], "proposal": bool(r["letter"]), "tokens": r["tokens"]}
+            for r in llm_rows
+        ],
+        budgets,
+    )
     tot_tok, tot_s = sum(r["tokens"] for r in llm_rows), sum(r["latency_s"] for r in llm_rows)
     llm["tokens_per_s"] = round(tot_tok / tot_s, 1) if tot_s else None
     llm["model"] = llm_src["model"]
@@ -114,7 +126,9 @@ def main(argv: list[str] | None = None) -> int:
         "configurations": {"rules": rules, "llm_local": llm},
     }  # fmt: skip
     OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / "budgets.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8", newline="\n")
+    (OUT / "budgets.json").write_text(
+        json.dumps(summary, indent=2) + "\n", encoding="utf-8", newline="\n"
+    )
     print(json.dumps(summary["configurations"], indent=1))
     return 0
 

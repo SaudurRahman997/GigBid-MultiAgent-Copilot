@@ -1,6 +1,6 @@
 """Render docs/report/REPORT.md to docs/report/GigBid_Report.pdf (headings, paragraphs, bullets, tables).
 
-    uv run python -m scripts.render_report
+uv run python -m scripts.render_report
 """
 
 from __future__ import annotations
@@ -84,7 +84,9 @@ def render() -> None:
             indent = 10 if line.startswith("  ") else 4
             pdf.set_font("Helvetica", size=9.5)
             pdf.set_x(pdf.l_margin + indent)
-            pdf.multi_cell(0, 5, "- " + inline(line.strip()[2:]), markdown=True, new_x="LMARGIN", new_y="NEXT")
+            pdf.multi_cell(
+                0, 5, "- " + inline(line.strip()[2:]), markdown=True, new_x="LMARGIN", new_y="NEXT"
+            )
         elif line.strip():
             pdf.set_font("Helvetica", size=9.5)
             pdf.multi_cell(0, 5, inline(line), markdown=True, new_x="LMARGIN", new_y="NEXT")

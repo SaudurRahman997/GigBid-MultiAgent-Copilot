@@ -46,9 +46,18 @@ def record_edit(store, user: str, thread_id: str, old: str, new: str) -> list[st
         item = store.get(("style_candidates", user), k)
         threads = set(item.value["threads"]) if item else set()
         threads.add(thread_id)
-        store.put(("style_candidates", user), k, {"pattern": p.model_dump(), "threads": sorted(threads)})
-        if should_promote_style(threads, cfg["style_min_drafts"]) and store.get(("style", user), k) is None:
-            store.put(("style", user), k, {"rule": p.rule(), "pattern": p.model_dump(), "threads": sorted(threads)})
+        store.put(
+            ("style_candidates", user), k, {"pattern": p.model_dump(), "threads": sorted(threads)}
+        )
+        if (
+            should_promote_style(threads, cfg["style_min_drafts"])
+            and store.get(("style", user), k) is None
+        ):
+            store.put(
+                ("style", user),
+                k,
+                {"rule": p.rule(), "pattern": p.model_dump(), "threads": sorted(threads)},
+            )
             promoted.append(p.rule())
     return promoted
 

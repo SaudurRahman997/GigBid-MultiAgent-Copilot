@@ -63,15 +63,25 @@ def node(name: str) -> Callable[[NodeFn], Callable]:
             budgets = deps.config["budgets"]
             agents = deps.config.get("agents", {})
             if state.get("steps", 0) >= budgets["max_steps_per_thread"]:
-                return _halt(name, "needs_attention", f"step budget {budgets['max_steps_per_thread']} exceeded")
+                return _halt(
+                    name,
+                    "needs_attention",
+                    f"step budget {budgets['max_steps_per_thread']} exceeded",
+                )
             if state.get("tokens", 0) >= budgets["max_tokens_per_thread"]:
-                return _halt(name, "needs_attention", f"token budget {budgets['max_tokens_per_thread']} exceeded")
+                return _halt(
+                    name,
+                    "needs_attention",
+                    f"token budget {budgets['max_tokens_per_thread']} exceeded",
+                )
             attempts = 1 + int(agents.get("node_retries", 2))
             t0 = time.perf_counter()
             last: Exception | None = None
             for attempt in range(1, attempts + 1):
                 try:
-                    out = await asyncio.wait_for(fn(state, deps), timeout=float(agents.get("node_timeout_s", 90)))
+                    out = await asyncio.wait_for(
+                        fn(state, deps), timeout=float(agents.get("node_timeout_s", 90))
+                    )
                     break
                 except GraphBubbleUp:  # interrupt() and friends must reach LangGraph untouched
                     raise

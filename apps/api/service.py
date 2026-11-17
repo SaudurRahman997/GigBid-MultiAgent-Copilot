@@ -51,14 +51,20 @@ class GraphService:
                  llm: Callable[[str], Any] | None = None, checkpointer=None, store=None,
                  inline: bool = False):  # fmt: skip
         self.engine = engine
-        self.inline = inline  # serverless hosting: drive the graph to its next stop inside the request
+        self.inline = (
+            inline  # serverless hosting: drive the graph to its next stop inside the request
+        )
         self.config = config
-        self.mcp_factory = mcp_factory  # (persona, trace_id) -> object with async call(agent, tool, args)
+        self.mcp_factory = (
+            mcp_factory  # (persona, trace_id) -> object with async call(agent, tool, args)
+        )
         self.llm = llm
         self.store = store
         self.graphs = {
             "bid": build_bid_graph(config, checkpointer=checkpointer, store=store),
-            "conversation": build_conversation_graph(config, checkpointer=checkpointer, store=store),
+            "conversation": build_conversation_graph(
+                config, checkpointer=checkpointer, store=store
+            ),
         }
         self.broker = Broker()
         self.tasks: set[asyncio.Task] = set()
@@ -84,7 +90,9 @@ class GraphService:
             c.execute(update(db.runs).where(db.runs.c.thread_id == thread_id).values(**fields))
 
     async def _launch(self, coro) -> None:
-        if self.inline:  # no background work survives a serverless response; finish (to approval/end) first
+        if (
+            self.inline
+        ):  # no background work survives a serverless response; finish (to approval/end) first
             await coro
         else:
             self._spawn(coro)
@@ -109,7 +117,9 @@ class GraphService:
 
     async def resume(self, user: dict, thread_id: str, decision: dict) -> None:
         row = self.run_row(user, thread_id)
-        state = await self.graphs[row["kind"]].aget_state({"configurable": {"thread_id": thread_id}})
+        state = await self.graphs[row["kind"]].aget_state(
+            {"configurable": {"thread_id": thread_id}}
+        )
         if not state.interrupts:
             raise NotAwaitingApproval(thread_id)
         self._set(thread_id, status="resuming")
@@ -120,7 +130,9 @@ class GraphService:
         cfg = {"configurable": {"thread_id": thread_id}}
         trace_id = uuid.uuid4().hex
         self._set(thread_id, status="running")
-        await self.broker.publish(thread_id, {"type": "status", "status": "running", "trace_id": trace_id})
+        await self.broker.publish(
+            thread_id, {"type": "status", "status": "running", "trace_id": trace_id}
+        )
         error = None
         try:
             async for mode, chunk in graph.astream(payload, cfg, context=self.deps(user, trace_id),
@@ -128,7 +140,9 @@ class GraphService:
                 if mode == "updates":
                     await self.broker.publish(thread_id, update_event(chunk))
                 else:
-                    await self.broker.publish(thread_id, {"type": "custom", "data": jsonable(chunk)})
+                    await self.broker.publish(
+                        thread_id, {"type": "custom", "data": jsonable(chunk)}
+                    )
         except Exception as exc:  # noqa: BLE001 - surfaced to the UI and stored on the run
             error = f"{type(exc).__name__}: {exc}"
         snap = await graph.aget_state(cfg)
@@ -147,11 +161,19 @@ class GraphService:
     async def recover(self, user_lookup: Callable[[str], dict | None]) -> int:
         """Resume runs that were mid-flight when the process stopped (needs a durable checkpointer)."""
         with self.engine.connect() as c:
-            rows = c.execute(select(db.runs).where(db.runs.c.status.in_(["running", "resuming", "queued"]))).mappings().all()
+            rows = (
+                c.execute(
+                    select(db.runs).where(db.runs.c.status.in_(["running", "resuming", "queued"]))
+                )
+                .mappings()
+                .all()
+            )
         n = 0
         for row in rows:
             user = user_lookup(row["tenant_id"])
-            state = await self.graphs[row["kind"]].aget_state({"configurable": {"thread_id": row["thread_id"]}})
+            state = await self.graphs[row["kind"]].aget_state(
+                {"configurable": {"thread_id": row["thread_id"]}}
+            )
             if user is None or not state.next:
                 continue
             self._spawn(self._drive(user, row["thread_id"], row["kind"], None))
@@ -172,7 +194,9 @@ class GraphService:
                              .order_by(db.runs.c.updated_at.desc())).mappings().all()  # fmt: skip
         out = []
         for row in rows:
-            snap = await self.graphs[row["kind"]].aget_state({"configurable": {"thread_id": row["thread_id"]}})
+            snap = await self.graphs[row["kind"]].aget_state(
+                {"configurable": {"thread_id": row["thread_id"]}}
+            )
             if snap.interrupts:  # source of truth is the checkpoint, not the runs table
                 out.append({**_public(row), "request": jsonable(snap.interrupts[0].value)})
         return out

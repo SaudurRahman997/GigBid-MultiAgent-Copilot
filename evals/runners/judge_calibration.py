@@ -30,7 +30,9 @@ from rag.verify import config, default_judge, gather_evidence
 ROOT = Path(__file__).resolve().parents[2]
 LABEL_DIR = ROOT / "evals" / "labels"
 SHEET = LABEL_DIR / "claims_to_label.csv"
-CONSTRUCTION = ROOT / "var" / "labels" / "claims_construction_labels.json"  # answer key: kept out of sight (git-ignored)
+CONSTRUCTION = (
+    ROOT / "var" / "labels" / "claims_construction_labels.json"
+)  # answer key: kept out of sight (git-ignored)
 OUT = ROOT / "evals" / "results" / "verify" / "judge_calibration.json"
 SEED = 7
 N_PROPOSALS, CLAIMS_PER_PROPOSAL = 30, 3

@@ -74,7 +74,9 @@ def main(argv: list[str] | None = None) -> int:
                "proposals": len(rates), "generated_at": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
                "gates": checks, "passed": all(c["ok"] for c in checks.values())}  # fmt: skip
     OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / "smoke.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8", newline="\n")
+    (OUT / "smoke.json").write_text(
+        json.dumps(summary, indent=2) + "\n", encoding="utf-8", newline="\n"
+    )
     print(json.dumps(summary["gates"]))
     if not summary["passed"]:
         print("EVAL GATE FAILED", file=sys.stderr)

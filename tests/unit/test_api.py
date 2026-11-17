@@ -34,7 +34,13 @@ class World:
     def __init__(self):
         self.fakes: dict[str, FakeMCP] = {}
         self.engine = db.make_engine("sqlite://")
-        self.svc = GraphService(self.engine, load_config(), self.mcp, checkpointer=InMemorySaver(), store=InMemoryStore())
+        self.svc = GraphService(
+            self.engine,
+            load_config(),
+            self.mcp,
+            checkpointer=InMemorySaver(),
+            store=InMemoryStore(),
+        )
 
     def mcp(self, persona: str, trace_id: str) -> FakeMCP:
         return self.fakes.setdefault(persona, FakeMCP(persona))
@@ -49,7 +55,9 @@ def world():
 
 
 def signup(client: TestClient, email: str, persona: str = "ai_ml") -> dict:
-    r = client.post("/auth/register", json={"email": email, "password": "correct-horse", "persona": persona})
+    r = client.post(
+        "/auth/register", json={"email": email, "password": "correct-horse", "persona": persona}
+    )
     assert r.status_code == 201, r.text
     return {"Authorization": f"Bearer {r.json()['token']}"}
 
@@ -64,8 +72,18 @@ def idle(w: World) -> None:
 def test_register_login_me_and_password_is_hashed(world):
     c = world.client
     signup(c, "a@example.com")
-    assert c.post("/auth/register", json={"email": "a@example.com", "password": "correct-horse"}).status_code == 409
-    assert c.post("/auth/login", json={"email": "a@example.com", "password": "wrong-password"}).status_code == 401
+    assert (
+        c.post(
+            "/auth/register", json={"email": "a@example.com", "password": "correct-horse"}
+        ).status_code
+        == 409
+    )
+    assert (
+        c.post(
+            "/auth/login", json={"email": "a@example.com", "password": "wrong-password"}
+        ).status_code
+        == 401
+    )
     r = c.post("/auth/login", json={"email": "A@example.com", "password": "correct-horse"})
     assert r.status_code == 200 and "gigbid_session" in r.cookies
     assert c.get("/auth/me").json()["email"] == "a@example.com"  # cookie session
@@ -95,7 +113,9 @@ def test_analyze_pauses_then_approval_resumes_and_submits_once(world):
     assert [p["thread_id"] for p in pending] == [thread]
     req = pending[0]["request"]
     assert req["kind"] == "proposal" and req["dry_run_preview"]["dry_run"] is True
-    assert c.get("/approvals", headers=h).json()[0]["request"] == req  # refresh: same request, from the checkpoint
+    assert (
+        c.get("/approvals", headers=h).json()[0]["request"] == req
+    )  # refresh: same request, from the checkpoint
     assert world.fakes["ai_ml"].submits == 0
 
     assert c.post(f"/approvals/{thread}", headers=h, json={"action": "approve"}).status_code == 202
@@ -104,9 +124,14 @@ def test_analyze_pauses_then_approval_resumes_and_submits_once(world):
     assert run["status"] == "submitted" and run["stage"] == "submitted"
     assert run["state"]["submission"]["idempotency_key"] == f"{thread}:submit:v1"
     assert world.fakes["ai_ml"].submits == 1
-    assert c.post(f"/approvals/{thread}", headers=h, json={"action": "approve"}).status_code == 409  # no second submit
+    assert (
+        c.post(f"/approvals/{thread}", headers=h, json={"action": "approve"}).status_code == 409
+    )  # no second submit
     assert world.fakes["ai_ml"].submits == 1
-    cols = {col["stage"]: col["items"] for col in c.get("/proposals/pipeline", headers=h).json()["columns"]}
+    cols = {
+        col["stage"]: col["items"]
+        for col in c.get("/proposals/pipeline", headers=h).json()["columns"]
+    }
     assert [i["thread_id"] for i in cols["submitted"]] == [thread]
 
 
@@ -115,7 +140,12 @@ def test_reject_needs_reason_and_records_it(world):
     thread = c.post(f"/jobs/{bid_job()}/analyze", headers=h).json()["thread_id"]
     idle(world)
     assert c.post(f"/approvals/{thread}", headers=h, json={"action": "reject"}).status_code == 422
-    assert c.post(f"/approvals/{thread}", headers=h, json={"action": "reject", "reason": "not my niche"}).status_code == 202
+    assert (
+        c.post(
+            f"/approvals/{thread}", headers=h, json={"action": "reject", "reason": "not my niche"}
+        ).status_code
+        == 202
+    )
     idle(world)
     run = c.get(f"/runs/{thread}", headers=h).json()
     assert run["status"] == "rejected" and "not my niche" in run["state"]["attention_reason"]
@@ -140,11 +170,15 @@ def test_sse_replays_node_events_and_supports_reconnect(world):
     body = c.get(f"/runs/{thread}/events", headers=h).text
     events = [json.loads(line[5:]) for line in body.splitlines() if line.startswith("data:")]
     nodes = [i["node"] for e in events if e["type"] == "node" for i in e["items"]]
-    assert {"scout_in", "job_analyst", "risk_assessor", "fit_matcher", "decide", "writer"} <= set(nodes)
+    assert {"scout_in", "job_analyst", "risk_assessor", "fit_matcher", "decide", "writer"} <= set(
+        nodes
+    )
     assert events[-1]["type"] == "end" and events[-1]["status"] == "awaiting_approval"
     last = events[-2]["id"]
     again = c.get(f"/runs/{thread}/events", headers={**h, "Last-Event-ID": str(last)}).text
-    assert [json.loads(x[5:])["type"] for x in again.splitlines() if x.startswith("data:")] == ["end"]
+    assert [json.loads(x[5:])["type"] for x in again.splitlines() if x.startswith("data:")] == [
+        "end"
+    ]
 
 
 def test_conversation_reply_flow(world):
@@ -169,11 +203,23 @@ def test_settings_and_encrypted_account_tokens(world):
     s = {"autonomy": "draft", "daily_connects_budget": 20, "max_tokens_per_thread": 5000,
          "saved_searches": [{"name": "llm", "query": "rag", "every_minutes": 60}]}  # fmt: skip
     assert c.put("/settings", headers=h, json=s).json()["autonomy"] == "draft"
-    assert c.put("/settings", headers=h, json={**s, "saved_searches": [{"name": "x", "every_minutes": 5}]}).status_code == 422
-    assert c.put("/settings/accounts/upwork", headers=h, json={"access_token": "secret-abc"}).json()["connected"]
+    assert (
+        c.put(
+            "/settings",
+            headers=h,
+            json={**s, "saved_searches": [{"name": "x", "every_minutes": 5}]},
+        ).status_code
+        == 422
+    )
+    assert c.put(
+        "/settings/accounts/upwork", headers=h, json={"access_token": "secret-abc"}
+    ).json()["connected"]
     with world.engine.connect() as conn:
         ct = conn.execute(select(db.oauth_tokens.c.ciphertext)).scalar_one()
-    assert "secret-abc" not in ct and world.client.app.state.vault.open(ct)["access_token"] == "secret-abc"
+    assert (
+        "secret-abc" not in ct
+        and world.client.app.state.vault.open(ct)["access_token"] == "secret-abc"
+    )
     assert "secret-abc" not in c.get("/settings/accounts", headers=h).text
     assert c.delete("/settings/accounts/upwork", headers=h).json()["connected"] is False
 
@@ -184,12 +230,17 @@ def test_memory_viewer_lists_and_deletes(world):
     c, h = world.client, signup(world.client, "fl@example.com")
     uid = c.get("/auth/me", headers=h).json()["id"]
     for t in ("t1", "t2", "t3"):
-        record_edit(world.svc.store, uid, t, "Dear Hiring Manager, I can help.", "I can help. Best regards")
+        record_edit(
+            world.svc.store, uid, t, "Dear Hiring Manager, I can help.", "I can help. Best regards"
+        )
     items = c.get("/memory", headers=h).json()
     style = [i for i in items if i["namespace"] == "style"]
     assert style
     assert c.delete(f"/memory/style/{style[0]['key']}", headers=h).status_code == 204
-    assert len([i for i in c.get("/memory", headers=h).json() if i["namespace"] == "style"]) == len(style) - 1
+    assert (
+        len([i for i in c.get("/memory", headers=h).json() if i["namespace"] == "style"])
+        == len(style) - 1
+    )
     assert c.get("/analytics", headers=h).json()["runs"] == 0
 
 
@@ -201,7 +252,9 @@ def test_demo_mode_serves_the_full_stack_in_one_process(tmp_path, monkeypatch):
     monkeypatch.setenv("REVIEWER_PASSWORD", "demo-pass-123")
     with TestClient(create_app()) as c:
         assert c.get("/health").json()["ok"]
-        tok = c.post("/auth/login", json={"email": "reviewer@example.com", "password": "demo-pass-123"}).json()["token"]
+        tok = c.post(
+            "/auth/login", json={"email": "reviewer@example.com", "password": "demo-pass-123"}
+        ).json()["token"]
         h = {"Authorization": f"Bearer {tok}"}
         job = json.loads(next(x for x in (ROOT_DATA / "ai_ml.jsonl").read_text(encoding="utf-8").splitlines()
                               if json.loads(x)["_gold"]["bid"] == "bid"))  # fmt: skip
@@ -225,12 +278,16 @@ def test_inline_runs_finish_inside_the_request(tmp_path, monkeypatch):
     monkeypatch.setenv("REVIEWER_EMAIL", "reviewer@example.com")
     monkeypatch.setenv("REVIEWER_PASSWORD", "demo-pass-123")
     with TestClient(create_app()) as c:
-        tok = c.post("/auth/login", json={"email": "reviewer@example.com", "password": "demo-pass-123"}).json()["token"]
+        tok = c.post(
+            "/auth/login", json={"email": "reviewer@example.com", "password": "demo-pass-123"}
+        ).json()["token"]
         h = {"Authorization": f"Bearer {tok}"}
         job = json.loads(next(x for x in (ROOT_DATA / "ai_ml.jsonl").read_text(encoding="utf-8").splitlines()
                               if json.loads(x)["_gold"]["bid"] == "bid"))  # fmt: skip
         tid = c.post(f"/jobs/{job['job_id']}/analyze", headers=h).json()["thread_id"]
-        assert c.get(f"/runs/{tid}", headers=h).json()["status"] == "awaiting_approval"  # no polling needed
+        assert (
+            c.get(f"/runs/{tid}", headers=h).json()["status"] == "awaiting_approval"
+        )  # no polling needed
         assert c.post(f"/approvals/{tid}", headers=h, json={"action": "approve"}).status_code == 202
         assert c.get(f"/runs/{tid}", headers=h).json()["status"] == "submitted"
         assert c.post(f"/approvals/{tid}", headers=h, json={"action": "approve"}).status_code == 409

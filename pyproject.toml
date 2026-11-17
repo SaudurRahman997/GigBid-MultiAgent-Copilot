@@ -81,5 +81,7 @@ dev = [
 "evals/inprocess_mcp.py" = ["E501"]
 "tests/unit/test_graphs.py" = ["E501"]
 "tests/unit/test_api.py" = ["E501"]
+"tests/unit/test_extension.py" = ["E501"]  # fixtures and parametrize tables
+"tests/unit/test_policy_alignment.py" = ["E501"]
 "apps/api/**/*.py" = ["E501"]  # FastAPI signatures with Query()/Depends() defaults
 "mcp_servers/portfolio/server.py" = ["E501"]

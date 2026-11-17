@@ -57,7 +57,10 @@ async def drafts(strategy: str, jobs: list[dict]) -> dict[str, dict]:
                                   {"configurable": {"thread_id": tid}}, context=deps)  # fmt: skip
         if res.get("__interrupt__"):
             req = res["__interrupt__"][0].value
-            out[j["job_id"]] = {"letter": req["draft"]["cover_letter"], "price": res["price"].amount}
+            out[j["job_id"]] = {
+                "letter": req["draft"]["cover_letter"],
+                "price": res["price"].amount,
+            }
     return out
 
 
@@ -80,12 +83,27 @@ def outcomes(jobs: dict[str, dict], letters: dict[str, dict]) -> dict[str, str]:
             conn.execute(update(db.users).values(connects=10_000_000))
         for job_id, d in letters.items():
             h = {"Authorization": f"Bearer {TOKENS[jobs[job_id]['_persona']]}"}
-            p = c.post("/proposals", headers=h, json={"job_id": job_id, "cover_letter": d["letter"][:5000], "bid_amount": d["price"]}).json()
-            c.post(f"/proposals/{p['proposal_id']}/submit", headers={**h, "Idempotency-Key": f"ab:{job_id}"})
+            p = c.post(
+                "/proposals",
+                headers=h,
+                json={
+                    "job_id": job_id,
+                    "cover_letter": d["letter"][:5000],
+                    "bid_amount": d["price"],
+                },
+            ).json()
+            c.post(
+                f"/proposals/{p['proposal_id']}/submit",
+                headers={**h, "Idempotency-Key": f"ab:{job_id}"},
+            )
             by_proposal[p["proposal_id"]] = job_id
         c.post("/admin/tick", headers=ADMIN, params={"minutes": 60 * 24 * 30})
         decisions = c.get("/admin/decisions", headers=ADMIN).json()["items"]
-    return {by_proposal[d["proposal_id"]]: d["outcome"] for d in decisions if d["proposal_id"] in by_proposal}
+    return {
+        by_proposal[d["proposal_id"]]: d["outcome"]
+        for d in decisions
+        if d["proposal_id"] in by_proposal
+    }
 
 
 def mcnemar_exact(b: int, c: int) -> float:
@@ -114,12 +132,22 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--jobs-per-persona", type=int, default=200)
     a = ap.parse_args(argv)
-    jobs = {j["job_id"]: {**j, "_persona": p} for p in PERSONAS for j in read_jobs("dev", p)[: a.jobs_per_persona]}
+    jobs = {
+        j["job_id"]: {**j, "_persona": p}
+        for p in PERSONAS
+        for j in read_jobs("dev", p)[: a.jobs_per_persona]
+    }
 
     letters = {arm: asyncio.run(drafts(s, list(jobs.values()))) for arm, s in ARMS.items()}
-    common = sorted(set(letters["A"]) & set(letters["B"]))  # graph decisions do not depend on the writer
+    common = sorted(
+        set(letters["A"]) & set(letters["B"])
+    )  # graph decisions do not depend on the writer
     res = {arm: outcomes(jobs, {k: letters[arm][k] for k in common}) for arm in ARMS}
-    pairs = [(res["A"][k] in ANSWERED, res["B"][k] in ANSWERED) for k in common if k in res["A"] and k in res["B"]]
+    pairs = [
+        (res["A"][k] in ANSWERED, res["B"][k] in ANSWERED)
+        for k in common
+        if k in res["A"] and k in res["B"]
+    ]
     n = len(pairs)
     xa, xb = sum(p[0] for p in pairs), sum(p[1] for p in pairs)
     b = sum(p[0] and not p[1] for p in pairs)  # A replied, B not
@@ -130,7 +158,9 @@ def main(argv: list[str] | None = None) -> int:
     z, pz = two_proportion_z(xa, n, xb, n)
     per_persona = {}
     for persona in PERSONAS:
-        ks = [k for k in common if jobs[k]["_persona"] == persona and k in res["A"] and k in res["B"]]
+        ks = [
+            k for k in common if jobs[k]["_persona"] == persona and k in res["A"] and k in res["B"]
+        ]
         if ks:
             per_persona[persona] = {"pairs": len(ks),
                                     "reply_rate_A": round(sum(res["A"][k] in ANSWERED for k in ks) / len(ks), 4),
@@ -151,12 +181,27 @@ def main(argv: list[str] | None = None) -> int:
         "per_persona": per_persona,
     }  # fmt: skip
     OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / "ab.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8", newline="\n")
+    (OUT / "ab.json").write_text(
+        json.dumps(summary, indent=2) + "\n", encoding="utf-8", newline="\n"
+    )
     with (OUT / "ab.jobs.jsonl").open("w", encoding="utf-8", newline="\n") as f:
         for k in common:
             f.write(json.dumps({"job_id": k, "persona": jobs[k]["_persona"], "outcome_A": res["A"].get(k), "outcome_B": res["B"].get(k),
                                 "letter_A": letters["A"][k]["letter"], "letter_B": letters["B"][k]["letter"]}) + "\n")  # fmt: skip
-    print(json.dumps({k: summary[k] for k in ("pairs", "reply_rate_A", "reply_rate_B", "difference_ci95", "mcnemar_exact_p")}))
+    print(
+        json.dumps(
+            {
+                k: summary[k]
+                for k in (
+                    "pairs",
+                    "reply_rate_A",
+                    "reply_rate_B",
+                    "difference_ci95",
+                    "mcnemar_exact_p",
+                )
+            }
+        )
+    )
     return 0
 
 

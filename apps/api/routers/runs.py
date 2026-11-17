@@ -12,7 +12,9 @@ router = APIRouter(prefix="/runs", tags=["runs"])
 
 
 @router.get("", response_model=list[Run])
-def list_runs(kind: str | None = Query(None, pattern="^(bid|conversation)$"), user: dict = User, svc=Service) -> list[dict]:
+def list_runs(
+    kind: str | None = Query(None, pattern="^(bid|conversation)$"), user: dict = User, svc=Service
+) -> list[dict]:
     return svc.list_runs(user, kind)
 
 

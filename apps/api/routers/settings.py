@@ -14,7 +14,9 @@ PROVIDERS = ("upwork",)
 @router.get("", response_model=Settings)
 def get_settings(user: dict = User, svc=Service) -> Settings:
     with svc.engine.connect() as c:
-        row = c.execute(select(db.settings.c.value).where(db.settings.c.tenant_id == user["id"])).first()
+        row = c.execute(
+            select(db.settings.c.value).where(db.settings.c.tenant_id == user["id"])
+        ).first()
     return Settings.model_validate(row[0]) if row else Settings()
 
 
@@ -35,7 +37,9 @@ def accounts(user: dict = User, svc=Service) -> list[AccountStatus]:
 
 
 @router.put("/accounts/{provider}", response_model=AccountStatus)
-def connect_account(provider: str, body: AccountToken, request: Request, user: dict = User, svc=Service) -> AccountStatus:
+def connect_account(
+    provider: str, body: AccountToken, request: Request, user: dict = User, svc=Service
+) -> AccountStatus:
     """Stores OAuth tokens encrypted (Fernet). Tokens are never returned by the API."""
     if provider not in PROVIDERS:
         raise HTTPException(404, "unknown provider")

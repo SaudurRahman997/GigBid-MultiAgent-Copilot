@@ -7,7 +7,9 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
-RiskFlag = Literal["free_work", "off_platform", "upfront_fee", "injection", "vague_high_budget", "duplicate"]
+RiskFlag = Literal[
+    "free_work", "off_platform", "upfront_fee", "injection", "vague_high_budget", "duplicate"
+]
 Intent = Literal["question", "negotiation", "interview_request", "scam_signal"]
 
 
@@ -15,7 +17,9 @@ class Requirement(BaseModel):
     text: str
     kind: Literal["skill", "deliverable", "constraint"] = "skill"
     must_have: bool = False
-    skill: str | None = Field(None, description="Canonical skill name when the requirement is a skill")
+    skill: str | None = Field(
+        None, description="Canonical skill name when the requirement is a skill"
+    )
 
 
 class Budget(BaseModel):
@@ -107,7 +111,9 @@ class ApprovalRequest(BaseModel):
     draft: ProposalDraft
     risk: RiskReport | None = None
     price: PriceQuote | None = None
-    claim_evidence: dict[str, list[str]] = Field(default_factory=dict, description="claim -> evidence ids")
+    claim_evidence: dict[str, list[str]] = Field(
+        default_factory=dict, description="claim -> evidence ids"
+    )
     dry_run_preview: dict = Field(default_factory=dict)
     compliance: ComplianceVerdict | None = None
 

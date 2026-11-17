@@ -82,7 +82,12 @@ def graph_decider_factory():
             reason = ("scam" if scam else "missing_skill" if "missing" in r else "low_budget" if "below floor" in r
                       else "poor_client" if "client" in r else "low_fit")  # fmt: skip
         price = out["price"].amount if out.get("price") else None
-        return {"bid": "bid" if action == "bid" else "skip", "reason": reason, "is_scam": scam, "price": price}
+        return {
+            "bid": "bid" if action == "bid" else "skip",
+            "reason": reason,
+            "is_scam": scam,
+            "price": price,
+        }
 
     return decide
 

@@ -34,7 +34,10 @@ from apps.api.service import GraphService
 
 
 def mcp_tokens() -> dict[str, str]:
-    pairs = os.environ.get("MCP_TOKENS", "ai_ml:dev-mcp-ai-ml,fullstack:dev-mcp-fullstack,data_analyst:dev-mcp-data-analyst")
+    pairs = os.environ.get(
+        "MCP_TOKENS",
+        "ai_ml:dev-mcp-ai-ml,fullstack:dev-mcp-fullstack,data_analyst:dev-mcp-data-analyst",
+    )
     return dict(p.split(":", 1) for p in pairs.split(",") if ":" in p)
 
 
@@ -44,7 +47,9 @@ def real_mcp_factory(config: dict) -> Callable[[str, str], Any]:
     from agent.mcp_client import GigBidMCPClient
 
     tokens = mcp_tokens()
-    return lambda persona, trace_id: GigBidMCPClient(tokens[persona], config=config, trace_id=trace_id)
+    return lambda persona, trace_id: GigBidMCPClient(
+        tokens[persona], config=config, trace_id=trace_id
+    )
 
 
 def inprocess_mcp_factory() -> Callable[[str, str], Any]:
@@ -57,7 +62,7 @@ def inprocess_mcp_factory() -> Callable[[str, str], Any]:
     return lambda persona, trace_id: layers.setdefault(persona, FakeMCP(persona))
 
 
-def llm_factory() ->Callable[[str], Any] | None:
+def llm_factory() -> Callable[[str], Any] | None:
     """GIGBID_AGENT_MODE=llm uses the configured models (falls back to rules per node on error)."""
     if os.environ.get("GIGBID_AGENT_MODE", "rules") != "llm":
         return None
@@ -109,7 +114,11 @@ def create_app(service_factory: Callable[[], GraphService] | None = None) -> Fas
             yield
             await app.state.service.wait_idle()
             return
-        url = os.environ.get("API_DATABASE_URL") or os.environ.get("DATABASE_URL") or "sqlite:///./var/api.db"
+        url = (
+            os.environ.get("API_DATABASE_URL")
+            or os.environ.get("DATABASE_URL")
+            or "sqlite:///./var/api.db"
+        )
         engine = db.make_engine(url)
         config = load_config()
         async with _durable(url) as (saver, store):

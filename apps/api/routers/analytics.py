@@ -28,7 +28,9 @@ def eval_summary() -> dict:
 def analytics(user: dict = User, svc=Service) -> dict:
     runs = svc.list_runs(user, limit=1000)
     bids = [r for r in runs if r["kind"] == "bid"]
-    decisions = Counter(((r.get("summary") or {}).get("decision") or {}).get("action", "n/a") for r in bids)
+    decisions = Counter(
+        ((r.get("summary") or {}).get("decision") or {}).get("action", "n/a") for r in bids
+    )
     return {
         "runs": len(runs),
         "by_status": dict(Counter(r["status"] for r in runs)),

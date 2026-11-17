@@ -13,7 +13,9 @@ router = APIRouter(prefix="/jobs", tags=["jobs"])
 async def list_jobs(query: str | None = Query(None, max_length=200), category: str | None = Query(None, max_length=40),
                     limit: int = Query(20, ge=1, le=50), user: dict = User, svc=Service) -> dict:  # fmt: skip
     """Inbox: jobs from the marketplace (via the Scout's MCP allowlist) + any existing run per job."""
-    res = await mcp_read(svc, user, "scout", "search_jobs", {"query": query, "category": category, "limit": limit})
+    res = await mcp_read(
+        svc, user, "scout", "search_jobs", {"query": query, "category": category, "limit": limit}
+    )
     runs = {r["subject"]: r for r in svc.list_runs(user, "bid", limit=500)}
     for item in res.get("items", []):
         run = runs.get(item["job_id"])

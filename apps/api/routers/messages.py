@@ -20,7 +20,12 @@ async def threads(user: dict = User, svc=Service) -> dict:
     for r in svc.list_runs(user, "conversation", limit=500):
         runs.setdefault(r["subject"], r)
     items = res.get("threads") or []
-    return {"threads": [{**(t if isinstance(t, dict) else {"thread_id": t}), "run": runs.get(_tid(t))} for t in items]}
+    return {
+        "threads": [
+            {**(t if isinstance(t, dict) else {"thread_id": t}), "run": runs.get(_tid(t))}
+            for t in items
+        ]
+    }
 
 
 @router.get("/threads/{thread_id}")
@@ -33,6 +38,8 @@ async def thread(thread_id: str, user: dict = User, svc=Service) -> dict:
 @router.post("/threads/{thread_id}/reply", response_model=Started, status_code=202)
 async def reply(thread_id: str, user: dict = User, svc=Service) -> Started:
     """Start the conversation graph: classify -> draft reply -> compliance -> approval interrupt."""
-    await mcp_read(svc, user, "liaison", "list_messages", {"thread_id": thread_id})  # 404 if unknown
+    await mcp_read(
+        svc, user, "liaison", "list_messages", {"thread_id": thread_id}
+    )  # 404 if unknown
     run_id = await svc.start(user, "conversation", thread_id, f"Reply in {thread_id}")
     return Started(thread_id=run_id, events_url=f"/runs/{run_id}/events")

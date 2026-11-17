@@ -19,7 +19,11 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 def platform() -> dict:
-    return yaml.safe_load((ROOT / "gigsim" / "policy" / f"{load_config()['policy_version']}.yaml").read_text(encoding="utf-8"))
+    return yaml.safe_load(
+        (ROOT / "gigsim" / "policy" / f"{load_config()['policy_version']}.yaml").read_text(
+            encoding="utf-8"
+        )
+    )
 
 
 def pack() -> dict:
@@ -47,13 +51,20 @@ def test_link_rule_matches_the_platform():
 
 
 def test_connects_cost_rule():
-    v1 = {"default": 8, "max_per_proposal": 16, "busy_applicants": ["20 to 50", "50+"], "busy_multiplier": 1}
+    v1 = {
+        "default": 8,
+        "max_per_proposal": 16,
+        "busy_applicants": ["20 to 50", "50+"],
+        "busy_multiplier": 1,
+    }
     v2 = {**v1, "max_per_proposal": 32, "busy_multiplier": 2}
     assert connects_cost(spec("50+"), v1) == 12
     assert connects_cost(spec("50+"), v2) == 24
     assert connects_cost(spec("5 to 10"), v2) == 12
     assert connects_cost(spec(None, None), v2) == 8
-    assert connects_cost(spec("50+", 16), v2) == 32 and connects_cost(spec("50+", 20), v2) == 32  # capped
+    assert (
+        connects_cost(spec("50+", 16), v2) == 32 and connects_cost(spec("50+", 20), v2) == 32
+    )  # capped
 
 
 def test_link_in_a_letter_follows_the_pack():

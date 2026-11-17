@@ -90,5 +90,7 @@ def merge_outcome(current: dict | None, event: OutcomeEvent) -> dict:
     if event.type in {"replied", "interview", "hired"} and event.proposal_id not in agg["examples"]:
         agg["examples"] = (agg["examples"] + [event.proposal_id])[-10:]
     total = agg["replied"] + agg["interview"] + agg["hired"] + agg["lost"]
-    agg["positive_rate"] = round((agg["replied"] + agg["interview"] + agg["hired"]) / total, 4) if total else 0.0
+    agg["positive_rate"] = (
+        round((agg["replied"] + agg["interview"] + agg["hired"]) / total, 4) if total else 0.0
+    )
     return agg

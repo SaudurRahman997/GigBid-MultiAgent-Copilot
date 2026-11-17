@@ -34,13 +34,19 @@ def rules_spec(job: dict) -> JobSpec:
         if not line.strip().startswith(("-", "•")):
             continue
         raw = line.strip("-• ").strip()
-        must = "(must have)" in raw.lower() or bool(re.search(r"\b(must|required|essential)\b", raw, re.I))
+        must = "(must have)" in raw.lower() or bool(
+            re.search(r"\b(must|required|essential)\b", raw, re.I)
+        )
         text = clean_requirement(raw)
         if VAGUE.search(raw):
             reqs.append(Requirement(text=text, kind="constraint", must_have=False))
             continue
         skills = detect_skills(text)
-        reqs.append(Requirement(text=text, kind="skill", must_have=must, skill=skills[0] if skills else None))
+        reqs.append(
+            Requirement(
+                text=text, kind="skill", must_have=must, skill=skills[0] if skills else None
+            )
+        )
     named = {r.skill for r in reqs if r.skill}
     # "<Skill> expert needed ..." - a skill named in the title is a must-have
     for sk in detect_skills(job["title"]):
@@ -70,17 +76,29 @@ async def job_analyst(state: dict, deps: Deps) -> dict:
     if deps.mode("job_analyst") != "llm":
         return {"spec": base, "_note": f"rules: {len(base.requirements)} requirements"}
     try:
-        text, tokens = await ask(deps, "job_analyst", render("job_analyst", job=untrusted("JOB", f"{job['title']}\n\n{job['description']}")))
+        text, tokens = await ask(
+            deps,
+            "job_analyst",
+            render("job_analyst", job=untrusted("JOB", f"{job['title']}\n\n{job['description']}")),
+        )
         out = parse_json(text)
         reqs = [Requirement.model_validate(r) for r in out.get("requirements", [])][:15]
         spec = base.model_copy(update={"requirements": reqs or base.requirements, "timeline": out.get("timeline"),
                                        "hidden_needs": list(out.get("hidden_needs") or [])[:3],
                                        "screening_questions": base.screening_questions or list(out.get("screening_questions") or [])})  # fmt: skip
-        return {"spec": spec, "tokens": tokens, "_note": f"llm: {len(spec.requirements)} requirements"}
+        return {
+            "spec": spec,
+            "tokens": tokens,
+            "_note": f"llm: {len(spec.requirements)} requirements",
+        }
     except Exception as exc:  # noqa: BLE001 - fall back, but say so
         if not deps.config.get("agents", {}).get("fallback_to_rules_on_llm_error", True):
             raise
-        return {"spec": base, "errors": [f"job_analyst llm fallback: {exc}"], "_note": "rules (llm failed)"}
+        return {
+            "spec": base,
+            "errors": [f"job_analyst llm fallback: {exc}"],
+            "_note": "rules (llm failed)",
+        }
 
 
 # ----------------------------------------------------------------------------- risk assessor
@@ -102,9 +120,15 @@ def client_red_flags(hist: dict, rules: dict) -> list[str]:
     flags = []
     if hist.get("rating") is not None and hist["rating"] < rules["min_rating"]:
         flags.append(f"rating {hist['rating']} < {rules['min_rating']}")
-    if (hist.get("jobs_posted") or 0) >= rules["low_hire_min_posts"] and (hist.get("hire_rate") or 0) < rules["low_hire_rate"]:
+    if (hist.get("jobs_posted") or 0) >= rules["low_hire_min_posts"] and (
+        hist.get("hire_rate") or 0
+    ) < rules["low_hire_rate"]:
         flags.append(f"hire rate {hist.get('hire_rate')} over {hist.get('jobs_posted')} posts")
-    if not hist.get("payment_verified") and not hist.get("total_spent_usd") and (hist.get("jobs_posted") or 0) >= rules["unverified_ghost_posts"]:
+    if (
+        not hist.get("payment_verified")
+        and not hist.get("total_spent_usd")
+        and (hist.get("jobs_posted") or 0) >= rules["unverified_ghost_posts"]
+    ):
         flags.append(f"unverified, $0 spent, {hist.get('jobs_posted')} posts")
     return flags
 
@@ -134,15 +158,21 @@ async def risk_assessor(state: dict, deps: Deps) -> dict:
     if spans:
         flags.append("injection")
         reasons.append(f"prompt injection detected ({len(spans)} span(s)); treated as data")
-    hist = await deps.mcp.call("risk_assessor", "get_client_history", {"client_id": job["client_id"]})
+    hist = await deps.mcp.call(
+        "risk_assessor", "get_client_history", {"client_id": job["client_id"]}
+    )
     score = client_score(hist, pol["client_score"])
     red = client_red_flags(hist, pol["client_red_flags"])
     reasons.append(f"client score {score}" + (f"; red flags: {'; '.join(red)}" if red else ""))
     floor = deps.config["decision"]["min_client_score"]
-    score = min(score, floor - 0.01) if red else max(score, floor)  # red flags decide; score is for display
+    score = (
+        min(score, floor - 0.01) if red else max(score, floor)
+    )  # red flags decide; score is for display
     scam = [f for f in flags if f not in ("injection", "duplicate")]
     verdict = "block" if scam else ("caution" if spans or red else "ok")
-    risk = RiskReport(client_score=score, flags=flags, injection_spans=spans, verdict=verdict, reasons=reasons)
+    risk = RiskReport(
+        client_score=score, flags=flags, injection_spans=spans, verdict=verdict, reasons=reasons
+    )
     return {"risk": risk, "_note": f"{verdict} {flags}"}
 
 
@@ -157,7 +187,9 @@ async def fit_matcher(state: dict, deps: Deps) -> dict:
     q = from_job(job["title"], job["description"], job.get("skills"))
     matrix: dict[str, list[EvidenceRef]] = {}
     for req in q.requirements[:6]:
-        res = await deps.mcp.call("fit_matcher", "search_evidence", {"requirement": req[:500], "k": 3})
+        res = await deps.mcp.call(
+            "fit_matcher", "search_evidence", {"requirement": req[:500], "k": 3}
+        )
         matrix[req] = [EvidenceRef(evidence_id=h["id"], snippet=h["snippet"], score=h["score"], outcome=h.get("outcome"))
                        for h in res["items"]]  # fmt: skip
     spec = rules_spec(job)

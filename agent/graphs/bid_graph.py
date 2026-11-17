@@ -58,7 +58,9 @@ def after_compliance(state: dict) -> str:
 def after_approval(state: dict) -> str:
     if halted(state):
         return "record_outcome"
-    return {"approve": "submit", "edit": "apply_edit"}.get(state["approval"].action, "record_outcome")
+    return {"approve": "submit", "edit": "apply_edit"}.get(
+        state["approval"].action, "record_outcome"
+    )
 
 
 def after_recheck(state: dict) -> str:
@@ -95,11 +97,15 @@ def build_bid_graph(config: dict, checkpointer=None, store=None):
     g.add_conditional_edges("pricing", guard("writer"), ["writer", "record_outcome"])
     g.add_conditional_edges("writer", guard("verify_claims"), ["verify_claims", "record_outcome"])
     g.add_conditional_edges("verify_claims", guard("critic"), ["critic", "record_outcome"])
-    g.add_conditional_edges("critic", lambda s: after_critic(s, max_rounds), ["writer", "compliance", "record_outcome"])
+    g.add_conditional_edges(
+        "critic", lambda s: after_critic(s, max_rounds), ["writer", "compliance", "record_outcome"]
+    )
     g.add_conditional_edges("compliance", after_compliance, ["prepare_approval", "record_outcome"])
     g.add_conditional_edges("prepare_approval", guard("approval"), ["approval", "record_outcome"])
     g.add_conditional_edges("approval", after_approval, ["submit", "apply_edit", "record_outcome"])
-    g.add_conditional_edges("apply_edit", guard("compliance_recheck"), ["compliance_recheck", "record_outcome"])
+    g.add_conditional_edges(
+        "apply_edit", guard("compliance_recheck"), ["compliance_recheck", "record_outcome"]
+    )
     g.add_conditional_edges("compliance_recheck", after_recheck, ["submit", "prepare_approval"])
     g.add_conditional_edges("submit", guard("record_outcome"), ["record_outcome"])
     g.add_edge("record_outcome", END)

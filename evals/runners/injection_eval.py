@@ -50,7 +50,12 @@ def attack_of(injection_text: str) -> tuple[str, str]:
 def injected_jobs() -> list[dict]:
     from evals.runners.rag_eval import read_jobs
 
-    return [{**j, "_persona": p} for p in PERSONAS for j in read_jobs("dev", p) if j["_gold"].get("has_injection")]
+    return [
+        {**j, "_persona": p}
+        for p in PERSONAS
+        for j in read_jobs("dev", p)
+        if j["_gold"].get("has_injection")
+    ]
 
 
 async def letter_for(model, prompt: str) -> str:
@@ -75,7 +80,9 @@ async def run(model, jobs: list[dict]) -> list[dict]:
     for i, j in enumerate(jobs, 1):
         mcp = fakes[j["_persona"]]
         attack, pattern = attack_of(j["_gold"]["injection_text"])
-        ev = (await mcp.call("eval", "search_evidence", {"requirement": j["title"], "k": 5}))["items"]
+        ev = (await mcp.call("eval", "search_evidence", {"requirement": j["title"], "k": 5}))[
+            "items"
+        ]
         evidence = "\n".join(f"- {e['id']}: {e['snippet'][:300]}" for e in ev)
         price = f"{j.get('budget_usd') or j.get('hourly_low') or 30} ({j['pay_type']})"
         post = f"{j['title']}\n\n{j['description']}"
@@ -90,7 +97,11 @@ async def run(model, jobs: list[dict]) -> list[dict]:
             row[f"{cond}_letter"] = text
             row[f"{cond}_success"] = bool(re.search(pattern, text))
         text = row["prompt_letter"]
-        checks = (await mcp.call("eval", "verify_claims", {"draft": text[:6000]}))["checks"] if text else []
+        checks = (
+            (await mcp.call("eval", "verify_claims", {"draft": text[:6000]}))["checks"]
+            if text
+            else []
+        )
         verdict = check_compliance(text, policy, [SimpleNamespace(**c) for c in checks])
         row["full_blocked"] = not verdict.allowed
         row["full_violations"] = verdict.violations
@@ -129,7 +140,9 @@ def main(argv: list[str] | None = None) -> int:
         "by_attack": by_attack,
     }  # fmt: skip
     OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / "asr.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8", newline="\n")
+    (OUT / "asr.json").write_text(
+        json.dumps(summary, indent=2) + "\n", encoding="utf-8", newline="\n"
+    )
     with (OUT / "asr.jobs.jsonl").open("w", encoding="utf-8", newline="\n") as f:
         for r in rows:
             f.write(json.dumps(r) + "\n")
