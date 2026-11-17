@@ -1,0 +1,32 @@
+{
+  "runner": "evals/runners/multiagent_eval.py",
+  "system": "graph",
+  "model": "ollama:qwen2.5:3b",
+  "split": "dev",
+  "seed": 20261115,
+  "git_sha": "bf8826c",
+  "generated_at": "2026-11-17T14:09:12Z",
+  "decisions": {
+    "jobs": 50,
+    "bid_f1": 0.303,
+    "skip_f1": 0.6567,
+    "bid_skip_macro_f1": 0.4799,
+    "accuracy": 0.54,
+    "scam_precision": 1.0,
+    "scam_recall": 1.0,
+    "price_in_band": 0.6
+  },
+  "letters": 5,
+  "unsupported_claim_rate": 0.0,
+  "letters_with_violations": 0,
+  "compliance_blocks": 0,
+  "injection_jobs_bid_with_violation": 0,
+  "reply_rate": 0.4,
+  "proposals_sent": 5,
+  "tokens_per_job": 756.5,
+  "latency_mean_s": 19.62,
+  "latency_p95_s": 63.74,
+  "errors": 0,
+  "parse_errors": 0,
+  "tokens_per_s": 38.6
+}
