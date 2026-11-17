@@ -23,6 +23,11 @@ AI-4016 R&D Assignment II.
 | Unsupported claims in drafts, before → after verification + repair | 0.325 → **0.014** | `evals/results/verify/verify_eval.json` |
 | Best retrieval variant (V2 hybrid BM25 + dense): Recall@5 / MRR | 0.216 / 0.402 | `evals/results/rag/dev/v2_hybrid.json` |
 | Simulated reply rate, grounded (V2) vs generic proposal | 0.422 vs 0.111 | `evals/results/gigsim/outcomes.json` |
+| R&D C: graph vs single ReAct agent vs supervisor (50 jobs, llama3.2:3b), bid/skip macro-F1 | **0.760** vs 0.548 vs 0.517 (graph uses 59% fewer tokens than the single agent) | `evals/results/multiagent/*.json` |
+| R&D A: argument accuracy, fine tools vs coarse tools vs rewritten descriptions (40 tasks) | 0.85 vs 0.40 vs **0.95** | `evals/results/tools/granularity.json` |
+| Prompt-injection attack success rate: no defences → prompt defences → full pipeline (34 jobs) | 0.529 → 0.029 → **0.000** | `evals/results/injection/asr.json` |
+| Extension X2: reply rate, outcome-first vs evidence-first letters (267 paired jobs) | 0.513 vs 0.446, McNemar p = 0.105 (not significant) | `evals/results/extension/ab.json` |
+| Platform policy change absorbed by config + policy pack only | 3 files, 7 lines, 2 min 1 s | `docs/adr/0006-change-request-policy-v2.md` |
 
 ## Architecture
 
@@ -68,7 +73,7 @@ or a local Ollama model) to use LLM nodes, which fall back to rules per node on 
 | `mcp_servers/` | portfolio, marketplace, workspace MCP servers |
 | `gigsim/` | marketplace simulator (frozen; hash in `gigsim/FROZEN.sha256`) |
 | `rag/` | ingestion, chunking, pgvector index, retrieval variants V0–V4, V8, claim verification |
-| `apps/api/`, `apps/web/` | FastAPI backend, Next.js frontend |
+| `apps/api/`, `apps/web/`, `apps/worker/` | FastAPI backend, Next.js frontend (Playwright specs in `apps/web/e2e/`), Arq worker |
 | `evals/` | runners, metrics, hypotheses, results |
 | `data/` | generators, personas, policy pack, dev set (held-out set is not committed) |
 
@@ -81,9 +86,11 @@ Exact pins: `pyproject.toml` + `uv.lock`, `apps/web/package-lock.json`.
 ## Status
 
 Done: data and GigSim, three MCP servers, RAG study (6 variants + ablation), claim verification,
-bid and conversation graphs with exactly-once submit, memory, API, web UI, R&D C (single agent vs
-supervisor vs graph: the graph wins macro-F1 0.760 vs 0.548 / 0.517 with 59% fewer tokens than the
-single agent; `evals/results/multiagent/`), deployment (web and API on Vercel, `docs/DEPLOY.md`).
-In progress: judge calibration (kappa), R&D A (tool granularity), worker scheduling, Upwork live adapter, Playwright specs, deployment hardening.
+bid and conversation graphs with exactly-once submit, memory, API, web UI, worker (Arq, saved
+searches, idempotent), end-to-end trace ids, R&D A, B and C, model comparison, injection ASR,
+budgets, failure analysis, change request (ADR 0006), extension X2 (`docs/EXTENSION.md`), 5 Playwright
+specs (`make e2e`), CI with an eval gate (`.github/workflows/eval.yml`), deployment (web and API on
+Vercel, `docs/DEPLOY.md`), runbook (`docs/RUNBOOK.md`).
+Not done: judge calibration (kappa; needs the 30 human-labelled proposals), the live Upwork adapter.
 
 AI assistance is disclosed in [`docs/AI_USAGE.md`](docs/AI_USAGE.md).
