@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, Request
 
 from apps.api.deps import Service, User
 from apps.api.routers._mcp import mcp_read
@@ -32,8 +32,10 @@ async def get_job(job_id: str, user: dict = User, svc=Service) -> dict:
 
 
 @router.post("/{job_id}/analyze", response_model=Started, status_code=202)
-async def analyze(job_id: str, user: dict = User, svc=Service) -> Started:
+async def analyze(job_id: str, request: Request, user: dict = User, svc=Service) -> Started:
     """Start a bid thread for this job: analysis -> decision -> (draft -> approval interrupt)."""
     job = await mcp_read(svc, user, "scout", "get_job", {"job_id": job_id})
-    thread_id = await svc.start(user, "bid", job_id, job.get("title", ""))
+    thread_id = await svc.start(
+        user, "bid", job_id, job.get("title", ""), trace_id=request.state.trace_id
+    )
     return Started(thread_id=thread_id, events_url=f"/runs/{thread_id}/events")

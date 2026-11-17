@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 
 from apps.api.deps import Service, User
 from apps.api.routers._mcp import mcp_read
@@ -36,10 +36,12 @@ async def thread(thread_id: str, user: dict = User, svc=Service) -> dict:
 
 
 @router.post("/threads/{thread_id}/reply", response_model=Started, status_code=202)
-async def reply(thread_id: str, user: dict = User, svc=Service) -> Started:
+async def reply(thread_id: str, request: Request, user: dict = User, svc=Service) -> Started:
     """Start the conversation graph: classify -> draft reply -> compliance -> approval interrupt."""
     await mcp_read(
         svc, user, "liaison", "list_messages", {"thread_id": thread_id}
     )  # 404 if unknown
-    run_id = await svc.start(user, "conversation", thread_id, f"Reply in {thread_id}")
+    run_id = await svc.start(
+        user, "conversation", thread_id, f"Reply in {thread_id}", trace_id=request.state.trace_id
+    )
     return Started(thread_id=run_id, events_url=f"/runs/{run_id}/events")

@@ -19,6 +19,8 @@ export default function RunPage() {
   if (error || !data) return <ErrorBox error={error ?? { status: 404, message: "not found" }} retry={reload} />;
   const s = data.state as RunState;
   const total = (s.trace ?? []).reduce((a, t) => a + (t.ms ?? 0), 0);
+  const status = events.find((e) => e.type === "status");
+  const traceId = (status?.type === "status" ? status.trace_id : undefined) ?? (data.summary as { trace_id?: string } | undefined)?.trace_id;
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-2">
@@ -27,7 +29,7 @@ export default function RunPage() {
         {data.status === "awaiting_approval" && data.kind === "bid" && <Link className="btn btn-primary" href={`/studio/${id}`}>Review &amp; approve</Link>}
         {data.status === "awaiting_approval" && data.kind === "conversation" && <Link className="btn btn-primary" href={`/messages?run=${id}`}>Review reply</Link>}
       </div>
-      <p className="text-sm text-muted">{data.kind} · {data.subject} · {data.steps} steps · {data.tokens} tokens · {Math.round(total)} ms in nodes{data.next?.length ? ` · next: ${data.next.join(", ")}` : ""}</p>
+      <p className="text-sm text-muted">{data.kind} · {data.subject} · {data.steps} steps · {data.tokens} tokens · {Math.round(total)} ms in nodes{data.next?.length ? ` · next: ${data.next.join(", ")}` : ""}{traceId ? ` · trace ${traceId}` : ""}</p>
       {s.attention_reason && <p role="status" className="text-sm rounded border border-line bg-panel2 p-2">{s.attention_reason}</p>}
       {s.errors?.length ? <ul className="text-sm text-bad list-disc ml-5">{s.errors.map((e) => <li key={e}>{e}</li>)}</ul> : null}
       <div className="grid gap-4 md:grid-cols-2">

@@ -291,3 +291,38 @@ def test_inline_runs_finish_inside_the_request(tmp_path, monkeypatch):
         assert c.post(f"/approvals/{tid}", headers=h, json={"action": "approve"}).status_code == 202
         assert c.get(f"/runs/{tid}", headers=h).json()["status"] == "submitted"
         assert c.post(f"/approvals/{tid}", headers=h, json={"action": "approve"}).status_code == 409
+
+
+def test_one_trace_id_from_ui_request_to_graph_mcp_calls_and_run(world):
+    """X-Trace-Id from the web client reaches every MCP tool layer of the run, the run summary and
+    the SSE stream, and is echoed back; an invalid header gets a fresh id."""
+    c, h = world.client, signup(world.client, "trace@example.com")
+    seen: list[str] = []
+    factory = world.svc.mcp_factory
+    world.svc.mcp_factory = lambda persona, trace_id: (
+        seen.append(trace_id),
+        factory(persona, trace_id),
+    )[1]
+    r = c.post(f"/jobs/{bid_job()}/analyze", headers={**h, "X-Trace-Id": "ui-trace-0001"})
+    assert r.headers["X-Trace-Id"] == "ui-trace-0001"
+    thread = r.json()["thread_id"]
+    idle(world)
+    assert seen and set(seen) == {"ui-trace-0001"}
+    assert c.get(f"/runs/{thread}", headers=h).json()["summary"]["trace_id"] == "ui-trace-0001"
+    events = [
+        json.loads(x[5:])
+        for x in c.get(f"/runs/{thread}/events", headers=h).text.splitlines()
+        if x.startswith("data:")
+    ]
+    assert events[0]["type"] == "status" and events[0]["trace_id"] == "ui-trace-0001"
+    # the approval is a new UI request with its own trace id
+    seen.clear()
+    c.post(
+        f"/approvals/{thread}",
+        headers={**h, "X-Trace-Id": "ui-trace-0002"},
+        json={"action": "approve"},
+    )
+    idle(world)
+    assert set(seen) == {"ui-trace-0002"}
+    bad = c.get("/health", headers={"X-Trace-Id": "not valid!"}).headers["X-Trace-Id"]
+    assert bad != "not valid!" and len(bad) == 32

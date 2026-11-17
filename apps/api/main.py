@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import contextlib
 import os
+import re
+import uuid
 from collections.abc import Callable
 from typing import Any
 
@@ -31,6 +33,9 @@ from apps.api.routers import (
 from apps.api.schemas import Health
 from apps.api.security import TokenVault
 from apps.api.service import GraphService
+from apps.api.tracing import current_trace_id
+
+TRACE_ID = re.compile(r"[A-Za-z0-9-]{8,64}")  # accepted X-Trace-Id values (hex, uuid)
 
 
 def mcp_tokens() -> dict[str, str]:
@@ -137,7 +142,23 @@ def create_app(service_factory: Callable[[], GraphService] | None = None) -> Fas
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
+        expose_headers=["X-Trace-Id"],
     )
+
+    @app.middleware("http")
+    async def trace_ids(request, call_next):
+        """One trace id per UI request (X-Trace-Id from the web client, else new), carried to the graph,
+        every MCP call and the audit logs, and echoed back so the UI can show it."""
+        sent = request.headers.get("x-trace-id", "")
+        request.state.trace_id = sent if TRACE_ID.fullmatch(sent) else uuid.uuid4().hex
+        token = current_trace_id.set(request.state.trace_id)
+        try:
+            response = await call_next(request)
+        finally:
+            current_trace_id.reset(token)
+        response.headers["X-Trace-Id"] = request.state.trace_id
+        return response
+
     for r in (auth, jobs, proposals, approvals, messages, runs, analytics, settings, memory):
         app.include_router(r.router)
 

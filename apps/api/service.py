@@ -22,6 +22,7 @@ from agent.graphs.conversation_graph import build_conversation_graph
 from agent.runtime import Deps
 from apps.api import db
 from apps.api.streaming import Broker, jsonable, update_event
+from apps.api.tracing import trace_id_or_new
 
 BID_STAGE = {"submitted": "submitted", "awaiting_approval": "drafted"}
 
@@ -75,7 +76,7 @@ class GraphService:
                     llm=self.llm, store=self.store)  # fmt: skip
 
     def mcp(self, user: dict) -> Any:
-        return self.mcp_factory(user["persona"], uuid.uuid4().hex)
+        return self.mcp_factory(user["persona"], trace_id_or_new())
 
     def run_row(self, user: dict, thread_id: str) -> dict:
         with self.engine.connect() as c:
@@ -103,7 +104,9 @@ class GraphService:
         task.add_done_callback(self.tasks.discard)
 
     # ------------------------------------------------------------------ lifecycle
-    async def start(self, user: dict, kind: str, subject: str, title: str = "") -> str:
+    async def start(
+        self, user: dict, kind: str, subject: str, title: str = "", trace_id: str | None = None
+    ) -> str:
         thread_id = f"{kind[:3]}-{uuid.uuid4().hex[:12]}"
         with self.engine.begin() as c:
             c.execute(db.runs.insert().values(thread_id=thread_id, tenant_id=user["id"], kind=kind, subject=subject,
@@ -112,10 +115,12 @@ class GraphService:
             payload: Any = {"job_id": subject, "thread_id": thread_id, "user": user["id"]}
         else:
             payload = {"thread_id": subject, "user": user["id"]}
-        await self._launch(self._drive(user, thread_id, kind, payload))
+        await self._launch(self._drive(user, thread_id, kind, payload, trace_id))
         return thread_id
 
-    async def resume(self, user: dict, thread_id: str, decision: dict) -> None:
+    async def resume(
+        self, user: dict, thread_id: str, decision: dict, trace_id: str | None = None
+    ) -> None:
         row = self.run_row(user, thread_id)
         state = await self.graphs[row["kind"]].aget_state(
             {"configurable": {"thread_id": thread_id}}
@@ -123,12 +128,19 @@ class GraphService:
         if not state.interrupts:
             raise NotAwaitingApproval(thread_id)
         self._set(thread_id, status="resuming")
-        await self._launch(self._drive(user, thread_id, row["kind"], Command(resume=decision)))
+        await self._launch(
+            self._drive(user, thread_id, row["kind"], Command(resume=decision), trace_id)
+        )
 
-    async def _drive(self, user: dict, thread_id: str, kind: str, payload: Any) -> None:
+    async def _drive(
+        self, user: dict, thread_id: str, kind: str, payload: Any, trace_id: str | None = None
+    ) -> None:
+        """trace_id: the UI request's id (X-Trace-Id), carried to every MCP call (audit log) and the
+        LangGraph run metadata (traces); a new one when the run was not started by a request."""
         graph = self.graphs[kind]
-        cfg = {"configurable": {"thread_id": thread_id}}
-        trace_id = uuid.uuid4().hex
+        trace_id = trace_id or uuid.uuid4().hex
+        cfg = {"configurable": {"thread_id": thread_id}, "metadata": {"trace_id": trace_id, "thread_id": thread_id},
+               "run_name": f"{kind}:{thread_id}"}  # fmt: skip
         self._set(thread_id, status="running")
         await self.broker.publish(
             thread_id, {"type": "status", "status": "running", "trace_id": trace_id}
@@ -147,6 +159,7 @@ class GraphService:
             error = f"{type(exc).__name__}: {exc}"
         snap = await graph.aget_state(cfg)
         summary = summarize(kind, snap.values, list(snap.interrupts))
+        summary["trace_id"] = trace_id
         status = "awaiting_approval" if snap.interrupts else (summary.get("status") or "done")
         if error:
             status, summary["attention_reason"] = "error", error

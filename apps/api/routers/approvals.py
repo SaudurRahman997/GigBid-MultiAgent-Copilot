@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 
 from apps.api.deps import Service, User
 from apps.api.schemas import Decision, PendingApproval, Started
@@ -16,14 +16,18 @@ async def pending(user: dict = User, svc=Service) -> list[dict]:
 
 
 @router.post("/{thread_id}", response_model=Started, status_code=202)
-async def decide(thread_id: str, body: Decision, user: dict = User, svc=Service) -> Started:
+async def decide(
+    thread_id: str, body: Decision, request: Request, user: dict = User, svc=Service
+) -> Started:
     """Resume the interrupted graph with the human's decision (approve / edit / reject)."""
     if body.action == "edit" and not (body.edited_text or "").strip():
         raise HTTPException(422, "edit needs edited_text")
     if body.action == "reject" and not (body.reason or "").strip():
         raise HTTPException(422, "reject needs a reason")
     try:
-        await svc.resume(user, thread_id, body.model_dump(exclude_none=True))
+        await svc.resume(
+            user, thread_id, body.model_dump(exclude_none=True), trace_id=request.state.trace_id
+        )
     except ThreadNotFound:
         raise HTTPException(404, "thread not found") from None
     except NotAwaitingApproval:

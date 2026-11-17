@@ -7,7 +7,7 @@ import { API_URL } from "./api/client";
 export type NodeItem = { node: string; event: string; status?: string | null; note?: string | null };
 export type RunEvent =
   | { id: number; type: "node"; items: NodeItem[] }
-  | { id: number; type: "status"; status: string }
+  | { id: number; type: "status"; status: string; trace_id?: string }
   | { id: number; type: "end"; status: string }
   | { id: number; type: "custom"; data: unknown };
 

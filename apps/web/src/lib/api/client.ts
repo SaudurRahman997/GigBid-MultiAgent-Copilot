@@ -9,6 +9,18 @@ export const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000
 
 export const api = createClient<paths>({ baseUrl: API_URL, credentials: "include" });
 
+/** One trace id per UI request: the API carries it to the graph, every MCP call and the audit logs. */
+export function newTraceId(): string {
+  return crypto.randomUUID().replace(/-/g, "");
+}
+
+api.use({
+  onRequest({ request }) {
+    request.headers.set("X-Trace-Id", newTraceId());
+    return request;
+  },
+});
+
 export type ApiError = { status: number; message: string; degraded?: boolean };
 
 export function toError(status: number, error: unknown): ApiError {
