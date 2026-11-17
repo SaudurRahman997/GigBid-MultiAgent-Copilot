@@ -1,0 +1,36 @@
+{
+  "runner": "evals/runners/tool_granularity.py",
+  "git_sha": "1d22c2b",
+  "seed": 20261115,
+  "model": "ollama:llama3.2:3b",
+  "generated_at": "2026-11-17T13:04:34Z",
+  "tasks": 40,
+  "tools_per_set": {
+    "fine": 17,
+    "coarse": 3,
+    "best": 17
+  },
+  "toolsets": {
+    "fine": {
+      "tool_selection_accuracy": 0.925,
+      "argument_accuracy": 0.85,
+      "argument_accuracy_given_right_tool": 0.9189,
+      "no_tool_call": 3,
+      "tokens_per_task": 1863.2
+    },
+    "coarse": {
+      "tool_selection_accuracy": 0.55,
+      "argument_accuracy": 0.4,
+      "argument_accuracy_given_right_tool": 0.7273,
+      "no_tool_call": 18,
+      "tokens_per_task": 873.6
+    },
+    "best": {
+      "tool_selection_accuracy": 0.95,
+      "argument_accuracy": 0.95,
+      "argument_accuracy_given_right_tool": 1.0,
+      "no_tool_call": 2,
+      "tokens_per_task": 2116.4
+    }
+  }
+}
