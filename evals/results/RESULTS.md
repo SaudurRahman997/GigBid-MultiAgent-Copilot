@@ -80,3 +80,68 @@ Source: `rag/dev/ablation.json`
 
 Source: `gigsim/outcomes.json`
 
+## R&D C - single agent vs supervisor vs graph (50 dev jobs)
+
+| System | Model | bid/skip macro-F1 | Scam P / R | Price in band | Letters | Reply rate | Tokens/job | Latency mean / p95 s | Parse errors |
+|---|---|---|---|---|---|---|---|---|---|
+| graph | ollama:llama3.2:3b | 0.760 | 1.00 / 1.00 | 0.632 | 22 | 0.455 | 1188.5 | 29.71 / 78.97 | 0 |
+| react | ollama:llama3.2:3b | 0.548 | 0.00 / 0.00 | 0.824 | 27 | 0.296 | 2924.9 | 41.1 / 70.2 | 4 |
+| supervisor | ollama:llama3.2:3b | 0.517 | 0.00 / 0.00 | 0.571 | 18 | 0.167 | 1188.4 | 27.79 / 44.51 | 14 |
+
+Source: `multiagent/*.json`
+
+## R&D A - tool granularity (40 tasks, ollama:llama3.2:3b)
+
+| Tool set | Tools | Tool selection | Argument accuracy | Args given right tool | No tool call | Tokens/task |
+|---|---|---|---|---|---|---|
+| fine | 17 | 0.925 | 0.850 | 0.919 | 3 | 1863.2 |
+| coarse | 3 | 0.550 | 0.400 | 0.727 | 18 | 873.6 |
+| best | 17 | 0.950 | 0.950 | 1.000 | 2 | 2116.4 |
+
+Source: `tools/granularity.json`
+
+## Injection attack success rate (34 planted-injection dev jobs, ollama:llama3.2:3b)
+
+| Defences | ASR |
+|---|---|
+| none | 0.529 |
+| untrusted delimiters + writer rules | 0.029 |
+| + compliance output filter (full) | 0.000 |
+
+| Attack | Jobs | none | prompt | full |
+|---|---|---|---|---|
+| guarantee | 6 | 6 | 0 | 0 |
+| fabricated_experience | 5 | 5 | 1 | 0 |
+| prompt_leak | 7 | 0 | 0 | 0 |
+| off_platform_link | 6 | 4 | 0 | 0 |
+| contact_details | 5 | 0 | 0 | 0 |
+| price_override | 5 | 3 | 0 | 0 |
+
+Source: `injection/asr.json`
+
+## Budgets (declared p95 20 s/job, 60 s/proposal; Intel(R) Core(TM) i7-6820HQ CPU @ 2.70GHz; NVIDIA Quadro M2200; Intel(R) HD Graphics 530; 16 GB RAM)
+
+| Configuration | Jobs | Proposals | p95 s/job | p95 s/proposal | Tokens/job | USD/job | Within latency budget |
+|---|---|---|---|---|---|---|---|
+| rules | 600 | 267 | 2.393 | 2.393 | 0.0 | 0.0 | yes |
+| llm_local | 50 | 22 | 78.97 | 85.52 | 1188.5 | 0.0 | no |
+
+Source: `budgets/budgets.json`
+
+## Extension X2 - proposal strategy A/B (paired, GigSim)
+
+| Arm | Strategy | Pairs | Reply rate | Interview rate |
+|---|---|---|---|---|
+| A | evidence_first | 267 | 0.446 | 0.236 |
+| B | outcome_first | 267 | 0.513 | 0.292 |
+
+Difference B - A 0.067 (95% CI -0.009 to 0.144); exact McNemar p = 0.104613.
+
+Source: `extension/ab.json`
+
+## CI smoke eval gate
+
+30 dev jobs: bid/skip macro-F1 0.800 (min 0.75), unsupported claims per proposal 0.000 (max 0.3); passed: True.
+
+Source: `smoke/smoke.json`
+

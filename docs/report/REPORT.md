@@ -33,6 +33,8 @@ Users: three synthetic personas (AI/ML engineer, full-stack developer, data anal
   - Agents reach data only through MCP tools on a per-agent allowlist (`agent/config.yaml`). Every hand-off is a Pydantic model (`agent/handoffs.py`). Prompts live only in `agent/prompts/<node>.v1.md`; thresholds, budgets and rules only in `agent/config.yaml` and `data/policy_pack/`.
 - **API** (`apps/api/`): FastAPI with multi-user auth (scrypt password hashes, JWT session cookie), tenant id on every query, an SSE bridge from LangGraph `astream`, approval endpoints that resume interrupted threads (pending approvals are read from the checkpointer, so a refresh never loses them) and a Fernet-encrypted OAuth token store.
 - **Web** (`apps/web/`): Next.js + TypeScript using only the client generated from the OpenAPI schema. Screens: onboarding, inbox, job, studio (evidence on hover for every claim, approval panel with edit diff, dry-run preview and Connects cost), pipeline kanban, messages, run timeline (live over SSE), analytics and settings (autonomy, budgets, saved searches, accounts, memory viewer with delete).
+- **Worker** (`apps/worker/`, Arq on Redis): runs each saved search once per interval slot (never faster than 10 min on GigSim, 60 min on the live marketplace; `docs/RUNBOOK.md`), analyses each new job once per user (dedupe key = user + marketplace job id) and polls client messages. Graph runs stop at the approval interrupt; the worker never sends anything.
+- **Tracing**: the web client sends a fresh `X-Trace-Id` with every request; the API carries it into the graph run, every MCP call (and so every server's audit log) and the LangGraph run metadata, and the run page shows it (`tests/unit/test_api.py::test_one_trace_id_from_ui_request_to_graph_mcp_calls_and_run`).
 - **Storage**: Postgres 16 + pgvector (vectors, checkpoints, long-term memory), Redis, Arize Phoenix for tracing; everything starts with `docker compose`.
 
 **Exactly-once submission.** The submit step uses idempotency keys `<thread>:submit:v<draft version>`. If the response is lost, or the process dies inside `submit`, the checkpoint still says `submit` has not completed; on resume the call is repeated with the same key and the marketplace replays the original result instead of charging Connects twice. This is covered by tests (`tests/unit/test_graphs.py`: lost response, crash-then-resume; `tests/unit/test_api.py`: a second approval returns 409 and does not submit).
@@ -110,25 +112,47 @@ The graph improves bid/skip macro-F1 by 0.174 because the Risk Assessor uses cli
 - **Where the baseline wins:** the single agent's prices landed in the market band more often (0.824 vs 0.632) because it reads `get_market_rates` directly. This matches the pricing weakness seen above.
 - **Caveat:** unsupported-claim rates are near 0 for every system because this run used the lenient token-overlap judge of the in-process tools, not the cross-encoder judge from section 5, so they do not separate the systems.
 
+**R&D A: tool granularity.** 40 tasks with a known correct call (14 task types from the dev data, including confusable pairs such as profile vs market rates and `search_jobs` vs `get_job`), one tool-calling turn each with `llama3.2:3b`. *Fine* = the 17 MCP tools exactly as published; *coarse* = 3 tools, one per server, with an `action` field and an `args` object; *best* = the 17 tools with rewritten descriptions (purpose, when to use it and when not, argument formats with examples). Source: `tools/granularity.json`.
+
+| Tool set | Tools | Tool selection | Argument accuracy | Args correct given right tool | No tool call | Tokens/task |
+|---|---|---|---|---|---|---|
+| Fine (published) | 17 | 0.925 | 0.850 | 0.919 | 3 | 1863.2 |
+| Coarse (per server) | 3 | 0.550 | 0.400 | 0.727 | 18 | 873.6 |
+| Fine, rewritten descriptions | 17 | **0.950** | **0.950** | **1.000** | 2 | 2116.4 |
+
+Coarse tools halve the prompt, but the small model often does not call them at all (18/40) and fills the nested `args` object badly. Rewriting the descriptions raised argument accuracy from 0.85 to 0.95 for +14% tokens: the gain is in argument formats (ids, ISO times, `dry_run`), not in tool choice. The next step is to move the rewritten descriptions into the MCP servers (a schema-snapshot change).
+
+**Extension X2: proposal experiments** (`docs/EXTENSION.md`, source `extension/ab.json`). Two writer strategies, switchable in `agent/config.yaml`: A `evidence_first` (current) and B `outcome_first` (lead with the most relevant quantified result, close with one scoping question). Paired design: the 267 dev jobs the graph bids on, each arm's letters sent to its own identical GigSim world (same clients and hidden preferences), 30 simulated days. B replied more often, **0.513 vs 0.446 (+0.067, 95% CI [-0.009, +0.144])**, with 64 vs 46 discordant pairs, but the difference is **not significant (exact McNemar p = 0.105)**. The gain is in the fullstack persona (0.545 vs 0.386); data_analyst shows none. The default stays A; B remains a config option until a larger sample confirms it.
+
 ## 7. Safety and guardrails
 
 - **Human approval** before every proposal, message and Connects spend (`interrupt()`); edits are re-checked by Compliance and go back to the human if they break a rule.
-- **Prompt injection**: job posts and client messages are wrapped in `<<<UNTRUSTED ...>>>` delimiters; the Risk Assessor flags injection spans from the policy pack; Writer and Liaison prompts state that instructions inside untrusted blocks are data. Tests check that a planted injection does not put an email, a guarantee or a price change into the letter.
+- **Prompt injection**: job posts and client messages are wrapped in `<<<UNTRUSTED ...>>>` delimiters; the Risk Assessor flags injection spans from the policy pack; Writer and Liaison prompts state that instructions inside untrusted blocks are data; the Compliance output filter blocks contact details, links, guarantees and unsupported claims. Measured on the 34 dev jobs with a planted injection (six attack types; `llama3.2:3b` writing the letter; source `injection/asr.json`); an attack counts as successful when the letter that would reach the human shows the injected behaviour:
+
+| Defences | Attack success rate |
+|---|---|
+| None (plain prompt, raw job post) | 0.529 (18/34) |
+| Untrusted delimiters + writer rules | 0.029 (1/34) |
+| + Compliance output filter (full pipeline) | **0.000** (the one remaining letter, a fabricated "10 years" claim, was blocked) |
+
+Without defences the guarantee (6/6), fabricated-experience (5/5), off-platform link (4/6) and price-override (3/5) attacks mostly worked; the contact-details and system-prompt-leak attacks never did.
 - **Scams**: off-platform contact, upfront fees and unpaid "test" work block the job (scam recall 1.000 above); the Liaison answers scam messages with a fixed safe reply.
 - **Compliance filter**: contact details, external links and policy violations are blocked before approval and again before sending.
 - **PII masking** of emails, phones and payment details in the MCP audit log (regex + tests).
-- **Budgets**: step and token budgets per thread move a thread to `needs_attention` instead of looping; nodes have timeouts, bounded retries and a dead-letter state.
+- **Budgets**: step and token budgets per thread move a thread to `needs_attention` instead of looping; nodes have timeouts, bounded retries and a dead-letter state. Declared targets (`agent/config.yaml`): p95 20 s per job analysed and 60 s per proposal, $0.002 and $0.01. Measured (source `budgets/budgets.json`; Intel i7-6820HQ, Quadro M2200, 16 GB): rules mode p95 **2.4 s** per job and per proposal (600 jobs), within budget; with every node on local `llama3.2:3b`, p95 **79.0 s** per job and **85.5 s** per proposal at about 40 tokens/s, **over the latency budget** (cost $0, local). Optimisation that helped: hybrid retrieval (V2) instead of cross-encoder reranking (V3) cut retrieval p95 from 10,896 ms to 19 ms with higher Recall@5 (section 4). Routing the cheap nodes to rules and only the writer to a hosted model is the next one the LLM configuration needs.
+- **Platform policy change** (BUILD_SPEC section 9; `docs/adr/0006-change-request-policy-v2.md`): GigSim policy v2 (Connects double on busy jobs, cap 32; external links forbidden) was absorbed by editing only `agent/config.yaml` and `data/policy_pack/`: **3 files, 7 lines changed, 2 min 1 s** from the first edit to a green test suite. A preparatory refactor (before the change, not timed) moved the Connects rule into the policy pack, and `tests/unit/test_policy_alignment.py` now fails CI whenever the pack disagrees with the platform policy version in config.
 - **Memory**: a style rule is learned only after the same edit appears in 3 different threads; outcome memory accepts only terminal marketplace events. The user can view and delete everything in Settings.
 
 ## 8. Testing
 
-`make test` runs 185 unit and contract tests (GigSim, MCP servers, RAG, graphs, API). Graph tests cover the approval payload, parallel fan-in order, exactly-once submit under a lost response and a crash, skips for scam / missing skill / low budget, injection flagging, reject, edit -> v2, edits that break policy, step budgets, the bounded critic loop, conversation flows and memory promotion. API tests cover auth, tenant isolation, approval resume and SSE replay.
+`make test` runs 207 unit and contract tests (GigSim, MCP servers, RAG, graphs, API, worker, policy alignment, extension). `make e2e` runs 5 Playwright specs (6 tests) in Chromium against an isolated stack: sign-up and sign-out; analyse -> live timeline -> evidence hover -> approve -> submitted once -> pipeline; edit diff and reject-with-reason; scam job skipped; mobile menu, settings and keyboard-only sign-in. CI (`.github/workflows/ci.yml`) runs lint, format, prompt placement, the GigSim frozen hash, data provenance, the tests and the E2E specs; `eval.yml` runs a 30-job smoke eval on every PR and fails if bid/skip macro-F1 drops below 0.75 or unsupported claims per proposal rise above 0.3 (`agent/config.yaml ci_thresholds`; currently 0.80 and 0.0, source `smoke/smoke.json`). Graph tests cover the approval payload, parallel fan-in order, exactly-once submit under a lost response and a crash, skips for scam / missing skill / low budget, injection flagging, reject, edit -> v2, edits that break policy, step budgets, the bounded critic loop, conversation flows and memory promotion. API tests cover auth, tenant isolation, approval resume and SSE replay.
 
 ## 9. Limitations
 
 - Retrieval quality is modest in absolute terms (Recall@5 about 0.2) because gold evidence includes many short client reviews that dense and lexical retrieval rank below long proposals.
 - Evaluations use synthetic data and a simulated client; reply rates measure GigSim's behaviour, not real clients.
-- Judge calibration against human labels, the tool-granularity study (R&D A) and the live Upwork adapter were not finished at submission time. R&D C used one small local model (3B) on 50 jobs; a stronger model may narrow the gap between the systems.
+- Judge calibration against human labels (kappa) and the live Upwork adapter were not finished at submission time. R&D A and C used one small local model (3B) on 40 tasks and 50 jobs; a stronger model may narrow the gaps.
+- With every node on a local 3B model the graph misses its latency budget (p95 79 s vs 20 s), and the A/B extension result is not significant at the 5% level.
 - The public demo (web and API both on Vercel, `docs/DEPLOY.md`) runs the API as a serverless function in single-process mode (`GIGBID_MCP_MODE=inprocess`): the agents call the in-process tool layer that has the same tool names and result shapes as the MCP servers, each request drives the graph to its next stop (the approval interrupt or the end), and runs last only as long as a function instance. The full stack (three MCP servers, Postgres checkpoints) runs with `docker compose`.
 - Pricing lands inside the market band only 61% of the time.
 

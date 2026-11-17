@@ -171,6 +171,168 @@ def gigsim_section() -> list[str]:
     return lines + ["", "Source: `gigsim/outcomes.json`", ""]
 
 
+def multiagent_section() -> list[str]:
+    d = load(RES / "multiagent" / "summary.json")
+    if not d:
+        return []
+    lines = [
+        "## R&D C - single agent vs supervisor vs graph (50 dev jobs)",
+        "",
+        "| System | Model | bid/skip macro-F1 | Scam P / R | Price in band | Letters | Reply rate | Tokens/job | Latency mean / p95 s | Parse errors |",
+        "|---|---|---|---|---|---|---|---|---|---|",
+    ]
+    for name, s in d["systems"].items():
+        m = s["decisions"]
+        lines.append(
+            f"| {name} | {s['model']} | {fmt(m['bid_skip_macro_f1'])} | {fmt(m['scam_precision'], 2)} / {fmt(m['scam_recall'], 2)} | "
+            f"{fmt(m['price_in_band'])} | {s['letters']} | {fmt(s['reply_rate'])} | {s['tokens_per_job']} | "
+            f"{s['latency_mean_s']} / {s['latency_p95_s']} | {s['parse_errors']} |"
+        )
+    return lines + ["", "Source: `multiagent/*.json`", ""]
+
+
+def tools_section() -> list[str]:
+    d = load(RES / "tools" / "granularity.json")
+    if not d:
+        return []
+    lines = [
+        f"## R&D A - tool granularity ({d['tasks']} tasks, {d['model']})",
+        "",
+        "| Tool set | Tools | Tool selection | Argument accuracy | Args given right tool | No tool call | Tokens/task |",
+        "|---|---|---|---|---|---|---|",
+    ]
+    for name, s in d["toolsets"].items():
+        lines.append(
+            f"| {name} | {d['tools_per_set'][name]} | {fmt(s['tool_selection_accuracy'])} | {fmt(s['argument_accuracy'])} | "
+            f"{fmt(s['argument_accuracy_given_right_tool'])} | {s['no_tool_call']} | {s['tokens_per_task']} |"
+        )
+    return lines + ["", "Source: `tools/granularity.json`", ""]
+
+
+def models_section() -> list[str]:
+    d = load(RES / "models" / "summary.json")
+    if not d:
+        return []
+    lines = [
+        f"## Model comparison (bid graph, {d['jobs']} dev jobs; hardware: {d['hardware']})",
+        "",
+        "| Model | bid/skip macro-F1 | Price in band | Reply rate | Tokens/job | Tokens/s | Latency mean / p95 s | USD/job |",
+        "|---|---|---|---|---|---|---|---|",
+    ]
+    for name, s in d["models"].items():
+        m = s["decisions"]
+        lines.append(
+            f"| {name} | {fmt(m['bid_skip_macro_f1'])} | {fmt(m['price_in_band'])} | {fmt(s['reply_rate'])} | {s['tokens_per_job']} | "
+            f"{s['tokens_per_s']} | {s['latency_mean_s']} / {s['latency_p95_s']} | {d['usd_per_job']} |"
+        )
+    return lines + ["", "Source: `models/summary.json`", ""]
+
+
+def injection_section() -> list[str]:
+    d = load(RES / "injection" / "asr.json")
+    if not d:
+        return []
+    a = d["asr"]
+    lines = [
+        f"## Injection attack success rate ({d['injected_jobs']} planted-injection dev jobs, {d['model']})",
+        "",
+        "| Defences | ASR |",
+        "|---|---|",
+        f"| none | {fmt(a['none'])} |",
+        f"| untrusted delimiters + writer rules | {fmt(a['prompt'])} |",
+        f"| + compliance output filter (full) | {fmt(a['full'])} |",
+        "",
+        "| Attack | Jobs | none | prompt | full |",
+        "|---|---|---|---|---|",
+    ]
+    for name, b in d["by_attack"].items():
+        lines.append(f"| {name} | {b['jobs']} | {b['none']} | {b['prompt']} | {b['full']} |")
+    return lines + ["", "Source: `injection/asr.json`", ""]
+
+
+def budgets_section() -> list[str]:
+    d = load(RES / "budgets" / "budgets.json")
+    if not d:
+        return []
+    dec = d["declared"]
+    lines = [
+        f"## Budgets (declared p95 {dec['p95_latency_s']['job']} s/job, {dec['p95_latency_s']['proposal']} s/proposal; {d['hardware']})",
+        "",
+        "| Configuration | Jobs | Proposals | p95 s/job | p95 s/proposal | Tokens/job | USD/job | Within latency budget |",
+        "|---|---|---|---|---|---|---|---|",
+    ]
+    for name, c in d["configurations"].items():
+        ok = c["within_budget"]["latency_job"] and c["within_budget"]["latency_proposal"]
+        lines.append(
+            f"| {name} | {c['jobs']} | {c['proposals']} | {c['p95_latency_s']['job']} | {c['p95_latency_s']['proposal']} | "
+            f"{c['mean_tokens']['job']} | {c['usd']['job']} | {'yes' if ok else 'no'} |"
+        )
+    return lines + ["", "Source: `budgets/budgets.json`", ""]
+
+
+def extension_section() -> list[str]:
+    d = load(RES / "extension" / "ab.json")
+    if not d:
+        return []
+    return [
+        "## Extension X2 - proposal strategy A/B (paired, GigSim)",
+        "",
+        "| Arm | Strategy | Pairs | Reply rate | Interview rate |",
+        "|---|---|---|---|---|",
+        f"| A | {d['arms']['A']} | {d['pairs']} | {fmt(d['reply_rate_A'])} | {fmt(d['interview_rate_A'])} |",
+        f"| B | {d['arms']['B']} | {d['pairs']} | {fmt(d['reply_rate_B'])} | {fmt(d['interview_rate_B'])} |",
+        "",
+        f"Difference B - A {fmt(d['difference_B_minus_A'])} (95% CI {fmt(d['difference_ci95'][0])} to {fmt(d['difference_ci95'][1])}); "
+        f"exact McNemar p = {d['mcnemar_exact_p']}.",
+        "",
+        "Source: `extension/ab.json`",
+        "",
+    ]
+
+
+def failures_section() -> list[str]:
+    d = load(RES / "failures" / "failures.json")
+    if not d:
+        return []
+    lines = [
+        f"## Failure analysis ({d['jobs']} dev jobs, rules mode; injection and tool errors from the LLM runs)",
+        "",
+        "| Category | Failed jobs |",
+        "|---|---|",
+    ]
+    for name, n in sorted(d["base"]["failures"].items(), key=lambda x: -x[1]):
+        lines.append(f"| {name} | {n} |")
+    lines += [
+        "",
+        "| Fix (config override) | Target | Before | After | bid/skip F1 | Price in band | Worked |",
+        "|---|---|---|---|---|---|---|",
+    ]
+    for name, f in d["fixes"].items():
+        lines.append(
+            f"| {name} | {f['target']} | {f['target_failures_before']} | {f['target_failures_after']} | "
+            f"{fmt(f['bid_skip_macro_f1'][0])} -> {fmt(f['bid_skip_macro_f1'][1])} | {fmt(f['price_in_band'][0])} -> {fmt(f['price_in_band'][1])} | "
+            f"{'yes' if f['worked'] else 'no'} |"
+        )
+    return lines + ["", "Source: `failures/failures.json`", ""]
+
+
+def smoke_section() -> list[str]:
+    d = load(RES / "smoke" / "smoke.json")
+    if not d:
+        return []
+    g = d["gates"]
+    return [
+        "## CI smoke eval gate",
+        "",
+        f"{d['jobs']} dev jobs: bid/skip macro-F1 {fmt(g['bid_skip_macro_f1']['value'])} (min {g['bid_skip_macro_f1']['min']}), "
+        f"unsupported claims per proposal {fmt(g['unsupported_claims_per_proposal']['value'])} (max {g['unsupported_claims_per_proposal']['max']}); "
+        f"passed: {d['passed']}.",
+        "",
+        "Source: `smoke/smoke.json`",
+        "",
+    ]
+
+
 def main() -> int:
     parts = [
         "# GigBid results",
@@ -185,6 +347,14 @@ def main() -> int:
         + verify_section()
         + decision_section()
         + gigsim_section()
+        + multiagent_section()
+        + tools_section()
+        + models_section()
+        + injection_section()
+        + budgets_section()
+        + extension_section()
+        + failures_section()
+        + smoke_section()
     )
     OUT.write_text("\n".join(parts) + "\n", encoding="utf-8", newline="\n")
     print(f"wrote {OUT.relative_to(ROOT)}")
