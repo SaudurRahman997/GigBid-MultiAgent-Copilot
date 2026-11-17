@@ -1,9 +1,11 @@
+import { mkdirSync } from "node:fs";
 import { defineConfig, devices } from "@playwright/test";
 
 // E2E specs (e2e/*.spec.ts). By default Playwright starts an isolated stack: the API in single-process
 // demo mode (in-process tools, fresh SQLite) on :8010 and a production build of the web on :3010.
 // Set BASE_URL to run the same specs against docker compose or the deployed site instead.
 const external = process.env.BASE_URL;
+mkdirSync("../../var", { recursive: true }); // gitignored, so missing on a fresh CI checkout
 const db = `sqlite:///./var/e2e-${Date.now()}.db`;
 
 export default defineConfig({
