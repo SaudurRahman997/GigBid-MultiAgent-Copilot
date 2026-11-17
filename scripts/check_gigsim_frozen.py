@@ -25,12 +25,17 @@ SKIP_SUFFIXES = {".pyc", ".db", ".db-wal", ".db-shm"}
 def tree_hash(root: Path = GIGSIM) -> str:
     h = hashlib.sha256()
     files = sorted(
-        p
-        for p in root.rglob("*")
-        if p.is_file()
-        and p != root / FROZEN.name
-        and not SKIP_PARTS & set(p.parts)
-        and p.suffix not in SKIP_SUFFIXES
+        (
+            p
+            for p in root.rglob("*")
+            if p.is_file()
+            and p != root / FROZEN.name
+            and not SKIP_PARTS & set(p.parts)
+            and p.suffix not in SKIP_SUFFIXES
+        ),
+        # sort by the relative POSIX path string: Path ordering is case-insensitive on Windows and
+        # case-sensitive on Linux, which gave a different hash in CI (ADR 0007)
+        key=lambda p: p.relative_to(root).as_posix(),
     )
     for f in files:
         h.update(f.relative_to(root).as_posix().encode() + b"\0")
