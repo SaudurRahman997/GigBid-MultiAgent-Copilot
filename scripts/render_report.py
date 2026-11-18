@@ -32,20 +32,23 @@ def inline(text: str) -> str:
 
 
 class Report(FPDF):
+    label = "R&D report"
+
     def footer(self):
         self.set_y(-12)
         self.set_font("Helvetica", size=8)
         self.set_text_color(120)
-        self.cell(0, 8, f"GigBid - R&D report - page {self.page_no()}", align="C")
+        self.cell(0, 8, f"GigBid - {self.label} - page {self.page_no()}", align="C")
         self.set_text_color(0)
 
 
-def render() -> None:
+def render(src: Path = SRC, out: Path = OUT, label: str = "R&D report") -> None:
     pdf = Report(format="A4")
+    pdf.label = label
     pdf.set_margins(18, 16, 18)
     pdf.set_auto_page_break(True, 16)
     pdf.add_page()
-    lines = SRC.read_text(encoding="utf-8").split("\n")
+    lines = src.read_text(encoding="utf-8").split("\n")
     i = 0
     while i < len(lines):
         line = lines[i].rstrip()
@@ -92,9 +95,15 @@ def render() -> None:
             pdf.multi_cell(0, 5, inline(line), markdown=True, new_x="LMARGIN", new_y="NEXT")
             pdf.ln(1.5)
         i += 1
-    pdf.output(str(OUT))
-    print(f"wrote {OUT.relative_to(ROOT)} ({pdf.page_no()} pages)")
+    pdf.output(str(out))
+    print(f"wrote {out.relative_to(ROOT)} ({pdf.page_no()} pages)")
 
 
 if __name__ == "__main__":
-    render()
+    import sys
+
+    # default: the R&D report; or: render_report.py <src.md> <out.pdf> "<footer label>"
+    if len(sys.argv) == 4:
+        render(ROOT / sys.argv[1], ROOT / sys.argv[2], sys.argv[3])
+    else:
+        render()
