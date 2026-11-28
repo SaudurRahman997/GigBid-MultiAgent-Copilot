@@ -20,10 +20,12 @@ from sqlalchemy.engine import Engine
 from agent.graphs.bid_graph import build_bid_graph
 from agent.graphs.conversation_graph import build_conversation_graph
 from agent.runtime import Deps
+from agent.state import HALT
 from apps.api import db
 from apps.api.streaming import Broker, jsonable, update_event
 from apps.api.tracing import trace_id_or_new
 
+DEGRADED_REASON = "marketplace degraded"  # prefix written by agent.runtime.node
 BID_STAGE = {"submitted": "submitted", "awaiting_approval": "drafted"}
 
 
@@ -133,13 +135,21 @@ class GraphService:
         )
 
     async def _drive(
-        self, user: dict, thread_id: str, kind: str, payload: Any, trace_id: str | None = None
+        self,
+        user: dict,
+        thread_id: str,
+        kind: str,
+        payload: Any,
+        trace_id: str | None = None,
+        checkpoint: dict | None = None,
     ) -> None:
         """trace_id: the UI request's id (X-Trace-Id), carried to every MCP call (audit log) and the
         LangGraph run metadata (traces); a new one when the run was not started by a request."""
         graph = self.graphs[kind]
         trace_id = trace_id or uuid.uuid4().hex
-        cfg = {"configurable": {"thread_id": thread_id}, "metadata": {"trace_id": trace_id, "thread_id": thread_id},
+        # `checkpoint` (a past snapshot's configurable) makes this run continue from that point
+        start = {**(checkpoint or {}), "thread_id": thread_id}
+        cfg = {"configurable": start, "metadata": {"trace_id": trace_id, "thread_id": thread_id},
                "run_name": f"{kind}:{thread_id}"}  # fmt: skip
         self._set(thread_id, status="running")
         await self.broker.publish(
@@ -157,7 +167,7 @@ class GraphService:
                     )
         except Exception as exc:  # noqa: BLE001 - surfaced to the UI and stored on the run
             error = f"{type(exc).__name__}: {exc}"
-        snap = await graph.aget_state(cfg)
+        snap = await graph.aget_state({"configurable": {"thread_id": thread_id}})
         summary = summarize(kind, snap.values, list(snap.interrupts))
         summary["trace_id"] = trace_id
         status = "awaiting_approval" if snap.interrupts else (summary.get("status") or "done")
@@ -192,6 +202,59 @@ class GraphService:
             self._spawn(self._drive(user, row["thread_id"], row["kind"], None))
             n += 1
         return n
+
+    async def recover_degraded(self, user_lookup: Callable[[str], dict | None]) -> int:
+        """Restart runs that halted because the marketplace was down, once it is reachable again.
+
+        Each run continues from the newest checkpoint taken before the failed node, so the user,
+        the recorded human approval and the idempotency keys are unchanged: a write the marketplace
+        had already accepted is replayed, not repeated, and nothing unapproved can be sent."""
+        with self.engine.connect() as c:
+            rows = (
+                c.execute(select(db.runs).where(db.runs.c.status == "needs_attention"))
+                .mappings()
+                .all()
+            )
+        recovered = 0
+        for row in rows:
+            reason = (row["summary"] or {}).get("attention_reason") or ""
+            if not reason.startswith(DEGRADED_REASON):
+                continue
+            user = user_lookup(row["tenant_id"])
+            if user is None or not await self._marketplace_up(user):
+                continue
+            checkpoint = await self._checkpoint_before_halt(row["kind"], row["thread_id"])
+            if checkpoint is None or not self._claim(row["thread_id"], "needs_attention"):
+                continue
+            await self._launch(
+                self._drive(user, row["thread_id"], row["kind"], None, checkpoint=checkpoint)
+            )
+            recovered += 1
+        return recovered
+
+    async def _marketplace_up(self, user: dict) -> bool:
+        client = self.mcp(user)
+        if not hasattr(client, "health"):
+            return True
+        return (await client.health()).get("marketplace", False)
+
+    async def _checkpoint_before_halt(self, kind: str, thread_id: str) -> dict | None:
+        config = {"configurable": {"thread_id": thread_id}}
+        async for snap in self.graphs[kind].aget_state_history(config):  # newest first
+            halted = snap.values.get("status") in HALT
+            if snap.next and not halted and snap.next[0] not in ("record_outcome", "__start__"):
+                return dict(snap.config["configurable"])
+        return None
+
+    def _claim(self, thread_id: str, expected: str) -> bool:
+        """Move a run to `resuming` only if nobody else already did."""
+        with self.engine.begin() as c:
+            done = c.execute(
+                update(db.runs)
+                .where(db.runs.c.thread_id == thread_id, db.runs.c.status == expected)
+                .values(status="resuming")
+            )
+        return done.rowcount == 1
 
     # ------------------------------------------------------------------ reads
     async def state(self, user: dict, thread_id: str) -> dict:

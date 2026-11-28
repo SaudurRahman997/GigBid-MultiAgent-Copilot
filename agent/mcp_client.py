@@ -7,8 +7,10 @@
 * Timeouts, and bounded retries with exponential backoff for transient errors
   (rate_limited, marketplace_unavailable, timeouts). Writes are safe to retry because every
   write carries an idempotency_key.
-* Degraded mode: if the marketplace is down after retries, MarketplaceDegraded is raised; the
-  API reports it (UI shows a banner), and writes are queued in PendingQueue and resumed later.
+* Degraded mode: if the marketplace is unreachable or still failing after retries,
+  MarketplaceDegraded is raised and the other servers keep working. The API reports it (UI shows a
+  banner) and the run halts; GraphService.recover_degraded restarts it from the checkpoint before
+  the failed node once the marketplace is back. PendingQueue keeps a record of deferred writes.
 """
 
 from __future__ import annotations
@@ -63,6 +65,13 @@ def strip_sdk_prefix(text: str) -> str:
 
 def error_code(text: str) -> str:
     return strip_sdk_prefix(text).split(":", 1)[0].strip()
+
+
+def _root_cause(exc: BaseException) -> str:
+    """The first real error inside the (possibly nested) exception groups the transport raises."""
+    while getattr(exc, "exceptions", None):
+        exc = exc.exceptions[0]
+    return f"{type(exc).__name__}: {exc}"
 
 
 def _content_text(content: Any) -> str:
@@ -184,15 +193,27 @@ class GigBidMCPClient:
         self.client = MultiServerMCPClient(self.connections, tool_interceptors=[self.retry])
         self.queue = PendingQueue(REPO / m["pending_queue_path"])
         self._tools: list[BaseTool] | None = None
+        self.unreachable: dict[str, str] = {}  # server name -> why its tools could not be listed
 
     @property
     def trace_id(self) -> str:
         return self.retry.trace_id
 
     async def all_tools(self) -> list[BaseTool]:
-        if self._tools is None:
-            self._tools = await self.client.get_tools()
-        return self._tools
+        """Tools of every reachable server, listed one server at a time so that one server being
+        down never takes the others with it. Only a complete listing is cached."""
+        if self._tools is not None:
+            return self._tools
+        tools: list[BaseTool] = []
+        self.unreachable = {}
+        for name in self.connections:
+            try:
+                tools += await self.client.get_tools(server_name=name)
+            except Exception as exc:  # noqa: BLE001 - recorded; callers decide what it means
+                self.unreachable[name] = _root_cause(exc)
+        if not self.unreachable:
+            self._tools = tools
+        return tools
 
     async def tools_for(self, agent: str) -> list[BaseTool]:
         """Only the tools on this agent's allowlist (unknown agent -> error, not 'all tools')."""
@@ -201,7 +222,7 @@ class GigBidMCPClient:
             raise ToolNotAllowed(f"no MCP allowlist for agent {agent!r}")
         tools = [t for t in await self.all_tools() if t.name in set(allow)]
         missing = set(allow) - {t.name for t in tools}
-        if missing:
+        if missing and not self.unreachable:
             raise ToolNotAllowed(f"allowlisted tools not offered by any server: {sorted(missing)}")
         return tools
 
@@ -212,14 +233,15 @@ class GigBidMCPClient:
         structured output. Error results raise ToolCallFailed (with .code)."""
         tools = {t.name: t for t in await self.tools_for(agent)}
         if tool not in tools:
+            if self.unreachable and tool in self.config["mcp"]["allowlists"][agent]:
+                self._unavailable(agent, tool, args, queue_on_degraded)
             raise ToolNotAllowed(f"agent {agent!r} may not call {tool!r}")
         try:
             msg = await tools[tool].ainvoke(
                 {"type": "tool_call", "id": uuid.uuid4().hex, "name": tool, "args": args}
             )
         except MarketplaceDegraded:
-            if queue_on_degraded and "idempotency_key" in args:  # a write: keep it, do not lose it
-                self.queue.enqueue(agent, tool, args, self.trace_id)
+            self._queue_write(agent, tool, args, queue_on_degraded)
             raise
         if getattr(msg, "status", "success") == "error":
             raise ToolCallFailed(tool, strip_sdk_prefix(_content_text(msg.content)))
@@ -228,6 +250,18 @@ class GigBidMCPClient:
         if structured is not None:
             return structured
         return json.loads(_content_text(msg.content) or "{}")
+
+    def _queue_write(self, agent: str, tool: str, args: dict, enabled: bool) -> None:
+        if enabled and "idempotency_key" in args and not args.get("dry_run"):
+            self.queue.enqueue(agent, tool, args, self.trace_id)  # keep a record of the write
+
+    def _unavailable(self, agent: str, tool: str, args: dict, queue_on_degraded: bool) -> None:
+        """The tool's server could not be listed. A missing marketplace is degraded mode."""
+        reason = "; ".join(f"{n}: {why}" for n, why in sorted(self.unreachable.items()))
+        if "marketplace" in self.unreachable:
+            self._queue_write(agent, tool, args, queue_on_degraded)
+            raise MarketplaceDegraded(tool, args, reason)
+        raise RuntimeError(f"tool {tool!r} is unavailable: {reason}")
 
     async def health(self) -> dict[str, bool]:
         """Server name -> up?  (GET <base>/health; used for the degraded-mode banner)."""

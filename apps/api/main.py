@@ -6,11 +6,14 @@ Postgres DATABASE_URL -> AsyncPostgresSaver (durable checkpoints, crash-resume) 
 
 from __future__ import annotations
 
+import asyncio
 import contextlib
+import logging
 import os
 import re
 import uuid
 from collections.abc import Callable
+from functools import partial
 from typing import Any
 
 from fastapi import FastAPI
@@ -35,6 +38,7 @@ from apps.api.security import TokenVault
 from apps.api.service import GraphService
 from apps.api.tracing import current_trace_id
 
+log = logging.getLogger("gigbid.api")
 TRACE_ID = re.compile(r"[A-Za-z0-9-]{8,64}")  # accepted X-Trace-Id values (hex, uuid)
 
 
@@ -91,6 +95,31 @@ def seed_reviewer(engine) -> None:
 
 
 @contextlib.asynccontextmanager
+async def _recovery_loop(svc: GraphService, lookup: Callable[[str], dict | None], every_s: float):
+    """While the API runs, restart runs that a marketplace outage halted. Not used for inline
+    (serverless) hosting, where no background task survives a response."""
+    if svc.inline:
+        yield
+        return
+
+    async def loop() -> None:
+        while True:
+            await asyncio.sleep(every_s)
+            try:
+                await svc.recover_degraded(lookup)
+            except Exception:  # noqa: BLE001 - one bad pass must not stop recovery
+                log.exception("recovering degraded runs failed")
+
+    task = asyncio.create_task(loop())
+    try:
+        yield
+    finally:
+        task.cancel()
+        with contextlib.suppress(asyncio.CancelledError):
+            await task
+
+
+@contextlib.asynccontextmanager
 async def _durable(url: str):
     """Postgres checkpointer + store, or in-memory ones."""
     if url.startswith("postgres"):
@@ -131,9 +160,11 @@ def create_app(service_factory: Callable[[], GraphService] | None = None) -> Fas
                                inline=os.environ.get("GIGBID_INLINE_RUNS") == "1")  # fmt: skip
             app.state.service = svc
             seed_reviewer(engine)
+            lookup = partial(get_user_by_id_engine, engine)
             if url.startswith("postgres"):  # resume runs that were mid-flight when the API stopped
-                await svc.recover(lambda uid: get_user_by_id_engine(engine, uid))
-            yield
+                await svc.recover(lookup)
+            async with _recovery_loop(svc, lookup, config["mcp"]["recovery_interval_s"]):
+                yield
 
     app = FastAPI(title="GigBid API", version="0.6.0", lifespan=lifespan)
     app.add_middleware(

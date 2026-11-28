@@ -61,6 +61,7 @@ mcp:
     marketplace: { url_env: MCP_MARKETPLACE_URL, default: "http://localhost:8202/mcp" }
     workspace:   { url_env: MCP_WORKSPACE_URL,   default: "http://localhost:8203/mcp" }
   timeout_s: 15
+  recovery_interval_s: 15      # how often the API restarts runs halted by a marketplace outage
   retries: { max_attempts: 3, backoff_base_s: 0.5, backoff_max_s: 8 }
   transient_errors: [rate_limited, marketplace_unavailable, timeout, connection]
   pending_queue_path: var/pending_mcp_calls.jsonl   # degraded mode: queued writes, resumed later
