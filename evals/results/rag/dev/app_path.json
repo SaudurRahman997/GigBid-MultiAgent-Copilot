@@ -1,0 +1,172 @@
+{
+  "runner": "evals/runners/app_path_eval.py",
+  "split": "dev",
+  "limit": null,
+  "max_requirements": 6,
+  "per_requirement": 3,
+  "letter_evidence": 3,
+  "git_sha": "a291e53",
+  "generated_at": "2026-11-28T13:08:21Z",
+  "variants": {
+    "bm25_baseline": {
+      "overall": {
+        "jobs_with_gold": 465,
+        "writer_recall": 0.2953,
+        "writer_mrr": 0.4318,
+        "letter_hit": 0.6602,
+        "letter_precision": 0.5875,
+        "latency_ms_p50": 6.6,
+        "latency_ms_p95": 15.1
+      },
+      "per_persona": {
+        "ai_ml": {
+          "jobs_with_gold": 153,
+          "writer_recall": 0.2122,
+          "writer_mrr": 0.3391,
+          "letter_hit": 0.4837,
+          "letter_precision": 0.3987,
+          "latency_ms_p50": 6.8,
+          "latency_ms_p95": 13.6
+        },
+        "fullstack": {
+          "jobs_with_gold": 156,
+          "writer_recall": 0.3186,
+          "writer_mrr": 0.4419,
+          "letter_hit": 0.7179,
+          "letter_precision": 0.6635,
+          "latency_ms_p50": 7.1,
+          "latency_ms_p95": 16.4
+        },
+        "data_analyst": {
+          "jobs_with_gold": 156,
+          "writer_recall": 0.3534,
+          "writer_mrr": 0.5126,
+          "letter_hit": 0.7756,
+          "letter_precision": 0.6966,
+          "latency_ms_p50": 6.2,
+          "latency_ms_p95": 13.8
+        }
+      }
+    },
+    "v0_naive": {
+      "overall": {
+        "jobs_with_gold": 465,
+        "writer_recall": 0.2305,
+        "writer_mrr": 0.3477,
+        "letter_hit": 0.5419,
+        "letter_precision": 0.4846,
+        "latency_ms_p50": 3.8,
+        "latency_ms_p95": 6.6
+      },
+      "per_persona": {
+        "ai_ml": {
+          "jobs_with_gold": 153,
+          "writer_recall": 0.2464,
+          "writer_mrr": 0.3944,
+          "letter_hit": 0.6144,
+          "letter_precision": 0.5109,
+          "latency_ms_p50": 3.7,
+          "latency_ms_p95": 6.4
+        },
+        "fullstack": {
+          "jobs_with_gold": 156,
+          "writer_recall": 0.2165,
+          "writer_mrr": 0.2541,
+          "letter_hit": 0.4615,
+          "letter_precision": 0.4605,
+          "latency_ms_p50": 3.8,
+          "latency_ms_p95": 6.6
+        },
+        "data_analyst": {
+          "jobs_with_gold": 156,
+          "writer_recall": 0.229,
+          "writer_mrr": 0.3954,
+          "letter_hit": 0.5513,
+          "letter_precision": 0.4829,
+          "latency_ms_p50": 4.2,
+          "latency_ms_p95": 7.0
+        }
+      }
+    },
+    "v1_decompose": {
+      "overall": {
+        "jobs_with_gold": 465,
+        "writer_recall": 0.2248,
+        "writer_mrr": 0.3296,
+        "letter_hit": 0.5247,
+        "letter_precision": 0.4649,
+        "latency_ms_p50": 2.3,
+        "latency_ms_p95": 4.1
+      },
+      "per_persona": {
+        "ai_ml": {
+          "jobs_with_gold": 153,
+          "writer_recall": 0.2317,
+          "writer_mrr": 0.352,
+          "letter_hit": 0.5556,
+          "letter_precision": 0.4804,
+          "latency_ms_p50": 2.4,
+          "latency_ms_p95": 3.6
+        },
+        "fullstack": {
+          "jobs_with_gold": 156,
+          "writer_recall": 0.2331,
+          "writer_mrr": 0.2934,
+          "letter_hit": 0.5,
+          "letter_precision": 0.4722,
+          "latency_ms_p50": 2.5,
+          "latency_ms_p95": 4.1
+        },
+        "data_analyst": {
+          "jobs_with_gold": 156,
+          "writer_recall": 0.2097,
+          "writer_mrr": 0.3439,
+          "letter_hit": 0.5192,
+          "letter_precision": 0.4423,
+          "latency_ms_p50": 2.3,
+          "latency_ms_p95": 3.8
+        }
+      }
+    },
+    "v2_hybrid": {
+      "overall": {
+        "jobs_with_gold": 465,
+        "writer_recall": 0.2565,
+        "writer_mrr": 0.3677,
+        "letter_hit": 0.6,
+        "letter_precision": 0.5487,
+        "latency_ms_p50": 8.3,
+        "latency_ms_p95": 16.1
+      },
+      "per_persona": {
+        "ai_ml": {
+          "jobs_with_gold": 153,
+          "writer_recall": 0.2158,
+          "writer_mrr": 0.326,
+          "letter_hit": 0.5359,
+          "letter_precision": 0.4499,
+          "latency_ms_p50": 9.2,
+          "latency_ms_p95": 17.2
+        },
+        "fullstack": {
+          "jobs_with_gold": 156,
+          "writer_recall": 0.2907,
+          "writer_mrr": 0.3558,
+          "letter_hit": 0.6282,
+          "letter_precision": 0.6154,
+          "latency_ms_p50": 8.2,
+          "latency_ms_p95": 15.8
+        },
+        "data_analyst": {
+          "jobs_with_gold": 156,
+          "writer_recall": 0.2622,
+          "writer_mrr": 0.4206,
+          "letter_hit": 0.6346,
+          "letter_precision": 0.5791,
+          "latency_ms_p50": 7.7,
+          "latency_ms_p95": 13.3
+        }
+      }
+    }
+  }
+}

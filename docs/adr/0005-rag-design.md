@@ -39,3 +39,17 @@ Quadro) and on a small VM, and evaluations must be reproducible.
 ## Consequences
 - Results depend on the embedding model; switching models invalidates the cache, not the code.
 - Template-written synthetic text is less varied than real portfolios (limitation in the report).
+
+## Decision on what ships (added after measuring the app's own search path)
+
+`search_evidence` serves **bm25_baseline** (lexical search over title and text). In the
+one-search-per-job study V2 hybrid ranked first of V0 to V8, but the app does not search that way:
+the Fit Matcher searches once per requirement and the Writer merges the results.
+`evals/runners/app_path_eval.py` replays that path (465 dev jobs with gold evidence). The rule,
+fixed before the full run, was: highest writer recall, ties broken by latency. BM25 had writer
+recall 0.295 against 0.257 for V2, 0.231 for V0 and 0.225 for V1, and its letters cited a gold
+item more often (0.660 against 0.600 for V2)
+(`evals/results/rag/dev/app_path.json`). It also needs no embedding model. Limits: the result is
+not uniform (on ai_ml, V0 had higher writer recall than BM25: 0.246 against 0.212), the data is
+synthetic, and V3, V4 and V8 were left out because of their reranking latency. Claim
+verification is a separate path and keeps `verify.retrieval_variant: v2_hybrid`.

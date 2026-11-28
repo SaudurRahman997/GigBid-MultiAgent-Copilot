@@ -28,7 +28,7 @@ embeddings:                    # fastembed (ONNX, CPU); ADR 0005 explains the ch
   doc_prefix: "search_document: "
 reranker: { model: BAAI/bge-reranker-v2-m3-int8 }   # int8 build of bge-reranker-v2-m3
 rag:
-  variant: bm25_baseline       # INTERIM (Phase 3). Phase 4 sets this from evals/results/, not by default
+  variant: bm25_baseline       # chosen on the app's own search path: evals/results/rag/dev/app_path.json (ADR 0005)
   k: 5
   index: memory                # memory | pgvector (same cosine search; pgvector in deployment)
   chunking: { fixed_words: 200, fixed_overlap: 40, max_words: 220 }

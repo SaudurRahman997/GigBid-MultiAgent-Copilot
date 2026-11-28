@@ -35,6 +35,28 @@ Per persona (Recall@5 / MRR):
 | v4_outcome | 0.183 / 0.325 | 0.187 / 0.304 | 0.228 / 0.345 |
 | v8_corrective | 0.153 / 0.282 | 0.162 / 0.280 | 0.208 / 0.313 |
 
+## Shipped retriever: what `search_evidence` should serve
+
+The app's own path: one `search_evidence` call per requirement (first 6, k=3), merged by the Writer; the letter cites 3 items.
+
+| Variant | Writer recall | Writer MRR | Letter cites a gold item | Letter citation precision | p95 ms per job |
+|---|---|---|---|---|---|
+| bm25_baseline | 0.295 | 0.432 | 0.660 | 0.588 | 15 |
+| v0_naive | 0.231 | 0.348 | 0.542 | 0.485 | 7 |
+| v1_decompose | 0.225 | 0.330 | 0.525 | 0.465 | 4 |
+| v2_hybrid | 0.257 | 0.368 | 0.600 | 0.549 | 16 |
+
+Per persona (writer recall):
+
+| Variant | ai_ml | data_analyst | fullstack |
+|---|---|---|---|
+| bm25_baseline | 0.212 | 0.353 | 0.319 |
+| v0_naive | 0.246 | 0.229 | 0.216 |
+| v1_decompose | 0.232 | 0.210 | 0.233 |
+| v2_hybrid | 0.216 | 0.262 | 0.291 |
+
+Source: `rag/dev/app_path.json`
+
 ## Ablation (one component off at a time)
 
 Best pipeline (no_rerank_outcome): Recall@5 0.216, MRR 0.402, nDCG@10 0.296.

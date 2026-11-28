@@ -80,6 +80,38 @@ def rag_section(split: str) -> list[str]:
     return lines + [""]
 
 
+def app_path_section(split: str) -> list[str]:
+    a = load(RES / "rag" / split / "app_path.json")
+    lines = ["## Shipped retriever: what `search_evidence` should serve", ""]
+    if not a:
+        return lines + ["_not run yet_", ""]
+    lines += [
+        f"The app's own path: one `search_evidence` call per requirement (first {a['max_requirements']}, "
+        f"k={a['per_requirement']}), merged by the Writer; the letter cites {a['letter_evidence']} items.",
+        "",
+        "| Variant | Writer recall | Writer MRR | Letter cites a gold item | Letter citation precision | p95 ms per job |",
+        "|---|---|---|---|---|---|",
+    ]
+    for name, r in a["variants"].items():
+        o = r["overall"]
+        lines.append(
+            f"| {name} | {fmt(o['writer_recall'])} | {fmt(o['writer_mrr'])} | {fmt(o['letter_hit'])} | "
+            f"{fmt(o['letter_precision'])} | {fmt(o['latency_ms_p95'], 0)} |"
+        )
+    personas = sorted(next(iter(a["variants"].values()))["per_persona"])
+    lines += [
+        "",
+        "Per persona (writer recall):",
+        "",
+        "| Variant | " + " | ".join(personas) + " |",
+        "|---|" + "---|" * len(personas),
+    ]
+    for name, r in a["variants"].items():
+        cells = [fmt(r["per_persona"][p]["writer_recall"]) for p in personas]
+        lines.append(f"| {name} | " + " | ".join(cells) + " |")
+    return lines + ["", f"Source: `rag/{split}/app_path.json`", ""]
+
+
 def ablation_section(split: str) -> list[str]:
     a = load(RES / "rag" / split / "ablation.json")
     lines = ["## Ablation (one component off at a time)", ""]
@@ -343,6 +375,7 @@ def main() -> int:
     ]
     parts += (
         rag_section("dev")
+        + app_path_section("dev")
         + ablation_section("dev")
         + verify_section()
         + decision_section()
