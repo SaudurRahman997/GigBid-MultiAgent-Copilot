@@ -18,11 +18,18 @@ from mcp.server.fastmcp.exceptions import ResourceError, ToolError
 from mcp.types import ToolAnnotations
 from pydantic import BaseModel, Field
 
-from mcp_servers.common.runtime import TokenBucket, ToolRunner, current_user, make_server
+from mcp_servers.common.runtime import (
+    TokenBucket,
+    ToolRunner,
+    current_user,
+    make_server,
+    tenant_id,
+)
 from mcp_servers.common.settings import MCPSettings
 from mcp_servers.common.store import Store
+from rag import uploads
 from rag.corpus import Document, load_corpus
-from rag.retriever import EvidenceFilters, get_retriever
+from rag.retriever import EvidenceFilters, retriever_for
 
 SERVER = "portfolio"
 PORT = 8201
@@ -117,14 +124,15 @@ def build_server(settings: MCPSettings | None = None, store: Store | None = None
     mcp = make_server("gigbid-portfolio", INSTRUCTIONS, s, PORT)
     data_dir = str(s.data_dir)
 
-    def corpus(user: str) -> tuple[Document, ...]:
-        docs = load_corpus(s.persona_for(user), data_dir)
+    def corpus(user: str, tenant: str | None = None) -> tuple[Document, ...]:
+        persona = s.persona_for(user)
+        docs = load_corpus(persona, data_dir)
         if not docs:
             raise ToolError(f"not_found: no portfolio for user {user!r}")
-        return docs
+        return (*docs, *uploads.documents(persona, tenant, Document))
 
-    def find(user: str, doc_id: str, types: set[str]) -> Document:
-        doc = next((d for d in corpus(user) if d.id == doc_id and d.type in types), None)
+    def find(user: str, doc_id: str, types: set[str], tenant: str | None = None) -> Document:
+        doc = next((d for d in corpus(user, tenant) if d.id == doc_id and d.type in types), None)
         if doc is None:
             raise NotFoundError(f"{doc_id} not found in your portfolio")
         return doc
@@ -154,7 +162,7 @@ def build_server(settings: MCPSettings | None = None, store: Store | None = None
         that supports ONE requirement. Query once per requirement for best results."""
 
         async def fn(user: str) -> EvidenceSearchResult:
-            r = get_retriever(s.persona_for(user), None, data_dir)
+            r = retriever_for(s.persona_for(user), tenant_id(ctx), None, data_dir)
             hits = r.search(requirement, k, filters)
             return EvidenceSearchResult(variant=r.variant, items=[item(h) for h in hits])
 
@@ -177,7 +185,7 @@ def build_server(settings: MCPSettings | None = None, store: Store | None = None
         """Full text and metadata of one case study."""
 
         async def fn(user: str) -> CaseStudy:
-            d = find(user, id, {"case_study"})
+            d = find(user, id, {"case_study"}, tenant_id(ctx))
             return CaseStudy(
                 id=d.id,
                 title=d.title,
@@ -196,7 +204,8 @@ def build_server(settings: MCPSettings | None = None, store: Store | None = None
         """Skills evidenced in the portfolio, with how many evidence items support each."""
 
         async def fn(user: str) -> SkillsResult:
-            counts = Counter(sk for d in corpus(user) if d.type != "proposal" for sk in d.skills)
+            docs = corpus(user, tenant_id(ctx))
+            counts = Counter(sk for d in docs if d.type != "proposal" for sk in d.skills)
             ranked = sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))
             return SkillsResult(
                 persona=s.persona_for(user),
@@ -243,7 +252,9 @@ def build_server(settings: MCPSettings | None = None, store: Store | None = None
             from rag.verify import default_judge, unsupported_rate, verify
 
             cfg = verify_config()
-            retriever = get_retriever(s.persona_for(user), cfg["retrieval_variant"], data_dir)
+            retriever = retriever_for(
+                s.persona_for(user), tenant_id(ctx), cfg["retrieval_variant"], data_dir
+            )
             judge = default_judge()
             checks = verify(draft, retriever, judge, cfg["k"])
             return VerifyResult(

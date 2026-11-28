@@ -74,3 +74,44 @@ def get_retriever(persona: str, variant: str | None = None, data_dir: str = str(
     if name in CONTEXT_VARIANTS:
         return CONTEXT_VARIANTS[name](default_context(persona))
     return VARIANTS[name](load_corpus(persona, data_dir))
+
+
+def retriever_for(
+    persona: str, tenant: str | None = None, variant: str | None = None, data_dir: str = str(DATA)
+) -> Retriever:
+    """The configured retriever over the persona's portfolio plus this user's uploads."""
+    from rag import uploads
+
+    prints = uploads.fingerprint(persona, tenant)
+    if not prints:
+        return get_retriever(persona, variant, data_dir)
+    root = str(uploads.upload_root())
+    return _with_uploads(persona, tenant, variant, data_dir, root, prints)
+
+
+@lru_cache(maxsize=64)
+def _with_uploads(
+    persona: str,
+    tenant: str,
+    variant: str | None,
+    data_dir: str,
+    root: str,
+    prints: tuple[str, ...],  # part of the cache key: a changed upload set builds a new index
+) -> Retriever:
+    from rag import uploads
+    from rag.variants import CONTEXT_VARIANTS, VARIANTS
+
+    name = variant or configured_variant()
+    if name not in VARIANTS:
+        raise ValueError(f"unknown RAG variant {name!r}; available: {sorted(VARIANTS)}")
+    if name in CONTEXT_VARIANTS:
+        from rag.ingest.loaders import Document as LoadedDocument
+        from rag.variants.base import build_context, default_context
+
+        base = default_context(persona)
+        docs = (*base.docs, *uploads.documents(persona, tenant, LoadedDocument))
+        return CONTEXT_VARIANTS[name](
+            build_context(persona, base.embedder, base.reranker, base.cfg, docs=docs)
+        )
+    added = uploads.documents(persona, tenant, Document)
+    return VARIANTS[name]((*load_corpus(persona, data_dir), *added))

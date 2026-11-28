@@ -21,7 +21,8 @@ COPY mcp_servers ./mcp_servers
 ENV PATH="/app/.venv/bin:$PATH" \
     MCP_HOST=0.0.0.0 \
     MCP_DATA_DIR=/app/data \
-    FASTEMBED_CACHE_PATH=/app/var/models
+    FASTEMBED_CACHE_PATH=/app/var/models \
+    GIGBID_UPLOAD_DIR=/app/uploads
 
 # verify_claims downloads its models and caches embeddings under /app/var (a volume in compose)
 RUN useradd --create-home --uid 10001 gigbid && mkdir -p /app/var && chown gigbid /app/var

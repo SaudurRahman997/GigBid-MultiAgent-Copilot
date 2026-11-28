@@ -74,11 +74,16 @@ class GraphService:
 
     # ------------------------------------------------------------------ helpers
     def deps(self, user: dict, trace_id: str) -> Deps:
-        return Deps(mcp=self.mcp_factory(user["persona"], trace_id), config=self.config, user=user["id"],
+        return Deps(mcp=self._client(user, trace_id), config=self.config, user=user["id"],
                     llm=self.llm, store=self.store)  # fmt: skip
 
     def mcp(self, user: dict) -> Any:
-        return self.mcp_factory(user["persona"], trace_id_or_new())
+        return self._client(user, trace_id_or_new())
+
+    def _client(self, user: dict, trace_id: str) -> Any:
+        client = self.mcp_factory(user["persona"], trace_id)
+        bind = getattr(client, "for_tenant", None)
+        return bind(user.get("id")) if bind else client
 
     def run_row(self, user: dict, thread_id: str) -> dict:
         with self.engine.connect() as c:

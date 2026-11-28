@@ -88,6 +88,19 @@ class AccountStatus(BaseModel):
     connected: bool
 
 
+class UploadIn(BaseModel):
+    filename: str = Field(min_length=1, max_length=200)
+    content_base64: str = Field(min_length=1, max_length=270_000)  # about 200 KB of file
+
+
+class UploadOut(BaseModel):
+    id: str = Field(description="Evidence id that proposals cite")
+    filename: str
+    type: str
+    title: str
+    characters: int
+
+
 class MemoryItem(BaseModel):
     namespace: str
     key: str

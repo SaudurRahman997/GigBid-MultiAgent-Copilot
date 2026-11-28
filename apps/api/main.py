@@ -29,6 +29,7 @@ from apps.api.routers import (
     jobs,
     memory,
     messages,
+    portfolio,
     proposals,
     runs,
     settings,
@@ -190,7 +191,9 @@ def create_app(service_factory: Callable[[], GraphService] | None = None) -> Fas
         response.headers["X-Trace-Id"] = request.state.trace_id
         return response
 
-    for r in (auth, jobs, proposals, approvals, messages, runs, analytics, settings, memory):
+    routers = (auth, jobs, proposals, approvals, messages, runs, analytics, settings, memory,
+               portfolio)  # fmt: skip
+    for r in routers:
         app.include_router(r.router)
 
     @app.get("/health", response_model=Health, tags=["health"])

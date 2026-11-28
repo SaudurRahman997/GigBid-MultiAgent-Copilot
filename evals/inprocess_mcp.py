@@ -8,10 +8,12 @@ Write tools honour idempotency keys exactly like the real servers.
 from __future__ import annotations
 
 import json
+from contextvars import ContextVar
 from pathlib import Path
 
 from mcp_servers.marketplace.server import market_band
-from rag.corpus import load_corpus
+from rag import uploads
+from rag.corpus import Document, load_corpus
 from rag.models import OverlapReranker
 from rag.variants.bm25 import BM25Retriever
 from rag.verify import RerankJudge, verify
@@ -24,6 +26,7 @@ class SimulatedCrash(BaseException):  # noqa: N818 - models a process dying (not
 
 
 DATA = ROOT / "data"
+TENANT: ContextVar[str | None] = ContextVar("gigbid_inprocess_tenant", default=None)
 
 
 def _jsonl(path: Path) -> list[dict]:
@@ -33,12 +36,27 @@ def _jsonl(path: Path) -> list[dict]:
 class _RetrieverShim:
     """Gives verify() the .retrieve/.ctx interface over the BM25 baseline."""
 
-    def __init__(self, persona: str):
-        self.inner = BM25Retriever(load_corpus(persona))
-        self.ctx = type("C", (), {"docs": load_corpus(persona)})()
+    def __init__(self, persona: str, retriever: BM25Retriever | None = None):
+        self.inner = retriever or BM25Retriever(load_corpus(persona))
+        self.ctx = type("C", (), {"docs": self.inner.docs})()
 
     def retrieve(self, query, k=5, filters=None):
         return self.inner.search(query.sub_queries()[0], k, filters)
+
+
+class TenantView:
+    def __init__(self, layer: FakeMCP, tenant: str | None):
+        self.layer, self.tenant = layer, tenant
+
+    def __getattr__(self, name: str):
+        return getattr(self.layer, name)  # anything else (e.g. health) is the layer's own
+
+    async def call(self, agent: str, tool: str, args: dict) -> dict:
+        token = TENANT.set(self.tenant)
+        try:
+            return await self.layer.call(agent, tool, args)
+        finally:
+            TENANT.reset(token)
 
 
 class FakeMCP:
@@ -71,6 +89,11 @@ class FakeMCP:
         self.calls.append((agent, tool))
         return await getattr(self, f"t_{tool}")(args)
 
+    def for_tenant(self, tenant: str | None):
+        """A view of this layer whose evidence tools also see that user's uploads. Writes, drafts
+        and Connects stay shared on the layer."""
+        return TenantView(self, tenant)
+
     # ------------------------------------------------------------------ reads
     async def t_search_jobs(self, a):
         q, cat = (a.get("query") or "").lower(), a.get("category")
@@ -94,8 +117,15 @@ class FakeMCP:
     async def t_get_profile(self, a):
         return self.profile
 
+    def _retriever(self):
+        tenant = TENANT.get()
+        if not uploads.fingerprint(self.persona, tenant):
+            return self.retriever
+        added = uploads.documents(self.persona, tenant, Document)
+        return BM25Retriever((*load_corpus(self.persona), *added))
+
     async def t_search_evidence(self, a):
-        hits = self.retriever.search(a["requirement"], a.get("k", 5))
+        hits = self._retriever().search(a["requirement"], a.get("k", 5))
         return {"variant": "bm25_baseline", "items": [{"id": h.doc.id, "type": h.doc.type, "snippet": h.snippet, "score": h.score,
                                                        "outcome": h.doc.outcome} for h in hits]}  # fmt: skip
 
@@ -103,7 +133,8 @@ class FakeMCP:
         return market_band(DATA, a["category"], a.get("skills") or [], a["pay_type"]).model_dump()
 
     async def t_verify_claims(self, a):
-        checks = verify(a["draft"], self.shim, RerankJudge(OverlapReranker(), 0.3, 0.15), k=3)
+        shim = _RetrieverShim(self.persona, self._retriever())
+        checks = verify(a["draft"], shim, RerankJudge(OverlapReranker(), 0.3, 0.15), k=3)
         return {"checks": [{"text": c.text, "status": c.status, "evidence": c.evidence, "cited": c.cited, "reason": c.reason}
                            for c in checks], "unsupported_rate": 0.0, "judge": "overlap"}  # fmt: skip
 

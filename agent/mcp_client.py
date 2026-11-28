@@ -195,6 +195,13 @@ class GigBidMCPClient:
         self._tools: list[BaseTool] | None = None
         self.unreachable: dict[str, str] = {}  # server name -> why its tools could not be listed
 
+    def for_tenant(self, tenant: str | None) -> GigBidMCPClient:
+        """Name the end user these calls are for, so servers can add that user's own data."""
+        if tenant:
+            for connection in self.connections.values():
+                connection.setdefault("headers", {})["X-GigBid-Tenant"] = tenant
+        return self
+
     @property
     def trace_id(self) -> str:
         return self.retry.trace_id

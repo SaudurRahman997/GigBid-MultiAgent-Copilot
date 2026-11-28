@@ -291,6 +291,41 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/portfolio/uploads": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Uploads */
+        get: operations["list_uploads_portfolio_uploads_get"];
+        put?: never;
+        /** Add Upload */
+        post: operations["add_upload_portfolio_uploads_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/portfolio/uploads/{upload_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Remove Upload */
+        delete: operations["remove_upload_portfolio_uploads__upload_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/proposals": {
         parameters: {
             query?: never;
@@ -723,6 +758,29 @@ export interface components {
             events_url: string;
             /** Thread Id */
             thread_id: string;
+        };
+        /** UploadIn */
+        UploadIn: {
+            /** Content Base64 */
+            content_base64: string;
+            /** Filename */
+            filename: string;
+        };
+        /** UploadOut */
+        UploadOut: {
+            /** Characters */
+            characters: number;
+            /** Filename */
+            filename: string;
+            /**
+             * Id
+             * @description Evidence id that proposals cite
+             */
+            id: string;
+            /** Title */
+            title: string;
+            /** Type */
+            type: string;
         };
         /** ValidationError */
         ValidationError: {
@@ -1170,6 +1228,88 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["Started"];
                 };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_uploads_portfolio_uploads_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UploadOut"][];
+                };
+            };
+        };
+    };
+    add_upload_portfolio_uploads_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UploadIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UploadOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    remove_upload_portfolio_uploads__upload_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                upload_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description Validation Error */
             422: {

@@ -69,6 +69,23 @@ def current_user(settings: MCPSettings) -> str:
     raise ToolError("unauthenticated: a bearer token is required")
 
 
+TENANT_HEADER = "x-gigbid-tenant"
+
+
+def tenant_id(ctx: Context | None) -> str | None:
+    """The end user the caller acts for (X-GigBid-Tenant). It only narrows data inside the
+    persona the bearer token already grants, and is trusted as far as that token is."""
+    from rag.uploads import valid_tenant
+
+    try:
+        request = ctx.request_context.request if ctx is not None else None
+    except (AttributeError, ValueError, LookupError):
+        request = None
+    headers = getattr(request, "headers", None)
+    value = headers.get(TENANT_HEADER) if headers is not None else None
+    return value if valid_tenant(value) else None
+
+
 def trace_id(ctx: Context | None) -> str:
     """Trace id from the HTTP request (X-Trace-Id / traceparent), else a new one."""
     try:

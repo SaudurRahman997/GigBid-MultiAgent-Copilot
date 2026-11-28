@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { api, toError, useApi, type ApiError } from "@/lib/api/client";
+import { PortfolioUploads } from "@/components/PortfolioUploads";
 import { Empty, ErrorBox, Loading } from "@/components/States";
 
 type SavedSearch = { name: string; query?: string | null; category?: string | null; every_minutes: number };
@@ -71,6 +72,8 @@ export default function SettingsPage() {
           <div className="flex items-center gap-3"><button className="btn btn-primary">Save settings</button>{saved && <span role="status" className="text-sm text-good">Saved</span>}</div>
         </form>
       )}
+
+      <PortfolioUploads />
 
       <section className="card space-y-2" aria-label="Accounts">
         <h2 className="font-semibold">Accounts</h2>
