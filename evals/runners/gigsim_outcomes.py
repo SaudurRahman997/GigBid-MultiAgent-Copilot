@@ -31,6 +31,7 @@ from gigsim.app import create_app
 from gigsim.settings import Settings
 from rag.ingest.loaders import detect_skills
 from rag.query import from_job
+from rag.retriever import get_retriever
 from rag.variants import CONTEXT_VARIANTS
 from rag.variants.base import default_context
 
@@ -92,16 +93,21 @@ def run(variants: list[str], personas: list[str], n_jobs: int) -> dict:
             h = {"Authorization": f"Bearer {TOKENS[persona]}"}
             jobs = [j for j in read_jobs("dev", persona) if j["_gold"]["bid"] == "bid"][:n_jobs]
             for name in ["generic", *variants]:
-                retriever = (
-                    None if name == "generic" else CONTEXT_VARIANTS[name](default_context(persona))
-                )
+                if name == "generic":
+                    retriever = None
+                elif name in CONTEXT_VARIANTS:
+                    retriever = CONTEXT_VARIANTS[name](default_context(persona))
+                else:  # the lexical baseline is not a context variant
+                    retriever = get_retriever(persona, name)
                 for j in jobs:
                     if retriever is None:
                         text = GENERIC
                     else:
-                        hits = retriever.retrieve(
-                            from_job(j["title"], j["description"], j.get("skills")), 3
-                        )
+                        query = from_job(j["title"], j["description"], j.get("skills"))
+                        if name in CONTEXT_VARIANTS:
+                            hits = retriever.retrieve(query, 3)
+                        else:  # the lexical baseline takes one string
+                            hits = retriever.search(" ".join(query.sub_queries()), 3)
                         text = letter(j, hits) if hits else GENERIC
                     bid = float(j["budget_usd"] or j["hourly_low"] or 30)
                     p = c.post(
@@ -158,6 +164,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--variants", nargs="+", default=list(CONTEXT_VARIANTS))
     ap.add_argument("--personas", nargs="+", default=["ai_ml", "fullstack", "data_analyst"])
     ap.add_argument("--jobs", type=int, default=30)
+    ap.add_argument("--out", default="outcomes.json", help="file name under evals/results/gigsim")
     args = ap.parse_args(argv)
     res = run(args.variants, args.personas, args.jobs)
     out = {
@@ -169,9 +176,7 @@ def main(argv: list[str] | None = None) -> int:
         **res,
     }
     OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / "outcomes.json").write_text(
-        json.dumps(out, indent=2) + "\n", encoding="utf-8", newline="\n"
-    )
+    (OUT / args.out).write_text(json.dumps(out, indent=2) + "\n", encoding="utf-8", newline="\n")
     for name, o in res["overall"].items():
         print(
             f"{name:<14} reply={o['reply_rate']:.3f} interview={o['interview_rate']:.3f} hire={o['hire_rate']:.3f} "

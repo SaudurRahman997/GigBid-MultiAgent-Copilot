@@ -53,3 +53,8 @@ item more often (0.660 against 0.600 for V2)
 not uniform (on ai_ml, V0 had higher writer recall than BM25: 0.246 against 0.212), the data is
 synthetic, and V3, V4 and V8 were left out because of their reranking latency. Claim
 verification is a separate path and keeps `verify.retrieval_variant: v2_hybrid`.
+
+**Evidence the other way.** On the simulated reply rate with one retrieval per job
+(`evals/results/gigsim/outcomes_shipped.json`, 30 bid jobs per persona), V2 reached 0.422 and
+BM25 0.333. That run does not use the app's search path and rests on 90 letters, so it did not
+override the rule above; it is the main reason to re-test if the Fit Matcher's search changes.
