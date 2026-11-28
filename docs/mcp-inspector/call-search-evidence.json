@@ -1,0 +1,36 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\n  \"variant\": \"bm25_baseline\",\n  \"items\": [\n    {\n      \"id\": \"ai_ml:proposal:074\",\n      \"type\": \"proposal\",\n      \"title\": \"Subscriber churn prediction for a clinic network\",\n      \"source\": \"proposals.jsonl\",\n      \"date\": \"2024-02-23\",\n      \"outcome\": \"ignored\",\n      \"project_id\": null,\n      \"snippet\": \"I am skilled in machine learning, scikit-learn, python and have completed many similar projects with great feedback.\",\n      \"score\": 11.7959\n    },\n    {\n      \"id\": \"ai_ml:proposal:026\",\n      \"type\": \"proposal\",\n      \"title\": \"Subscriber churn prediction for a clinic network\",\n      \"source\": \"proposals.jsonl\",\n      \"date\": \"2026-01-11\",\n      \"outcome\": \"ignored\",\n      \"project_id\": null,\n      \"snippet\": \"I have many years of experience with machine learning, scikit-learn, python and always deliver high quality work on time.\",\n      \"score\": 11.524\n    }\n  ]\n}"
+    }
+  ],
+  "structuredContent": {
+    "variant": "bm25_baseline",
+    "items": [
+      {
+        "id": "ai_ml:proposal:074",
+        "type": "proposal",
+        "title": "Subscriber churn prediction for a clinic network",
+        "source": "proposals.jsonl",
+        "date": "2024-02-23",
+        "outcome": "ignored",
+        "project_id": null,
+        "snippet": "I am skilled in machine learning, scikit-learn, python and have completed many similar projects with great feedback.",
+        "score": 11.7959
+      },
+      {
+        "id": "ai_ml:proposal:026",
+        "type": "proposal",
+        "title": "Subscriber churn prediction for a clinic network",
+        "source": "proposals.jsonl",
+        "date": "2026-01-11",
+        "outcome": "ignored",
+        "project_id": null,
+        "snippet": "I have many years of experience with machine learning, scikit-learn, python and always deliver high quality work on time.",
+        "score": 11.524
+      }
+    ]
+  },
+  "isError": false
+}

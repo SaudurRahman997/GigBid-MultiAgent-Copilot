@@ -1,0 +1,549 @@
+{
+  "tools": [
+    {
+      "name": "search_evidence",
+      "title": "Search portfolio evidence",
+      "description": "Find portfolio evidence (case studies, reviews, READMEs, code, CV, past proposals)\n        that supports ONE requirement. Query once per requirement for best results.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "requirement": {
+            "description": "One job requirement, in the client's words",
+            "maxLength": 500,
+            "minLength": 3,
+            "title": "Requirement",
+            "type": "string"
+          },
+          "k": {
+            "default": 5,
+            "maximum": 20,
+            "minimum": 1,
+            "title": "K",
+            "type": "integer"
+          },
+          "filters": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/EvidenceFilters"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        "required": [
+          "requirement"
+        ],
+        "$defs": {
+          "EvidenceFilters": {
+            "properties": {
+              "types": {
+                "anyOf": [
+                  {
+                    "items": {
+                      "enum": [
+                        "case_study",
+                        "review",
+                        "readme",
+                        "code",
+                        "cv",
+                        "proposal"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "description": "Only these evidence types",
+                "title": "Types"
+              },
+              "outcomes": {
+                "anyOf": [
+                  {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "description": "e.g. won, replied (proposals) - substring match",
+                "title": "Outcomes"
+              },
+              "date_from": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "description": "ISO date; only evidence on/after it",
+                "title": "Date From"
+              },
+              "skills": {
+                "anyOf": [
+                  {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "description": "Keep items tagged with any of these skills",
+                "title": "Skills"
+              }
+            },
+            "title": "EvidenceFilters",
+            "type": "object"
+          }
+        },
+        "title": "search_evidenceArguments"
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "variant": {
+            "description": "Retrieval variant that produced the ranking",
+            "title": "Variant",
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/$defs/EvidenceItem"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "variant",
+          "items"
+        ],
+        "$defs": {
+          "EvidenceItem": {
+            "properties": {
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "type": {
+                "title": "Type",
+                "type": "string"
+              },
+              "title": {
+                "title": "Title",
+                "type": "string"
+              },
+              "source": {
+                "description": "File inside the persona's portfolio",
+                "title": "Source",
+                "type": "string"
+              },
+              "date": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Date"
+              },
+              "outcome": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "description": "e.g. 'rated 5.0/5; rehired', '4.8/5', 'won'",
+                "title": "Outcome"
+              },
+              "project_id": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Project Id"
+              },
+              "snippet": {
+                "title": "Snippet",
+                "type": "string"
+              },
+              "score": {
+                "title": "Score",
+                "type": "number"
+              }
+            },
+            "required": [
+              "id",
+              "type",
+              "title",
+              "source",
+              "snippet",
+              "score"
+            ],
+            "title": "EvidenceItem",
+            "type": "object"
+          }
+        },
+        "title": "EvidenceSearchResult"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_case_study",
+      "title": "Get case study",
+      "description": "Full text and metadata of one case study.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "Evidence id, e.g. ai_ml:case:03",
+            "maxLength": 80,
+            "minLength": 3,
+            "title": "Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "title": "get_case_studyArguments"
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "date": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Date"
+          },
+          "client_industry": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Client Industry"
+          },
+          "outcome": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Outcome"
+          },
+          "project_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Project Id"
+          },
+          "skills": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Skills",
+            "type": "array"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "date",
+          "client_industry",
+          "outcome",
+          "project_id",
+          "skills",
+          "text"
+        ],
+        "title": "CaseStudy"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "list_skills",
+      "title": "List skills",
+      "description": "Skills evidenced in the portfolio, with how many evidence items support each.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "title": "list_skillsArguments"
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "persona": {
+            "title": "Persona",
+            "type": "string"
+          },
+          "skills": {
+            "items": {
+              "$ref": "#/$defs/SkillCount"
+            },
+            "title": "Skills",
+            "type": "array"
+          }
+        },
+        "required": [
+          "persona",
+          "skills"
+        ],
+        "$defs": {
+          "SkillCount": {
+            "properties": {
+              "skill": {
+                "title": "Skill",
+                "type": "string"
+              },
+              "evidence_count": {
+                "title": "Evidence Count",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "skill",
+              "evidence_count"
+            ],
+            "title": "SkillCount",
+            "type": "object"
+          }
+        },
+        "title": "SkillsResult"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_profile",
+      "title": "Get freelancer profile",
+      "description": "The freelancer's profile: headline, evidenced skills, minimum budget/rate, target rate.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "title": "get_profileArguments"
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "persona": {
+            "title": "Persona",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "headline": {
+            "title": "Headline",
+            "type": "string"
+          },
+          "category": {
+            "title": "Category",
+            "type": "string"
+          },
+          "skills": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Skills",
+            "type": "array"
+          },
+          "floors": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "description": "minimum acceptable fixed budget and hourly rate",
+            "title": "Floors",
+            "type": "object"
+          },
+          "target_rate": {
+            "title": "Target Rate",
+            "type": "number"
+          }
+        },
+        "required": [
+          "persona",
+          "name",
+          "headline",
+          "category",
+          "skills",
+          "floors",
+          "target_rate"
+        ],
+        "title": "Profile"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "verify_claims",
+      "title": "Verify claims in a draft",
+      "description": "Split a draft into factual claims and check each against the portfolio:\n        supported | partial | unsupported, with the evidence ids that back it.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "draft": {
+            "description": "Proposal or message text",
+            "maxLength": 6000,
+            "minLength": 20,
+            "title": "Draft",
+            "type": "string"
+          }
+        },
+        "required": [
+          "draft"
+        ],
+        "title": "verify_claimsArguments"
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "checks": {
+            "items": {
+              "$ref": "#/$defs/ClaimCheckOut"
+            },
+            "title": "Checks",
+            "type": "array"
+          },
+          "unsupported_rate": {
+            "title": "Unsupported Rate",
+            "type": "number"
+          },
+          "judge": {
+            "title": "Judge",
+            "type": "string"
+          }
+        },
+        "required": [
+          "checks",
+          "unsupported_rate",
+          "judge"
+        ],
+        "$defs": {
+          "ClaimCheckOut": {
+            "properties": {
+              "text": {
+                "title": "Text",
+                "type": "string"
+              },
+              "status": {
+                "title": "Status",
+                "type": "string"
+              },
+              "evidence": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Evidence",
+                "type": "array"
+              },
+              "cited": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Cited",
+                "type": "array"
+              },
+              "reason": {
+                "title": "Reason",
+                "type": "string"
+              }
+            },
+            "required": [
+              "text",
+              "status",
+              "evidence",
+              "cited",
+              "reason"
+            ],
+            "title": "ClaimCheckOut",
+            "type": "object"
+          }
+        },
+        "title": "VerifyResult"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    }
+  ]
+}
