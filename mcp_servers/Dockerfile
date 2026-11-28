@@ -13,16 +13,18 @@ COPY --from=ghcr.io/astral-sh/uv:0.12.0 /uv /usr/local/bin/uv
 WORKDIR /app
 
 COPY pyproject.toml uv.lock .python-version ./
-RUN uv sync --frozen --no-dev --no-install-project
+RUN uv sync --frozen --no-dev --no-install-project --no-cache
 
 COPY agent ./agent
 COPY rag ./rag
 COPY mcp_servers ./mcp_servers
 ENV PATH="/app/.venv/bin:$PATH" \
     MCP_HOST=0.0.0.0 \
-    MCP_DATA_DIR=/app/data
+    MCP_DATA_DIR=/app/data \
+    FASTEMBED_CACHE_PATH=/app/var/models
 
-RUN useradd --create-home --uid 10001 gigbid
+# verify_claims downloads its models and caches embeddings under /app/var (a volume in compose)
+RUN useradd --create-home --uid 10001 gigbid && mkdir -p /app/var && chown gigbid /app/var
 USER gigbid
 EXPOSE 8201 8202 8203
 CMD ["python", "-m", "mcp_servers.portfolio"]
