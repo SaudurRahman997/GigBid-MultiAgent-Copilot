@@ -22,12 +22,10 @@ def test_score_job_with_nothing_retrieved():
 
 
 def test_writer_evidence_is_unique_capped_and_from_the_portfolio():
+    lines = ["Predict which customers will cancel.", "- Python (must have)", "- SQL"]
     job = {
         "title": "Churn prediction model",
-        "description": "
-".join(
-            ["Predict which customers will cancel.", "- Python (must have)", "- SQL"]
-        ),
+        "description": chr(10).join(lines),
         "skills": ["scikit-learn"],
     }
     ids = writer_evidence(get_retriever("ai_ml", "bm25_baseline"), job)
